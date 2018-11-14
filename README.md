@@ -2,6 +2,8 @@
 
 Website for sharing and viewing YouTube videos together with friends.
 
+Floob uses a decoupled client side from it's backend. Making API calls when needed to access the server side functions to allow for quicker and more effective development. Each component of Floob can be run independent from each other from varying endpoints.
+
 
 ## Getting Started
 
