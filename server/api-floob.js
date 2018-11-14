@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+//Create auth.json in root folder of server for deploy variables.
 const auth = require('./auth.json');
 const {
     mongoose

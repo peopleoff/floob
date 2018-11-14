@@ -2,7 +2,8 @@ const FtpDeploy = require('ftp-deploy');
 const ftpDeploy = new FtpDeploy();
 const _cliProgress = require('cli-progress');
 const bar = new _cliProgress.Bar({}, _cliProgress.Presets.shades_grey);
-const auth = require('./auth');
+//Create auth.json in root folder of client for deploy variables.
+const auth = require('./auth.json');
 
 const config = {
     user: auth.FTP_User,
