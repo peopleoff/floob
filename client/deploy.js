@@ -13,7 +13,8 @@ const config = {
 	localRoot: __dirname + auth.FTP_Local_Dest,
 	remoteRoot: auth.FTP_Remote_Dest,
 	include: ['*', '**/*'],      // this would upload everything except dot files
-    deleteRoot:  true
+	deleteRoot:  true,
+	forcePasv: true
 }
 	
 // use with callback

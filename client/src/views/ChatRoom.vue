@@ -236,7 +236,7 @@
           playerVars: {
             'autoplay': 1,
             'controls': 1,
-            'start': 60
+            // 'start': 60
           },
           events: {
             'onReady': this.onPlayerReady,
