@@ -35,9 +35,12 @@ router.beforeEach((to, from, next) => {
     if(store.state.user ){
       next({name: "ChatRoom"})
     }
+    else{
+      next()
+    }
     //Redict to login if not signed in
-  }else if(to.path.toLowerCase() == "/chatroom" && !store.state.user.username){
-    next({name: "Index", params: { error: true, message: ["Please sign in first"], type: "warning" }})
+  }else if(to.path.toLowerCase() == "/chatroom" && !store.state.user){
+    next({name: "Index"})
   }
   else{
     next()

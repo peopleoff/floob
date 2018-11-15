@@ -87,7 +87,6 @@
       ]),
       signIn: function () {
         UserService.signIn(this.user).then(response => {
-          console.log(response.data);
           if (response.data.error) {
             this.status = response.data;
             let self = this;
