@@ -31,13 +31,44 @@ const io = require('socket.io')(server, {
 
 require('./routes')(app);
 
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
 function getVideoInfo(ID) {
     var service = google.youtube('v3');
     let response = service.videos.list({
         auth: auth.YoutubeAPI,
         part: 'snippet',
-        id: ID,
+        id: ID
+    });
+    return response;
+}
+
+function videoSearch(q) {
+    var service = google.youtube('v3');
+    let response = service.search.list({
+        auth: auth.YoutubeAPI,
+        part: 'snippet',
+        maxResults: '10',
+        q: q
+    });
+    return response;
+}
+
+function playlistVideos(playerlistID) {
+    console.log(playerlistID);
+    var service = google.youtube('v3');
+    let response = service.playlistItems.list({
+        auth: auth.YoutubeAPI,
+        part: 'contentDetails',
+        maxResults: '50',
+        playlistId: playerlistID
     });
     return response;
 }
@@ -82,7 +113,11 @@ mongo.connect(auth.MongoURL, {
         }
 
         function sendUsers() {
-            users.find({socketID: {$ne: null}}).limit(100).sort({
+            users.find({
+                socketID: {
+                    $ne: null
+                }
+            }).limit(100).sort({
                 _id: 1
             }).toArray(function (err, res) {
                 if (err) {
@@ -94,6 +129,7 @@ mongo.connect(auth.MongoURL, {
                 res.password = null;
                 res.forEach(element => {
                     element.password = null;
+                    element.color = getRandomColor();
                 });
                 io.emit('usersOutput', res);
             });
@@ -155,7 +191,13 @@ mongo.connect(auth.MongoURL, {
 
         //Sign in user
         socket.on('signIn', function (data) {
-            Users.findOneAndUpdate({username: data.user.username}, {$set: {socketID: socket.id}}, (err, doc) => {
+            Users.findOneAndUpdate({
+                username: data.user.username
+            }, {
+                $set: {
+                    socketID: socket.id
+                }
+            }, (err, doc) => {
                 if (err) {
                     sendStatus({
                         message: [err],
@@ -170,14 +212,23 @@ mongo.connect(auth.MongoURL, {
                     throw err
                 }
                 // Emit VideoQue
+                if(res.length > 0){
+                    io.emit('secondsRequest');
+                }
                 socket.emit('videoOutput', res);
                 socket.emit('voteToSkipCounter', skipCounter.length);
                 sendUsers();
             });
         });
 
-        socket.on('disconnect', function(){
-            Users.findOneAndUpdate({socketID: socket.id}, {$set: {socketID: null}}, (err, doc) => {
+        socket.on('disconnect', function () {
+            Users.findOneAndUpdate({
+                socketID: socket.id
+            }, {
+                $set: {
+                    socketID: null
+                }
+            }, (err, doc) => {
                 if (err) {
                     sendStatus({
                         message: [err],
@@ -185,6 +236,64 @@ mongo.connect(auth.MongoURL, {
                     })
                 }
             });
+        })
+
+        socket.on('searchVideos', function (data) {
+            let q = data.search
+            videoSearch(q).then(function (data) {
+                console.log(data.data);
+                socket.emit('searchResult', data.data);
+            }).catch(function (err) {
+                throw err
+            })
+        });
+
+        socket.on('addPlaylist', function (data) {
+            let playlistID = data.playlistID
+            let user = data.user;
+            playlistVideos(playlistID).then(function (data) {
+                data.data.items.forEach(element => {
+                    getVideoInfo(element.contentDetails.videoId).then(function (data) {
+                        let videoInfo = data.data.items[0];
+                        let video = {
+                            videoID: videoInfo.id,
+                            videoTitle: videoInfo.snippet.title,
+                            videoChannel: videoInfo.snippet.channelTitle
+                        }
+                        if (!video) {
+                            sendStatus({
+                                message: 'No Video Added',
+                                type: "danger"
+                            })
+                        } else {
+                            videoQue.insertOne({
+                                video: video,
+                                user: user
+                            }, function () {
+                                // Send status object
+                                sendStatus({
+                                    message: 'Video Added!',
+                                    type: "success"
+                                })
+                                //Send new que after each add
+                                videoQue.find().limit(100).sort({
+                                    _id: 1
+                                }).toArray(function (err, res) {
+                                    if (err) {
+                                        throw err
+                                    }
+                                    // Emit VideoQue
+                                    io.emit('videoOutput', res);
+                                })
+                            });
+                        }
+                    }).catch(function (err) {
+                        throw err
+                    })
+                });
+            }).catch(function (err) {
+                throw err
+            })
         })
 
         socket.on('voteToSkip', function (data) {

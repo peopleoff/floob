@@ -32,7 +32,7 @@
               <div class="card-body chat-container">
                 <div class="users">
                   <h4>Users</h4>
-                  <p class="users" v-for="user in users" v-bind:key="user._id" v-bind:style="{color: randomColor.randomColorHex}">
+                  <p class="users" v-for="user in users" v-bind:key="user._id" v-bind:style="{color: user.color}">
                     {{user.username}}
                   </p>
                 </div>
@@ -76,6 +76,7 @@
       return {
         user: '',
         username: '',
+        searchResult: '',
         isConnected: false,
         status: '',
         videoInput: '',
@@ -115,6 +116,9 @@
       videoOutput(data) {
         this.videoQueue = data;
       },
+      searchResult(data) {
+        this.searchResult = data;
+      },
       usersOutput(data) {
         this.users = data;
       },
@@ -128,11 +132,13 @@
         }
       },
       randomColor: function () {
-        var randomColorHex = "#000000".replace(/0/g, function () {
-          return (~~(Math.random() * 16)).toString(16);
-        });
-        console.log(randomColorHex);
-        return randomColorHex;
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        console.log(color);
+        return color;
       },
       voteToSkip: function () {
         this.$socket.emit('voteToSkip', this.videoQueue[0]);
@@ -147,7 +153,6 @@
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
       },
       addVideo: function () {
-        let self = this;
         if (this.videoInput == '') {
           let data = {
             message: 'No Video Added',
@@ -159,11 +164,37 @@
           }, 5000);
           return
         }
+        let self = this;
+        let videoID = '';
+        //Check for playlist first
+        if (this.videoInput.includes("playlist")) {
+          let playlistID = this.getVideoID("list", this.videoInput);
+          this.$socket.emit('addPlaylist', {
+            user: this.$store.state.user,
+            playlistID: playlistID
+          });
+          this.videoInput = '';
+          return;
+        }
+
+        //Get video ID based on mobile link or desktop URL.
+        if (this.videoInput.includes("youtu.be")) {
+          //Mobile Link
+          videoID = this.videoInput.split("/")[this.videoInput.split("/").length - 1];
+        } else {
+          //Desktop URL
+          videoID = this.getVideoID("v", this.videoInput);
+        }
         this.$socket.emit('addVideo', {
           user: this.$store.state.user,
-          video: this.getVideoID("v", this.videoInput)
+          video: videoID
         });
         this.videoInput = '';
+      },
+      searchVideos: function () {
+        this.$socket.emit('searchVideos', {
+          search: 'lil wayne'
+        });
       },
       clearQueue: function () {
         this.$socket.emit('clear');
@@ -177,7 +208,7 @@
           user: this.$store.state.user
         });
       },
-      closeRight: function(){
+      closeRight: function () {
         document.getElementById('close-icon').classList.toggle('closed');
         document.getElementById('right-side').classList.toggle('hidden');
         document.getElementById('left-side').classList.toggle('col-11');
@@ -204,7 +235,8 @@
           videoId: videoId,
           playerVars: {
             'autoplay': 1,
-            'controls': 1
+            'controls': 1,
+            'start': 60
           },
           events: {
             'onReady': this.onPlayerReady,
@@ -270,6 +302,11 @@
 </script>
 
 <style scoped>
+  .section-lg {
+    padding-top: 7rem;
+    padding-bottom: 4.7rem;
+  }
+
   form {
     width: 100%;
   }
@@ -286,11 +323,11 @@
     transition: all .25s linear;
   }
 
-  .btn-primary{
+  .btn-primary {
     width: 100%;
   }
 
-  .hidden{
+  .hidden {
     display: none;
   }
 
@@ -352,5 +389,12 @@
   .queue {
     margin: 10px 0;
     overflow: auto;
+  }
+
+  @media (max-width: 991.98px) {
+    .section-lg {
+      padding-top: 6rem;
+      padding-bottom: 4.5rem;
+    }
   }
 </style>

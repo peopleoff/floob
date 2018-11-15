@@ -15,5 +15,8 @@
   }
 </script>
 
-<style lang="scss">
+<style>
+.click{
+  cursor: pointer;
+}
 </style>

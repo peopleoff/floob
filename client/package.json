@@ -19,6 +19,7 @@
     "axios": "^0.18.0",
     "cli-progress": "^2.1.0",
     "ftp-deploy": "^2.1.4",
+    "lodash": "^4.17.11",
     "socket.io-client": "^2.1.1",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
