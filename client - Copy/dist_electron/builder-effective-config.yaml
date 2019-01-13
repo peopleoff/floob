@@ -1,0 +1,20 @@
+directories:
+  output: dist_electron
+  buildResources: build
+  app: dist_electron/bundled
+files:
+  - filter:
+      - '**'
+extends: null
+icon: public/favicon/icon.ico
+nsis:
+  oneClick: false
+  perMachine: true
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: true
+  createDesktopShortcut: true
+  installerIcon: public/favicon/icon.ico
+  uninstallerIcon: public/favicon/icon.ico
+  uninstallDisplayName: Floob
+electronVersion: 3.0.9

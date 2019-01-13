@@ -1,5 +1,6 @@
 const Users = require('../models/UserSchema');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const salt = '$2a$10$Q/AH0MPPKyMVNzshASojgO'
 
 module.exports = {
@@ -43,7 +44,22 @@ module.exports = {
                         })
                     } else {
                         response.password = null;
-                        return res.status(200).send(response);
+                        jwt.sign({
+                            user: response
+                        }, salt, (err, token) => {
+                            if(err){
+                                return res.status(200).json({
+                                    error: true,
+                                    message: [err],
+                                    type: "danger"
+                                });
+                            }
+                            return res.status(200).json({
+                                username: response.username,
+                                token: token
+                            });
+                        })
+
                     }
                 });
 
@@ -74,10 +90,24 @@ module.exports = {
                 })
             }
             if (response) {
-                if(bcrypt.compareSync(req.body.password, response.password)){
+                if (bcrypt.compareSync(req.body.password, response.password)) {
                     response.password = null;
-                    return res.status(200).send(response);
-                }else{
+                    jwt.sign({
+                        user: response
+                    }, salt, (err, token) => {
+                        if(err){
+                            return res.status(200).json({
+                                error: true,
+                                message: [err],
+                                type: "danger"
+                            });
+                        }
+                        return res.status(200).json({
+                            username: response.username,
+                            token: token
+                        });
+                    })
+                } else {
                     return res.send({
                         error: true,
                         message: ['Username or Password incorrect'],

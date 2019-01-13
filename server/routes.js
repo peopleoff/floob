@@ -6,6 +6,6 @@ module.exports = (app) => {
     // app.get('/getGames', GameController.getGames);
     // // Post Requests
     app.post('/register', UserController.register);
-    app.post('/signIn', UserController.signIn);
+    app.post('/login', UserController.login);
 
 };

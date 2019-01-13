@@ -1,0 +1,94 @@
+#app {
+    overflow: unset;
+}
+
+#alerts{
+    position: absolute;
+    top: 1%;
+    right: 25%;
+    z-index: 10;
+    width: 50%;
+}
+
+body{
+    min-height: 100vh;
+}
+
+.section-shaped {
+    height: 100%;
+}
+
+.video-card {
+    height: 80vh;
+}
+
+.chat-card {
+    height: 80vh;
+}
+
+.video-card iframe {
+    height: 78vh;
+    width: 100%;
+}
+
+.bg-secondary{
+    background-color: #232127 !important;
+    color: rgba(255, 255, 255, 0.7)
+}
+
+h1{
+    color: #FFFFFF
+}
+h4{
+    color: #FFFFFF
+}
+
+.chat-container {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-gap: 1px 1px;
+    grid-template-areas: "Users""queue""queue""add";
+}
+
+.users {
+    grid-area: Users;
+}
+
+.queue {
+    grid-area: queue;
+}
+
+.add {
+    grid-area: add;
+}
+
+@media all and (-ms-high-contrast:none) {
+    .chat-container {
+        display: -ms-grid;
+        -ms-grid-columns: 1fr;
+        -ms-grid-rows: 1fr 1fr 1fr 1fr;
+    }
+
+    .users {
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
+    }
+
+    .queue {
+        -ms-grid-row: 2;
+        -ms-grid-row-span: 2;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
+    }
+
+    .add {
+        -ms-grid-row: 4;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
+    }
+}
