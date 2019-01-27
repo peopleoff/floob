@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon api-floob.js",
+    "lint": "./node_modules/.bin/eslint ./models/** ./controllers/** api-floob.js",
+    "lint-fix": "./node_modules/.bin/eslint ./models/** ./controllers/** api-floob.js --fix",
     "build": "node deploy"
   },
   "author": "",
@@ -13,17 +15,27 @@
   },
   "license": "ISC",
   "dependencies": {
+    "async": "^2.6.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
-    "cli-progress": "^2.1.0",
-    "cors": "^2.8.4",
+    "cli-progress": "^2.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "ftp-deploy": "^2.1.4",
+    "ftp-deploy": "^2.3.0",
     "googleapis": "^34.0.0",
     "jsonwebtoken": "^8.4.0",
-    "mongodb": "^3.1.8",
-    "mongoose": "^5.3.9",
+    "mongodb": "^3.1.13",
+    "mongoose": "^5.4.6",
     "morgan": "^1.9.1",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }

@@ -1,126 +1,76 @@
-const Users = require('../models/UserSchema');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const Users = require('../models/users')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const salt = '$2a$10$Q/AH0MPPKyMVNzshASojgO'
+const {
+  signUser,
+  decodeToken
+} = require('../config/auth');
 
 module.exports = {
-    register(req, res) {
-        if (!req.body) {
-            return res.send({
-                error: true,
-                message: ["Error"],
-                type: "danger"
-            })
-        }
-        if (req.body.password !== req.body.comfirmPassword) {
-            return res.send({
-                error: true,
-                message: ["Passwords do not match"],
-                type: "danger"
-            })
-        }
-        Users.findOne({
-            username: req.body.username
-        }, function (err, response) {
-            if (err) {
-                return res.send({
-                    error: true,
-                    message: err,
-                    type: "danger"
-                })
-            }
-            if (!response) {
-                req.body.password = bcrypt.hashSync(req.body.password, salt);
-                Users.create(req.body, function (err, response) {
-                    if (err) {
-                        let errorsArray = [];
-                        for (var property in err.errors) {
-                            errorsArray.push(err.errors[property].message);
-                        }
-                        return res.send({
-                            error: true,
-                            message: errorsArray,
-                            type: "danger"
-                        })
-                    } else {
-                        response.password = null;
-                        jwt.sign({
-                            user: response
-                        }, salt, (err, token) => {
-                            if(err){
-                                return res.status(200).json({
-                                    error: true,
-                                    message: [err],
-                                    type: "danger"
-                                });
-                            }
-                            return res.status(200).json({
-                                username: response.username,
-                                token: token
-                            });
-                        })
-
-                    }
-                });
-
-            } else {
-                return res.send({
-                    message: 'User Already Exsists.',
-                    type: "danger"
-                });
-            }
-        });
-    },
-    signIn(req, res) {
-        if (!req.body) {
-            return res.send({
-                error: true,
-                message: ["Error"],
-                type: "danger"
-            })
-        }
-        Users.findOne({
-            username: req.body.username
-        }, function (err, response) {
-            if (err) {
-                return res.send({
-                    error: true,
-                    message: err,
-                    type: "danger"
-                })
-            }
-            if (response) {
-                if (bcrypt.compareSync(req.body.password, response.password)) {
-                    response.password = null;
-                    jwt.sign({
-                        user: response
-                    }, salt, (err, token) => {
-                        if(err){
-                            return res.status(200).json({
-                                error: true,
-                                message: [err],
-                                type: "danger"
-                            });
-                        }
-                        return res.status(200).json({
-                            username: response.username,
-                            token: token
-                        });
-                    })
-                } else {
-                    return res.send({
-                        error: true,
-                        message: ['Username or Password incorrect'],
-                        type: "danger"
-                    });
-                }
-            } else {
-                return res.send({
-                    error: true,
-                    message: ['Username or Password incorrect'],
-                    type: "danger"
-                });
-            }
-        });
+  async register(req, res) {
+    if (!req.body) {
+      return res.send({
+        error: true,
+        message: "Error",
+        type: "error"
+      })
     }
+    let User = await Users.findOne({
+      email: req.body.email
+    })
+    if (User) {
+      return res.send({
+        error: true,
+        message: "Email already registered",
+        type: "error"
+      })
+    }
+    req.body.password = bcrypt.hashSync(req.body.password, salt);
+    let newUser = new Users(req.body);
+    newUser.save((error, result) => {
+      if (error) {
+        return res.send({
+          error: true,
+          message: error,
+          type: "error"
+        })
+      }
+      return res.send(true);
+    })
+  },
+  async login(req, res) {
+    if (!req.body) {
+      return res.send({
+        error: true,
+        message: 'Error',
+        type: 'error'
+      })
+    };
+    let User = await Users.findOne({
+      email: req.body.email
+    });
+    if (!User) {
+      return res.send({
+        error: true,
+        message: 'Email or Password is incorrect',
+        type: 'error'
+      })
+    } else {
+      if (bcrypt.compareSync(req.body.password, User.password) && User.active == 1) {
+        delete User.password
+        let token = signUser(User);
+        return res.send({
+          token: token,
+          username: User.username
+        });
+      } else {
+        return res.send({
+          error: true,
+          message: 'Username or Password incorrect',
+          type: "error"
+        });
+      }
+    }
+  }
 }

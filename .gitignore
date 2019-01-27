@@ -131,4 +131,7 @@ client/auth.json
 server/auth.json
 client/dist
 client/dist_electron
-
+.vscode/
+client/.gitignore
+client/README.node_modules
+*.env

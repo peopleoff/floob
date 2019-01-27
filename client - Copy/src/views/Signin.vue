@@ -20,8 +20,8 @@
             <div class="card bg-secondary shadow border-0">
               <div class="card-body px-lg-5 py-lg-5">
                 <div class="text-center text-muted mb-4">
-                 <h1>Sign In</h1>
-                 <small>Need to create an account? <router-link to="/register">Register Here</router-link></small>
+                  <h1>Sign In</h1>
+                  <small>Need to create an account? <router-link to="/register">Register Here</router-link></small>
                 </div>
                 <form role="form">
                   <div class="form-group">
@@ -85,19 +85,28 @@
       ...mapMutations([
         'ADD_USER'
       ]),
+      displayMessage: function (type, message) {
+        let self = this;
+        self.status = {
+            type: type,
+            message: message
+          },
+          setTimeout(function () {
+            self.status = '';
+          }, 5000);
+      },
       login: function () {
-        UserService.login(this.user).then(response => {
-          if (response.data.error) {
-            this.status = response.data;
-            let self = this;
-            setTimeout(function () {
-              self.status = '';
-            }, 5000);
-          } else {
+        let self = this;
+        UserService.login(this.user)
+          .then(response => {
             this.ADD_USER(response.data);
             this.$router.push('Chatroom')
-          }
-        })
+          })
+          .catch(error => {
+            if (error.response.status == 401) {
+              this.displayMessage('danger', ['Username or Password is incorrect']);
+            }
+          })
       },
       ifError: function () {
         if (this.$route.params.error) {
@@ -116,7 +125,7 @@
             return true;
           }
         }
-        if (this.user.password.length < 8) {
+        if (this.user.password.length < 6) {
           return true;
         }
         return false;
@@ -129,7 +138,7 @@
 </script>
 
 <style scoped>
-.section-shaped{
-  height: 100vh;
-}
+  .section-shaped {
+    height: 100vh;
+  }
 </style>

@@ -1,22 +1,34 @@
 <template>
-  <div id="app">
-    <TopNav />
-    <router-view />
-  </div>
+  <v-app dark>
+    <Header />
+    <v-content>
+      <v-container fluid>
+        <router-view />
+      </v-container>
+      <Snackbar :snackbar="snackbar"/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-  import TopNav from '@/components/TopNav.vue'
-  export default {
-    name: 'App',
-    components: {
-      TopNav
-    },
-  }
-</script>
+import Header from './components/includes/Header'
+import Snackbar from './components/includes/Snackbar'
 
-<style>
-.click{
-  cursor: pointer;
+export default {
+  name: 'App',
+  components: {
+    Header,
+    Snackbar
+  },
+  data () {
+    return {
+      //
+    }
+  },
+  computed:{
+    snackbar(){
+      return this.$store.state.snackbar
+    }
+  }
 }
-</style>
+</script>

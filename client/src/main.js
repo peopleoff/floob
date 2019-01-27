@@ -1,15 +1,17 @@
 import Vue from 'vue'
+import './plugins/vuetify'
 import App from './App.vue'
-import socketio from 'socket.io-client';
-import VueSocketIO from 'vue-socket.io';
-import EvaIcons from 'vue-eva-icons'
+import Vuelidate from 'vuelidate'
 import router from './router'
 import store from './store'
-import './registerServiceWorker'
+import VueSocketIO from 'vue-socket.io'
 
-export const SocketInstance = socketio(process.env.VUE_APP_API);
-Vue.use(VueSocketIO, SocketInstance)
-Vue.use(EvaIcons)
+
+Vue.use(Vuelidate)
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: process.env.VUE_APP_API
+}));
 
 Vue.config.productionTip = false
 
