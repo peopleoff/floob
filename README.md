@@ -19,8 +19,8 @@ What things you need to install the software and how to install them
 
 ### Installing The Client
 
-A step by step series of examples that tell you how to get a development env running
-
+A step by step series of examples that tell you how to get a development env running.  
+You will need to create a .env file with VUE_APP_API to your backend endpoint.
 ```
 cd client
 npm install
@@ -29,7 +29,8 @@ npm run serve
 
 ### Installing The Server
 
-A step by step series of examples that tell you how to get a development env running
+A step by step series of examples that tell you how to get a development env running.  
+You will need to create a .env file with API_FLOOB_MONGOURL for your DB URI string & API_FLOOB_YOUTUBEAPI to your Youtube API key.
 
 
 ```

@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon api-floob.js",
+    "dev": "nodemon api-floob.js",
     "lint": "./node_modules/.bin/eslint ./models/** ./controllers/** api-floob.js",
-    "lint-fix": "./node_modules/.bin/eslint ./models/** ./controllers/** api-floob.js --fix",
-    "build": "node deploy"
+    "lint-fix": "./node_modules/.bin/eslint ./models/** ./controllers/** api-floob.js --fix"
   },
   "author": "",
   "socket.io": {
@@ -15,17 +14,13 @@
   },
   "license": "ISC",
   "dependencies": {
-    "async": "^2.6.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
-    "cli-progress": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "ftp-deploy": "^2.3.0",
     "googleapis": "^34.0.0",
     "jsonwebtoken": "^8.4.0",
-    "mongodb": "^3.1.13",
     "mongoose": "^5.4.6",
     "morgan": "^1.9.1",
     "socket.io": "^2.2.0"
