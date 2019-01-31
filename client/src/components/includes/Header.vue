@@ -7,7 +7,10 @@
             Floob
         </router-link>
         <v-spacer></v-spacer>
-        <v-menu open-on-hover offset-y v-if="this.$store.state.user">
+        <v-btn round v-if="!this.$store.state.user" to='/login'>
+            Sign-In or Sign-Up!
+        </v-btn>
+        <v-menu open-on-hover offset-y v-else>
             <v-btn flat slot="activator">
                 {{this.$store.state.user.username}}
                 <v-icon right id="dropdown">arrow_drop_down</v-icon>
@@ -24,12 +27,26 @@
                 </v-list-tile>
             </v-list>
         </v-menu>
+        <v-btn @click="toggleVideoQueue()">
+            _
+            -30px-30px
+        </v-btn>
     </v-toolbar>
 </template>
 
 <script>
     export default {
         name: 'Header',
+        data() {
+            return{
+
+            }
+        },
+        methods: {
+            toggleVideoQueue(){
+                this.$emit('toggle');
+            }
+        }
 
     }
 </script>
@@ -38,5 +55,6 @@
     .header {
         text-decoration: none;
         color: white;
+        margin-right: 30px;
     }
 </style>

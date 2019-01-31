@@ -6,11 +6,13 @@ import 'vuetify/src/stylus/app.styl'
 Vue.use(Vuetify, {
   iconfont: 'md',
   theme: {
-    primary: '#4b7bec',
-    action_add: '#4b7bec',
+    primary: '#2e3999',
+    secondary: '#5e80dc',
+    action_add: '#76c7d7',
+    text_primary: '#5f6469',
+    text_secondary: colors.shades.black,
     action_delete: colors.red,
     primaryAction: colors.green.darken2,
-    secondary: colors.grey.darken1,
     secondaryAction: colors.red,
     accent: colors.shades.black,
     error: colors.red.lighten1

@@ -136,3 +136,4 @@ client/.gitignore
 client/README.node_modules
 *.env
 client - Copy/
+server/functions.js

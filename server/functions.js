@@ -1,6 +1,5 @@
 const google = require('googleapis').google;
 
-
 module.exports = {
   getRandomColor() {
     var letters = "0123456789ABCDEF";
@@ -63,5 +62,9 @@ module.exports = {
       playlistId: playerlistID
     });
     return response;
+  },
+
+  catchError(error) {
+    throw error;
   }
 };

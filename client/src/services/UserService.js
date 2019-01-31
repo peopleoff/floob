@@ -7,6 +7,9 @@ export default {
   login(data){
     return Api().post('users/login', data)
   },
+  tokenLogin(data){
+    return Api().post('users/tokenLogin', data)
+  },
   isAuth(data){
     return Api().post('isAuth', data)
   },

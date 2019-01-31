@@ -6,7 +6,9 @@ const cors = require('cors')
 const morgan = require('morgan')
 const allowedOrigins = 'https://floob.club:* https://www.floob.club:* http://localhost:*'
 const mongoose = require('mongoose')
-
+const {
+  catchError
+} = require('./functions')
 const VideoController = require('./controllers/VideoController')
 const RoomController = require('./controllers/RoomController')
 // Connect to Database
@@ -15,6 +17,8 @@ mongoose.connect(process.env.API_FLOOB_MONGOURL, {
 }, function (error) {
   if (!error) {
     console.log('Mongo is running')
+  } else {
+    console.log(error);
   }
 })
 app.use(morgan('combined'))
@@ -34,67 +38,88 @@ const io = require('socket.io')(server, {
 
 // <----------------------------Socket Functions----------------------------> //\
 
-function sendMessage (socket, message, type) {
+function sendMessage(socket, message, type) {
   socket.emit('message', {
     type: type,
     message: message
   })
 }
 
-function newUser (socket, payload) {
+function newUser(socket, payload) {
   const {
     roomID
   } = payload
-  VideoController.getAll(roomID).then(result => {
-    socket.emit('getVideos', result)
-  })
+  VideoController.getAll(roomID)
+    .then(result => {
+      socket.emit('getVideos', result)
+    })
+    .catch(error => {
+      catchError(error)
+    })
   RoomController.addToRoom(payload, socket.id)
 }
 
-function addVideo (payload) {
-  VideoController.add(payload).then(result => {
-    VideoController.getAll(payload.roomID).then(videoResult => {
-      io.sockets.in(payload.roomID).emit('getVideos', videoResult)
+function addVideo(payload) {
+  VideoController.add(payload)
+    .then(result => {
+      VideoController.getAll(payload.roomID)
+        .then(videoResult => {
+          io.sockets.in(payload.roomID).emit('getVideos', videoResult)
+        })
+        .catch(error => {
+          catchError(error)
+        })
     })
-  })
-}
-
-function removeVideo (payload) {
-  VideoController.removeVideo(payload).then(result => {
-    if (result) {
-      VideoController.getAll(payload.roomID).then(videoResult => {
-        io.sockets.in(payload.roomID).emit('getVideos', videoResult)
-      })
-    }
-  })
     .catch(error => {
-      console.log(error)
+      catchError(error)
     })
 }
 
-function voteToSkip (payload) {
+function removeVideo(payload) {
+  VideoController.removeVideo(payload)
+    .then(result => {
+      if (result) {
+        VideoController.getAll(payload.roomID)
+          .then(videoResult => {
+            io.sockets.in(payload.roomID).emit('getVideos', videoResult)
+          })
+          .catch(error => {
+            catchError(error)
+          })
+      }
+    })
+    .catch(error => {
+      catchError(error)
+    })
+}
+
+function voteToSkip(payload) {
   let roomCount = io.nsps['/'].adapter.rooms[payload.roomID]
   let votesNeeded = 0
   // Check if roomcount is defined
   if (roomCount) {
     votesNeeded = (roomCount.length / 2)
   }
-  VideoController.voteToSkip(payload, votesNeeded).then(result => {
-    switch (result) {
-      case 'Already Voted':
-        break
-        // If deleted, get videos again and send to room.
-      case 'Video Deleted':
-        VideoController.getAll(payload.roomID).then(videoResult => {
-          io.sockets.in(payload.roomID).emit('getVideos', videoResult)
-        })
-        break
-        // Default vote added, send back video with updated skipCounter
-      default:
-        io.sockets.in(payload.roomID).emit('voteAdded', result)
-        break
-    }
-  })
+  VideoController.voteToSkip(payload, votesNeeded)
+    .then(result => {
+      switch (result) {
+        case 'Already Voted':
+          break
+          // If deleted, get videos again and send to room.
+        case 'Video Deleted':
+          VideoController.getAll(payload.roomID).then(videoResult => {
+            io.sockets.in(payload.roomID).emit('getVideos', videoResult)
+          })
+          break
+          // Default vote added, send back video with updated skipCounter
+        default:
+          io.sockets.in(payload.roomID).emit('voteAdded', result)
+          break
+      }
+    })
+    .catch(error => {
+      catchError(error)
+    })
 }
 // <----------------------------Socket Functions----------------------------> //
 

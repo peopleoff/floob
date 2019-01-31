@@ -19,7 +19,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="primaryAction" @click="Register" v-on:keyup.enter="register()" :disabled=$v.$invalid
+                        <v-btn color="primaryAction" @click="Register" v-on:keyup.enter="register()"
                             :loading="loading">Register</v-btn>
                     </v-card-actions>
                 </v-card>
@@ -84,11 +84,11 @@
                 'ADD_USER'
             ]),
             Register: function () {
-                this.loading = true;
                 this.$v.$touch()
                 if (this.$v.$invalid) {
                     return
                 } else {
+                    this.loading = true;
                     UserService.Register(this.user).then(response => {
                         this.loading = false;
                         if (response.data.error) {

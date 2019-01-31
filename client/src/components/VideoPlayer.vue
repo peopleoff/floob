@@ -1,7 +1,15 @@
 <template>
     <v-card height="80vh" class="mx-3">
         <v-responsive id="player-body" height="100%">
-            <h1 class="text-xs-center" v-if="this.videoQueue.length === 0">No Video in Queue</h1>
+            <div class="text-xs-center" id="noVideo" v-if="this.videoQueue.length === 0">
+                <h1>Nothing currently playing!</h1>
+                <v-btn block round color="action_add" @click="addRandomVideo()" v-if="this.$store.state.user">
+                    Add Random Video
+                </v-btn>
+                <v-btn block round color="action_add" @click="addRandomVideo()" class="text_primary--text" v-else>
+                    Sign-in Or Sign-up
+                </v-btn>
+            </div>
             <div id="player"></div>
         </v-responsive>
     </v-card>
@@ -54,6 +62,9 @@
                     this.videoQueue.shift();
                 }
             },
+            addRandomVideo() {
+                    this.$socket.emit('addVideo', newVideo);
+            }
         },
         watch: {
             videoQueue: {
@@ -83,5 +94,13 @@
         height: 100%;
         width: 100%;
         padding: 10px;
+    }
+
+    #noVideo {
+        position: absolute;
+        top: 30%;
+        right: 25%;
+        width: 50%;
+        height: 50%;
     }
 </style>

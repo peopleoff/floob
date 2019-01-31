@@ -13,6 +13,10 @@ const Room = mongoose.Schema({
     type: String,
     required: false
   },
+  nsfw:{
+    type: Boolean,
+    default: false
+  },
   createdBy: {
     type: String,
     required: true

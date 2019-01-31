@@ -20,7 +20,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="action_add" @click="login" :disabled=$v.$invalid :loading="loading">Login</v-btn>
+                        <v-btn color="action_add" @click="login" :loading="loading">Login</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-flex>

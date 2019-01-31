@@ -12,6 +12,7 @@ module.exports = (app) => {
     //User's Requests
     app.post('/users/register', UserController.register);
     app.post('/users/login', UserController.login);
+    app.post('/users/tokenLogin', UserController.tokenLogin);
     //Rooms Requests
     app.post('/rooms/register', RoomController.register);
     app.post('/rooms/checkPassword', RoomController.checkPassword);

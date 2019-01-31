@@ -1,5 +1,6 @@
 const Room = require('../models/rooms')
 const bcrypt = require('bcryptjs')
+const {catchError} = require('../functions')
 const salt = '$2a$10$Q/AH0MPPKyMVNzshASojgO'
 
 module.exports = {
@@ -18,6 +19,7 @@ module.exports = {
       name: req.body.name,
       password: req.body.password ? req.body.password : '',
       description: req.body.description,
+      nsfw: req.body.nsfw,
       createdBy: req.body.username
     })
     newRoom.save((error, result) => {

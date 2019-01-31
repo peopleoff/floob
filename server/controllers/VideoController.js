@@ -3,6 +3,7 @@ const {
   getVideoID,
   getVideoInfo
 } = require('../functions')
+const {catchError} = require('../functions')
 
 module.exports = {
   getAll (id) {
@@ -22,14 +23,15 @@ module.exports = {
     })
   },
   add (payload) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const {
         videoLink,
         roomID,
-        username
+        user
       } = payload
       let videoID = getVideoID('v', videoLink)
-      getVideoInfo(videoID).then(result => {
+      getVideoInfo(videoID)
+      .then(result => {
         let videoInfo = result.data.items[0].snippet
         let newVideo = new Video({
           videoID: videoID,
@@ -37,14 +39,17 @@ module.exports = {
           title: videoInfo.title,
           channel: videoInfo.channelTitle,
           image: videoInfo.thumbnails.default.url,
-          username: username
+          username: user.username
         })
         newVideo.save((error, result) => {
           if (error) {
-            resolve(error)
+            reject(error)
           }
           resolve(result)
         })
+      })
+      .catch(error => {
+        reject(error)
       })
     })
   },

@@ -6,6 +6,10 @@ const {
   signUser,
   decodeToken
 } = require('../config/auth');
+const {
+  catchError
+} = require('../functions')
+const jwtSecret = require('../config/config').authentication.jwtSecret;
 
 module.exports = {
   async register(req, res) {
@@ -40,6 +44,7 @@ module.exports = {
     })
   },
   async login(req, res) {
+    //If no post data is sent, return error
     if (!req.body) {
       return res.send({
         error: true,
@@ -71,6 +76,21 @@ module.exports = {
           type: "error"
         });
       }
+    }
+  },
+  tokenLogin(req, res) {
+    try {
+      decoded = jwt.verify(req.body.token, jwtSecret).user;
+      return res.send({
+        token: req.body.token,
+        username: decoded.username
+      })
+    } catch (err) {
+      return res.send({
+        error: true,
+        type: 'error',
+        message: err
+      })
     }
   }
 }
