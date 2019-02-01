@@ -31,6 +31,7 @@ module.exports = {
       })
     }
     req.body.password = bcrypt.hashSync(req.body.password, salt);
+    req.body.email = req.body.email.toLowerCase();
     let newUser = new Users(req.body);
     newUser.save((error, result) => {
       if (error) {
@@ -52,6 +53,7 @@ module.exports = {
         type: 'error'
       })
     };
+    req.body.email = req.body.email.toLowerCase();
     let User = await Users.findOne({
       email: req.body.email
     });

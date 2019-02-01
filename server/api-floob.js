@@ -7,12 +7,16 @@ const morgan = require('morgan')
 const allowedOrigins = 'https://floob.club:* https://www.floob.club:* http://localhost:*'
 const mongoose = require('mongoose')
 const {
-  catchError
+  catchError,
+  videoSearch,
+  guid
 } = require('./functions')
 const VideoController = require('./controllers/VideoController')
 const RoomController = require('./controllers/RoomController')
 // Connect to Database
-mongoose.connect(process.env.API_FLOOB_MONGOURL, {
+let mongoURL = process.env.API_FLOOB_MONGOURL
+console.log(mongoURL);
+mongoose.connect(mongoURL, {
   useNewUrlParser: true
 }, function (error) {
   if (!error) {
@@ -42,6 +46,23 @@ function sendMessage(socket, message, type) {
   socket.emit('message', {
     type: type,
     message: message
+  })
+}
+
+function addMessage(payload) {
+  let newMessage = {
+    id: guid(),
+    username: payload.user.username,
+    message: payload.message
+  }
+  io.sockets.in(payload.roomID).emit('newMessage', newMessage)
+}
+
+function searchVideos(payload, socket) {
+  videoSearch(payload.search).then(results => {
+    if (results) {
+      socket.emit('searchResult', results.data.items)
+    }
   })
 }
 
@@ -136,11 +157,17 @@ io.on('connection', (socket) => {
   socket.on('addVideo', payload => {
     addVideo(payload)
   })
+  socket.on('addMessage', payload => {
+    addMessage(payload)
+  })
   socket.on('voteToSkip', payload => {
     voteToSkip(payload)
   })
   socket.on('removeVideo', payload => {
     removeVideo(payload)
+  })
+  socket.on('searchVideos', payload => {
+    searchVideos(payload, socket)
   })
   socket.on('leaveRoom', socketID => {
     RoomController.removeFromRoom(socketID)

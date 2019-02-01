@@ -9,7 +9,6 @@ import VueSocketIO from 'vue-socket.io'
 
 Vue.use(Vuelidate)
 Vue.use(new VueSocketIO({
-  debug: true,
   connection: process.env.VUE_APP_API
 }));
 

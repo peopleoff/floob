@@ -5,14 +5,10 @@ import router from './router'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
-    user: {
-      username: "admin"
-    },
-    room: {
-      _id: '5c48c7d478657a2a30fe7cb7',
-      name: 'Room 1',
-      nsfw: false
-    },
+    user: null,
+    room: null,
+    loading: false,
+    chatroomSidebar: false,
     snackbar: null
   },
   mutations: {
@@ -21,6 +17,12 @@ export default new Vuex.Store({
     },
     ADD_ROOM: (state, payload) => {
       state.room = payload;
+    },
+    TOGGLE_SIDEBAR: (state) => {
+      state.chatroomSidebar = !state.chatroomSidebar
+    },
+    TOGGLE_LOADING: (state) => {
+      state.loading = false
     },
     UPDATE_SNACKBAR: (state, payload) => {
       state.snackbar = payload;

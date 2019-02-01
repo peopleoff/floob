@@ -68,10 +68,10 @@
             ]),
             login: function () {
                 this.$v.$touch();
-                this.loading = true;
                 if (this.$v.$invalid) {
                     return
                 } else {
+                    this.loading = true;
                     UserService.login(this.user).then(response => {
                         this.loading = false;
                         if (response.data.error) {

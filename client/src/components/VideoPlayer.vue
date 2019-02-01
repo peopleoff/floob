@@ -3,10 +3,10 @@
         <v-responsive id="player-body" height="100%">
             <div class="text-xs-center" id="noVideo" v-if="this.videoQueue.length === 0">
                 <h1>Nothing currently playing!</h1>
-                <v-btn block round color="action_add" @click="addRandomVideo()" v-if="this.$store.state.user">
+                <v-btn block round color="secondary secondary_text--text" @click="addRandomVideo()" v-if="this.$store.state.user">
                     Add Random Video
                 </v-btn>
-                <v-btn block round color="action_add" @click="addRandomVideo()" class="text_primary--text" v-else>
+                <v-btn block round @click="addRandomVideo()" class="secondary_text--text grad-button" v-else>
                     Sign-in Or Sign-up
                 </v-btn>
             </div>

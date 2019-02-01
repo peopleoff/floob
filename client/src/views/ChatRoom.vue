@@ -1,29 +1,17 @@
 <template>
     <div id="chatroom">
-        <v-layout class="mx-3 currentInfo">
-            <v-flex xs6>
-                <div v-if="videoQueue.length > 0">
-                    <p class="videoTitle"> {{videoQueue[0].title}} </p>
-                    <p class="videoUsername">Added By:  {{videoQueue[0].username}}</p>
-                </div>
-            </v-flex>
-            <v-flex xs6 class="text-xs-right">
-                <br>
-                Room: Room 1
-            </v-flex>
-        </v-layout>
         <v-layout row wrap>
             <v-flex :class="playerSize">
                 <video-player :videoQueue="videoQueue" />
             </v-flex>
-            <v-flex :class="queueSize">
-                <video-queue :videoQueue="videoQueue" />
+            <v-flex :class="queueSize" id="videoSidebar">
+                <video-queue :videoQueue="videoQueue" :messages="messages" />
             </v-flex>
             <v-flex :class="playerSize">
-                <v-btn color="action_delete" class="my-2 mx-3" @click="voteToSkip()" v-if="videoQueue.length > 0">
+                <v-btn color="error" class="my-2 mx-3" @click="voteToSkip()" v-if="videoQueue.length > 0">
                     Vote To Skip ({{videoQueue[0].skipCounter.length}})
                 </v-btn>
-                <v-btn small dark fab @click="theaterMode" id="theaterModeButton" class="hidden-sm-and-down">
+                <v-btn small dark fab @click="theaterMode" id="theaterModeButton" class="hidden-sm-and-down" color="secondary_dark">
                     <v-icon>{{theaterModeButtonIcon}}</v-icon>
                 </v-btn>
             </v-flex>
@@ -34,6 +22,9 @@
 <script>
     import VideoPlayer from '@/components/VideoPlayer'
     import VideoQueue from '@/components/VideoQueue'
+    import {
+        mapMutations
+    } from 'vuex'
 
     export default {
         name: 'Chatroom',
@@ -46,14 +37,21 @@
                 videoQueue: [],
                 socketID: '',
                 playerSize: 'xs12 md9',
-                queueSize: 'md3 hidden-sm-and-down slide-out-right',
+                queueSize: 'md3 hidden',
                 theaterModeButtonIcon: 'keyboard_arrow_right',
-                theaterModeButton: false
+                theaterModeButton: false,
+                messages: []
             }
+        },
+        mounted() {
+            this.newRoom();
         },
         sockets: {
             getVideos: function (payload) {
                 this.videoQueue = payload;
+            },
+            newMessage: function (payload) {
+                this.messages.push(payload);
             },
             voteAdded: function (payload) {
                 this.videoQueue.map(element => {
@@ -64,12 +62,16 @@
             }
         },
         methods: {
+            ...mapMutations([
+                'TOGGLE_LOADING'
+            ]),
             newRoom() {
                 let payload = {
                     roomID: this.$route.params.id,
                     username: this.$store.state.user
-                }
-                this.$socket.emit('newRoom', payload)
+                };
+                this.$socket.emit('newRoom', payload);
+                this.TOGGLE_LOADING();
             },
             theaterMode() {
                 this.theaterModeButton = !this.theaterModeButton
@@ -84,17 +86,23 @@
                 }
             },
             voteToSkip() {
-                console.log('adadasd');
                 let payload = {
                     roomID: this.$route.params.id,
                     video: this.videoQueue[0],
                     username: this.$store.state.user
                 }
                 this.$socket.emit('voteToSkip', payload)
+            },
+        },
+        computed: {
+            sideBarState() {
+                return this.$store.state.chatroomSidebar
             }
         },
-        mounted() {
-            this.newRoom();
+        watch: {
+            sideBarState() {
+                document.getElementById('videoSidebar').classList.toggle('slide-out-right')
+            }
         },
         beforeDestroy() {
             this.$socket.emit('leaveRoom', this.$socket.id)
@@ -106,20 +114,37 @@
     #theaterModeButton {
         float: right;
     }
-    .currentInfo p{
+
+    .currentInfo p {
         margin: 0;
         padding: 0;
     }
 
+    @media only screen and (max-width: 959px) {
+        #videoSidebar {
+            -webkit-transition: width 0.3s;
+            /* For Safari 3.1 to 6.0 */
+            transition: width 0.3s;
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+        }
 
-@media only screen and (max-width: 959px) {
-    .slide-out-right{
-        display: block !important;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 30%;
+        .hidden {
+            width: 0;
+            overflow: hidden;
+        }
+
+        .slide-out-right {
+            width: 50%;
+            box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12) !important
+        }
     }
-}
+
+    @media only screen and (max-width: 425px) {
+        .slide-out-right {
+            width: 75%;
+        }
+    }
 </style>

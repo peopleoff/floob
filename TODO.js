@@ -5,5 +5,4 @@
 //instead of add video button when no logged in, show signup button to incrraser users
 //Dropdown under chat toggle to show current online users
 //Auto focus password on room enter password
-//Change title of room password modal
 //Add repeat button. Needs 100% votes

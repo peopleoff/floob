@@ -27,9 +27,17 @@ module.exports = {
       const {
         videoLink,
         roomID,
+        pure,
         user
       } = payload
-      let videoID = getVideoID('v', videoLink)
+      videoID = '';
+      //Pure means Pure video ID was passed
+      if(pure){
+        videoID = videoLink
+      }else{
+        videoID = getVideoID('v', videoLink)
+      }
+    
       getVideoInfo(videoID)
       .then(result => {
         let videoInfo = result.data.items[0].snippet
@@ -92,6 +100,9 @@ module.exports = {
         })
       }
     })
+  },
+  searchVideos(payload){
+
   },
   removeVideo (payload) {
     return new Promise((resolve, reject) => {

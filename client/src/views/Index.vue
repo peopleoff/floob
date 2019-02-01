@@ -1,10 +1,13 @@
 <template>
-  <Rooms :rooms=rooms />
+  <Rooms :publicRooms=publicRooms :privateRooms=privateRooms />
 </template>
 
 <script>
   import Rooms from '@/components/Rooms'
   import RoomService from '@/services/RoomService.js'
+  import {
+    mapMutations
+  } from 'vuex'
 
   export default {
     name: 'Index',
@@ -13,21 +16,32 @@
     },
     data() {
       return {
-        rooms: []
+        publicRooms: [],
+        privateRooms: []
       }
     },
     methods: {
+      ...mapMutations([
+        'TOGGLE_LOADING'
+      ]),
       getRooms() {
         RoomService.getAll()
           .then(response => {
-            this.rooms = response.data;
+            response.data.forEach(element => {
+              if (element.password) {
+                this.privateRooms.push(element);
+              } else {
+                this.publicRooms.push(element);
+              }
+            });
+            this.TOGGLE_LOADING();
           })
           .catch(error => {
             console.log(error);
           })
       }
     },
-    mounted(){
+    mounted() {
       this.getRooms();
     }
   }
