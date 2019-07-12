@@ -40,14 +40,7 @@ const io = require('socket.io')(server, {
   secure: true
 })
 
-// <----------------------------Socket Functions----------------------------> //\
-
-function sendMessage(socket, message, type) {
-  socket.emit('message', {
-    type: type,
-    message: message
-  })
-}
+// <----------------------------Socket Functions----------------------------> //
 
 function addMessage(payload) {
   let newMessage = {

@@ -1,43 +1,50 @@
 <template>
-    <div id="login">
-        <v-layout align-center justify-center row wrap>
-            <v-flex xs12 sm10 md8 lg6 xl4>
-                <v-card class="elevation-12 mt-5">
-                    <v-toolbar color="primary">
-                        <v-toolbar-title>Login</v-toolbar-title>
-                        <v-spacer></v-spacer>
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-form>
-                            <v-text-field prepend-icon="email" name="email" label="Email" type="email" v-model="user.email"
-                                :error-messages="emailErrors"></v-text-field>
-                            <v-text-field prepend-icon="lock" name="password" label="Password" type="password" v-model="user.password"
-                                :error-messages="passwordErrors"></v-text-field>
-                            <router-link to="/PasswordReset" class="text-xs-right white--text" style="float: right;">Forgot
-                                Password?</router-link>
-                            <v-checkbox color="action_add" v-model="rememberme" label="Remember Login?"></v-checkbox>
+    <div id="app">
+        <v-container fluid fill-height>
+            <v-layout align-center justify-center>
+                <v-flex xs12 sm8 md4>
+                    <v-card class="elevation-12 mt-5">
+                        <v-form @keyup.native.enter="signIn">
+                            <v-toolbar color="primary">
+                                <v-toolbar-title>Login form</v-toolbar-title>
+                                <v-spacer></v-spacer>
+                            </v-toolbar>
+                            <v-card-text>
+                                <v-text-field prepend-icon="email" name="Email" label="Email" type="email"
+                                    v-model="user.email" :error-messages="emailErrors"></v-text-field>
+                                <v-text-field prepend-icon="lock" name="password" label="Password" type="password"
+                                    v-model="user.password" :error-messages="passwordErrors"></v-text-field>
+                                <router-link to="/PasswordReset" class="text-xs-right white--text"
+                                    style="float: right;">Forgot
+                                    Password?</router-link>
+                                <v-checkbox color="primaryAction" v-model="rememberme" label="Remember Login?">
+                                </v-checkbox>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn @click="signIn" color="primaryAction" :loading="loading">Login</v-btn>
+                            </v-card-actions>
                         </v-form>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="action_add" @click="login" :loading="loading">Login</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
-        </v-layout>
-        <v-layout align-center justify-center row wrap>
-            <v-flex xs12 sm10 md8 lg6 xl4>
-                <v-card class="elevation-12 mt-5">
-                    <v-card-title class="justify-center">
-                        <h3 class="text-xs-center">Need an account? <router-link to="/register" class="white--text">Register
-                                Here</router-link>
-                        </h3>
-                    </v-card-title>
-                </v-card>
-            </v-flex>
-        </v-layout>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
+        <v-container fluid fill-height>
+            <v-layout>
+                <v-flex xs12 sm8 md4 offset-sm2 offset-md4>
+                    <v-card>
+                        <v-card-title class="justify-center">
+                            <h3 class="text-xs-center">Need an account? <router-link to="/register" class="white--text">
+                                    Register Here</router-link>
+                            </h3>
+                        </v-card-title>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
     </div>
 </template>
+
 
 <script>
     import UserService from '@/services/UserService'
@@ -46,8 +53,8 @@
     } from 'vuex'
     import {
         required,
-        minLength,
         email,
+        minLength
     } from 'vuelidate/lib/validators'
     export default {
         name: 'Login',
@@ -59,39 +66,40 @@
                 },
                 loading: false,
                 rememberme: false,
+                status: null
             }
         },
         methods: {
             ...mapMutations([
-                'UPDATE_SNACKBAR',
-                'ADD_USER'
+                'ADD_USER',
+                'UPDATE_SNACKBAR'
             ]),
-            login: function () {
+            signIn: function () {
                 this.$v.$touch();
+                this.loading = true;
                 if (this.$v.$invalid) {
+                    this.loading = false;
                     return
                 } else {
-                    this.loading = true;
                     UserService.login(this.user).then(response => {
                         this.loading = false;
-                        if (response.data.error) {
-                            return this.UPDATE_SNACKBAR(response.data);
+                        if (response.data.message) {
+                            this.UPDATE_SNACKBAR(response.data)
                         } else {
                             var today = new Date();
-                            var expire = new Date();
                             if (this.rememberme) {
                                 //If remember me is checked, create cookie token cookie for a week
-                                expire.setTime(today.getTime() + 3600000 * 24 * 7);
+                                today.setTime(today.getTime() + 3600000 * 24 * 7);
                                 document.cookie = "token=" + escape(response.data.token) + ";expires=" +
-                                    expire.toGMTString();
+                                    today.toGMTString();
                             } else {
                                 //Otherwise set expiration for one hour
-                                expire.setTime(today.getTime() + 1 * 3600 * 1000);
+                                today.setTime(today.getTime() + 1 * 3600 * 1000);
                                 document.cookie = "token=" + escape(response.data.token) + ";expires=" +
-                                    expire.toGMTString();
+                                    today.toGMTString();
                             }
                             this.ADD_USER({
-                                username: response.data.username
+                                user: response.data
                             });
                             this.$router.push('/')
                         }
@@ -101,18 +109,34 @@
         },
         validations: {
             user: {
+                email: {
+                    minLength: minLength(4),
+                    email,
+                    required,
+                },
                 password: {
                     minLength: minLength(6),
                     required,
-                },
-                email: {
-                    minLength: minLength(4),
-                    required,
-                    email,
                 }
             }
         },
         computed: {
+            emailErrors() {
+                const errors = []
+                if (!this.$v.user.email.$dirty) {
+                    return errors
+                }
+                if (!this.$v.user.email.minLength) {
+                    errors.push(`Must be at least ${this.$v.user.email.$params.minLength.min} characters long`)
+                }
+                if (!this.$v.user.email.email) {
+                    errors.push(`Must be a valid email`)
+                }
+                if (!this.$v.user.email.required) {
+                    errors.push('Email is required')
+                }
+                return errors
+            },
             passwordErrors() {
                 const errors = []
                 if (!this.$v.user.password.$dirty) {
@@ -126,23 +150,11 @@
                 }
                 return errors
             },
-            emailErrors() {
-                const errors = []
-                if (!this.$v.user.email.$dirty) {
-                    return errors
-                }
-                if (!this.$v.user.email.email) {
-                    errors.push('Must be valid e-mail')
-                }
-                if (!this.$v.user.email.required) {
-                    errors.push('E-mail is required')
-                }
-                return errors
-            }
+
         }
     }
 </script>
 
-<style>
+<style scoped>
 
 </style>

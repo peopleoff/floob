@@ -13,7 +13,7 @@ export default new Vuex.Store({
   },
   mutations: {
     ADD_USER: (state, payload) => {
-      state.user = payload;
+      state.user = payload.user;
     },
     ADD_ROOM: (state, payload) => {
       state.room = payload;

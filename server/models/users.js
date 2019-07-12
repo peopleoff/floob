@@ -6,6 +6,14 @@ const User = mongoose.Schema({
     required: true,
     default: 1
   },
+  firstname: {
+    type: String,
+    required: true
+  },
+  lastname: {
+    type: String,
+    required: true
+  },
   username: {
     type: String,
     required: true
@@ -18,6 +26,9 @@ const User = mongoose.Schema({
     type: String,
     minlength: 8,
     required: true
+  },
+  resettoken: {
+    type: String
   },
   token: {
     type: String,
