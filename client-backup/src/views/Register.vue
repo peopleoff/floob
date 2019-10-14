@@ -132,6 +132,7 @@ export default {
               escape(response.data.token) +
               ';expires=' + 
               today.toGMTString()
+              console.log(response.data);
             this.ADD_USER({
               user: response.data.user,
               token: response.data.token

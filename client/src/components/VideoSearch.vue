@@ -15,6 +15,7 @@
       id="searchResults"
       v-if="clearResults"
       class="elevation-10 my-3"
+      v-clickOutside="clickOffSearch"
       :width="videoWidth()"
     >
       <v-list-item v-for="item in searchResult" :key="item.id.videoId">
@@ -75,7 +76,6 @@ export default {
         roomID: this.$route.params.id,
         user: this.$store.state.user
       }
-      console.log(newVideo)
       this.$socket.emit('addVideo', newVideo)
     },
     videoWidth() {

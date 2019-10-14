@@ -11,7 +11,7 @@
           </div>
           <!-- Video Player -->
           <div class="ma-2 flex-grow-1">
-            <VideoPlayer :videoQueue="VideoQue" />
+            <VideoPlayer :videoQueue="videoQueue" />
           </div>
           <!-- Video Actions -->
           <div class="ma-2">
@@ -33,13 +33,13 @@
           </div>
           <!-- Video Que -->
           <div class="ma-2">
-            <VideoQue :videoQue="VideoQue" />
+            <videoQueue :videoQueue="videoQueue" />
           </div>
         </div>
       </v-col>
       <!-- sidebar Layout -->
       <v-col :class="chatSize">
-        <v-row class="mx-0 h100">
+        <v-row class="mx-0 h100 w100">
           <Chat />
         </v-row>
       </v-col>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import VideoQue from '@/components/VideoQue'
+import videoQueue from '@/components/VideoQueue'
 import VideoSearch from '@/components/VideoSearch'
 import VideoPlayer from '@/components/VideoPlayer'
 import Chat from '@/components/Chat'
@@ -58,7 +58,7 @@ import { mapMutations } from 'vuex'
 export default {
   name: 'Room',
   components: {
-    VideoQue,
+    videoQueue,
     VideoSearch,
     VideoPlayer,
     Chat
@@ -67,19 +67,7 @@ export default {
     return {
       tab: null,
       tabs: 2,
-      VideoQue: [
-        {
-          _id: { $oid: '5d80ec67c06b571ce7fbab1e' },
-          skipCounter: [],
-          videoID: 'G55kLhv2d_4',
-          roomID: '5c560a64f0b68a2d6c02bfb8',
-          title: "How Micro Drill Bits Are Made | How It's Made",
-          channel: 'Science Channel',
-          image: 'https://i.ytimg.com/vi/G55kLhv2d_4/default.jpg',
-          date: { $date: { $numberLong: '1568730215628' } },
-          __v: { $numberInt: '0' }
-        }
-      ],
+      videoQueue: [],
       hideChat: false
     }
   },
@@ -99,16 +87,21 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['TOGGLE_LOADING']),
     newRoom() {
       let payload = {
         roomID: this.$route.params.id,
         username: this.$store.state.user
       }
       this.$socket.emit('newRoom', payload)
-      this.TOGGLE_LOADING()
     },
-    voteToSkip() {}
+    voteToSkip() {
+      let payload = {
+        roomID: this.$route.params.id,
+        video: this.videoQueue[0],
+        username: this.$store.state.user
+      }
+      this.$socket.emit('voteToSkip', payload)
+    }
   },
   computed: {
     videoSize: function() {

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const User = mongoose.Schema({
-  active:{
+  active: {
     type: Boolean,
     required: true,
     default: 1
@@ -23,7 +23,7 @@ const User = mongoose.Schema({
     type: String
   },
   token: {
-    type: String,
+    type: String
   },
   socketID: {
     type: String

@@ -73,11 +73,13 @@ function newUser(socket, payload) {
 }
 
 function addVideo(payload) {
+  console.log(payload);
   VideoController.add(payload)
     .then(result => {
       VideoController.getAll(payload.roomID)
         .then(videoResult => {
           io.sockets.in(payload.roomID).emit('getVideos', videoResult)
+          io.sockets.in(payload.roomID).emit('updateSnackbar', {type: 'success', message: 'Video Added'})
         })
         .catch(error => {
           catchError(error)

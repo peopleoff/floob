@@ -1,5 +1,7 @@
 <template>
-  <v-responsive id="player-body" height="100%"></v-responsive>
+  <v-responsive id="player-body" height="100%">
+    <div id="player"></div>
+  </v-responsive>
 </template>
 
 <script>
@@ -11,14 +13,13 @@ export default {
     return {}
   },
   methods: {
-    onYouTubeIframeAPIReady: function(videoId) {
+    onYouTubeIframeAPIReady: function(videoId, userId) {
       //First remove video player if present
-      console.log(videoId)
       if (document.getElementById('player')) {
         document.getElementById('player').remove()
-      };
+      }
       //Get video card parent
-      
+
       let playerCard = document.getElementsByClassName(
         'v-responsive__content'
       )[0]
@@ -29,23 +30,35 @@ export default {
       //Append Div to parent
       playerCard.appendChild(videoPlayer)
 
-      console.log(playerCard);
       //Init Iframe Injection into playerbody
+      let controls = 0
+      let disablekb = 0
+      if (this.$store.state.user._id == userId) {
+        controls = 1
+        disablekb = 1
+      }
       let player
       player = new YT.Player('player', {
         videoId: videoId,
         playerVars: {
           autoplay: 1,
-          controls: 0
+          controls: controls,
+          disablekb: disablekb,
+          modestbranding: 1
           // 'start': 60
         },
         events: {
           onReady: this.onPlayerReady,
-          onStateChange: this.onPlayerStateChange
+          onStateChange: this.onPlayerStateChange,
+          onApiChange: this.onApiChange
         }
       })
     },
     onPlayerReady: function(event) {
+      event.target.playVideo()
+    },
+    onApiChange: function(event) {
+      console.log(event);
       event.target.playVideo()
     },
     onPlayerStateChange: function(event) {
@@ -60,24 +73,24 @@ export default {
   },
   watch: {
     videoQueue: {
-    //   immediate: true,
+      // immediate: true,
       deep: true,
-      handler(nv, ov) {
-          console.log(nv);
-          console.log(ov);
+      handler(newValue, oldValue) {
         //If new array is empty, remove video Player
-        if (nv.length === 0) {
+        if (newValue.length == 0) {
           return document.getElementById('player').remove()
         }
         //If video queue was empty, play new video
-        if (!ov) {
-          return this.onYouTubeIframeAPIReady(this.videoQueue[0].videoID)
+        console.log(oldValue);
+        if (oldValue.length == 0) {
+          console.log("we in here")
+          return this.onYouTubeIframeAPIReady(this.videoQueue[0].videoID, this.videoQueue[0].userID)
         }
         //New video added to non-empty array. Do nothing
-        if (nv.length > ov.length) {
+        if (newValue.length > oldValue.length) {
           return
         }
-        this.onYouTubeIframeAPIReady(this.videoQueue[0].videoID)
+        this.onYouTubeIframeAPIReady(this.videoQueue[0].videoID,  this.videoQueue[0].userID)
       }
     }
   }
@@ -88,7 +101,6 @@ export default {
 #player {
   height: 100%;
   width: 100%;
-  padding: 10px;
 }
 
 #noVideo {

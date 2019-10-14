@@ -47,9 +47,14 @@ module.exports = {
       result.toJSON()
       delete result.password
       let token = signUser(result)
+      let user = {
+        _id: result._id,
+        email: result.email,
+        username: result.username
+      }
       return res.send({
         token: token,
-        user: result
+        user: user
       })
     })
   },

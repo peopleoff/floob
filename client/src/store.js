@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
 import router from './router'
 
 Vue.use(Vuex)
@@ -17,12 +18,6 @@ export default new Vuex.Store({
     },
     ADD_ROOM: (state, payload) => {
       state.room = payload
-    },
-    TOGGLE_SIDEBAR: state => {
-      state.chatroomSidebar = !state.chatroomSidebar
-    },
-    TOGGLE_LOADING: state => {
-      state.loading = false
     },
     UPDATE_SNACKBAR: (state, payload) => {
       state.snackbar = payload
@@ -45,5 +40,6 @@ export default new Vuex.Store({
       return state.token ? true : false
     }
   },
-  actions: {}
+  actions: {},
+  plugins: [new VuexPersistence().plugin]
 })

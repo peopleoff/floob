@@ -63,12 +63,12 @@
         <v-flex xs8>
           <v-card>
             <v-card-title class="justify-center">
-              <h3 class="text-xs-center">
+              <h4 class="text-xs-center">
                 Already have an account?
                 <router-link to="/login" class="white--text">
                   Sign In
                 </router-link>
-              </h3>
+              </h4>
             </v-card-title>
           </v-card>
         </v-flex>
@@ -133,7 +133,8 @@ export default {
               ';expires=' +
               today.toGMTString()
             this.ADD_USER({
-              user: response.data
+              token: response.data.token,
+              user: response.data.user
             })
             this.$router.push('/')
             this.loading = false

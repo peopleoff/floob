@@ -12,10 +12,18 @@
 import Sidebar from './components/includes/Sidebar'
 import Snackbar from './components/includes/Snackbar'
 
+import { mapMutations } from 'vuex'
+
 export default {
   components: {
     Sidebar,
     Snackbar
+  },
+  sockets: {
+    updateSnackbar(data) {
+      this.searchResult = data
+      this.UPDATE_SNACKBAR(data)
+    }
   },
   data: () => ({
     items: [
@@ -25,6 +33,9 @@ export default {
     ],
     right: null
   }),
+  methods: {
+    ...mapMutations(['UPDATE_SNACKBAR'])
+  },
   computed: {
     snackbar() {
       return this.$store.state.snackbar

@@ -52,12 +52,12 @@
         <v-flex xs8>
           <v-card>
             <v-card-title class="justify-center">
-              <h3 class="text-xs-center">
+              <h4 class="text-xs-center">
                 Need an account?
                 <router-link to="/register" class="white--text">
                   Register Here
                 </router-link>
-              </h3>
+              </h4>
             </v-card-title>
           </v-card>
         </v-flex>

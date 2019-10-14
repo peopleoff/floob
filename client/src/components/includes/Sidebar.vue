@@ -21,15 +21,20 @@
       <v-icon v-else>mdi-chevron-left</v-icon>
     </v-btn>
     <v-list nav>
-      <v-list-item v-for="item in items" :key="item.title" link :to="item.to">
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
+      <v-tooltip v-for="item in items" :key="item.title" right>
+        <template v-slot:activator="{ on }">
+          <v-list-item v-on="on" class="pointer" link :to="item.to">
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+        <span v-if="mini">{{ item.title }}</span>
+      </v-tooltip>
     </v-list>
     <template v-slot:append>
       <v-list nav v-if="loggedIn">
