@@ -1,7 +1,7 @@
 <template>
-    <v-snackbar v-model="active" bottom :color="snackbar.type" :timeout="timeout" v-if="snackbar">
+    <v-snackbar v-model="active" top right :color="snackbar.type" :timeout="timeout" v-if="snackbar">
         {{snackbar.message}}
-        <v-icon @click="snackbar.active = false">close</v-icon>
+        <v-icon @click="snackbar.active = false">mdi-close</v-icon>
     </v-snackbar>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div id="searchbar">
-        <v-text-field flat prepend-icon="search" label="Search" color="secondary" @input="searchVideos" v-model="searchCriteria"></v-text-field>
+        <v-text-field flat prepend-icon="search" label="Search" @input="searchVideos" v-model="searchCriteria"></v-text-field>
         <v-list subheader id="searchResults" v-if="clearResults" v-clickOutside="clickOffSearch">
             <v-subheader class="border-bottom">
                 Top Results
@@ -14,7 +14,7 @@
                     <v-list-tile-sub-title>- {{item.snippet.channelTitle}}</v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                    <v-icon color="secondary" class="pointer" @click="addVideo(item.id.videoId)">add</v-icon>
+                    <v-icon class="pointer" @click="addVideo(item.id.videoId)">add</v-icon>
                 </v-list-tile-action>
             </v-list-tile>
         </v-list>
@@ -37,7 +37,6 @@
         },
         sockets: {
             searchResult(data) {
-                console.log(data);
                 this.searchResult = data;
             },
         },

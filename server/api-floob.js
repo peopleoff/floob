@@ -4,34 +4,35 @@ const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
-const allowedOrigins = 'https://floob.club:* https://www.floob.club:* http://localhost:*'
+const allowedOrigins =
+  'https://floob.club:* https://www.floob.club:* http://localhost:*'
 const mongoose = require('mongoose')
-const {
-  catchError,
-  videoSearch,
-  guid
-} = require('./functions')
+const { catchError, videoSearch, guid } = require('./functions')
 const VideoController = require('./controllers/VideoController')
 const RoomController = require('./controllers/RoomController')
 // Connect to Database
 let mongoURL = process.env.API_FLOOB_MONGOURL
-console.log(mongoURL);
-mongoose.connect(mongoURL, {
-  useNewUrlParser: true
-}, function (error) {
-  if (!error) {
-    console.log('Mongo is running')
-  } else {
-    console.log(error);
+console.log(mongoURL)
+mongoose.connect(
+  mongoURL,
+  {
+    useNewUrlParser: true
+  },
+  function(error) {
+    if (!error) {
+      console.log('Mongo is running')
+    } else {
+      console.log(error)
+    }
   }
-})
+)
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
 require('./routes')(app)
 
-const server = app.listen(3000, function () {
+const server = app.listen(3000, function() {
   console.log('server running on port 3000')
 })
 
@@ -60,9 +61,7 @@ function searchVideos(payload, socket) {
 }
 
 function newUser(socket, payload) {
-  const {
-    roomID
-  } = payload
+  const { roomID } = payload
   VideoController.getAll(roomID)
     .then(result => {
       socket.emit('getVideos', result)
@@ -112,20 +111,20 @@ function voteToSkip(payload) {
   let votesNeeded = 0
   // Check if roomcount is defined
   if (roomCount) {
-    votesNeeded = (roomCount.length / 2)
+    votesNeeded = roomCount.length / 2
   }
   VideoController.voteToSkip(payload, votesNeeded)
     .then(result => {
       switch (result) {
         case 'Already Voted':
           break
-          // If deleted, get videos again and send to room.
+        // If deleted, get videos again and send to room.
         case 'Video Deleted':
           VideoController.getAll(payload.roomID).then(videoResult => {
             io.sockets.in(payload.roomID).emit('getVideos', videoResult)
           })
           break
-          // Default vote added, send back video with updated skipCounter
+        // Default vote added, send back video with updated skipCounter
         default:
           io.sockets.in(payload.roomID).emit('voteAdded', result)
           break
@@ -138,11 +137,9 @@ function voteToSkip(payload) {
 // <----------------------------Socket Functions----------------------------> //
 
 // <----------------------------Socket.io Listeners----------------------------> //
-io.on('connection', (socket) => {
-  socket.on('newRoom', (payload) => {
-    const {
-      roomID
-    } = payload
+io.on('connection', socket => {
+  socket.on('newRoom', payload => {
+    const { roomID } = payload
     socket.join(roomID)
     newUser(socket, payload)
   })

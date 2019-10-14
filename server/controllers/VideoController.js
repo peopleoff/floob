@@ -47,7 +47,7 @@ module.exports = {
           title: videoInfo.title,
           channel: videoInfo.channelTitle,
           image: videoInfo.thumbnails.default.url,
-          username: user.username
+          username: user.user.username
         })
         newVideo.save((error, result) => {
           if (error) {

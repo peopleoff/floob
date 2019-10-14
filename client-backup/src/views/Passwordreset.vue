@@ -4,7 +4,7 @@
             <v-layout align-center justify-center>
                 <v-flex xs12 sm8 md4>
                     <v-card class="elevation-12 mt-5">
-                        <v-toolbar color="primary">
+                        <v-toolbar>
                             <v-toolbar-title>Reset Password</v-toolbar-title>
                             <v-spacer></v-spacer>
                         </v-toolbar>
@@ -17,7 +17,7 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="primaryAction" @click="requestReset" :loading="loading" flat>Reset Password
+                            <v-btn @click="requestReset" :loading="loading" flat>Reset Password
                             </v-btn>
                         </v-card-actions>
                     </v-card>

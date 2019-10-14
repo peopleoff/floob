@@ -1,68 +1,63 @@
 <template>
-  <v-app dark>
-    <Loading v-if="loading" />
-    <Header />
+  <v-app>
+    <Sidebar />
     <v-content>
-      <v-container fluid>
-        <router-view />
-      </v-container>
+      <router-view />
       <Snackbar :snackbar="snackbar" />
     </v-content>
   </v-app>
 </template>
 
 <script>
-  import Header from './components/includes/Header'
-  import Snackbar from './components/includes/Snackbar'
-  import Loading from './components/includes/Loading'
+import Sidebar from './components/includes/Sidebar'
+import Snackbar from './components/includes/Snackbar'
 
-  export default {
-    name: 'App',
-    components: {
-      Header,
-      Snackbar,
-      Loading
-    },
-    data() {
-      return {
-        //
-      }
-    },
-    computed: {
-      snackbar() {
-        return this.$store.state.snackbar
-      },
-      loading() {
-        return this.$store.state.loading
-      }
+export default {
+  components: {
+    Sidebar,
+    Snackbar
+  },
+  data: () => ({
+    items: [
+      { title: 'Dashboard', icon: 'mdi-view-dashboard' },
+      { title: 'Photos', icon: 'mdi-image' },
+      { title: 'About', icon: 'mdi-help-box' }
+    ],
+    right: null
+  }),
+  computed: {
+    snackbar() {
+      return this.$store.state.snackbar
     }
   }
+}
 </script>
 
 <style>
-  .heading {
-    font-family: 'Domine', serif !important;
-  }
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+* {
+  font-family: 'Poppins', sans-serif;
+}
+.logo {
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+}
 
-  .grad-button {
-    background: linear-gradient(to right, #018786, #03DAC6);
-  }
+.h100 {
+  height: 100% !important;
+}
 
-  ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #F5F5F5;
-  }
+.w0 {
+  width: 0 !important;
+}
 
-  ::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
-  }
+.v-text-field--filled.v-text-field--single-line input,
+.v-text-field--full-width.v-text-field--single-line input {
+  margin-top: 0px !important;
+}
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #03DAC6;
-
-    background-image: -webkit-gradient(linear, 0 0, 0 100%,
-      color-stop(.5, rgba(255, 255, 255, .2)),
-      color-stop(.5, transparent), to(transparent));
-  }
+.pointer {
+  cursor: pointer;
+}
 </style>
