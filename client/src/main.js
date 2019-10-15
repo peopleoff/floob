@@ -5,7 +5,9 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import Vuelidate from 'vuelidate'
 import VueSocketIO from 'vue-socket.io'
+import VueYoutube from 'vue-youtube'
 
+Vue.use(VueYoutube)
 Vue.use(Vuelidate)
 Vue.use(
   new VueSocketIO({

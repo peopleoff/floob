@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const allowedOrigins =
-  'https://floob.club:* https://www.floob.club:* http://localhost:*'
+  'https://floob.gg:* https://www.floob.gg:* http://localhost:*'
 const mongoose = require('mongoose')
 const { catchError, videoSearch, guid } = require('./functions')
 const VideoController = require('./controllers/VideoController')

@@ -48,6 +48,7 @@ module.exports = {
       auth: process.env.API_FLOOB_YOUTUBEAPI,
       part: "snippet",
       maxResults: "10",
+      type: "video",
       q: q
     });
     return response;

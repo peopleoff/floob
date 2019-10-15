@@ -1,7 +1,7 @@
 <template>
-  <v-responsive id="player-body" height="100%">
+  <div id="aee" style="height: 100%; width: 100%;">
     <div id="player"></div>
-  </v-responsive>
+  </div>
 </template>
 
 <script>
@@ -20,9 +20,7 @@ export default {
       }
       //Get video card parent
 
-      let playerCard = document.getElementsByClassName(
-        'v-responsive__content'
-      )[0]
+      let playerCard = document.getElementById('aee');
       //Create video div for API to inject Iframe
       let videoPlayer = document.createElement('div')
       videoPlayer.setAttribute('id', 'player')
@@ -58,7 +56,6 @@ export default {
       event.target.playVideo()
     },
     onApiChange: function(event) {
-      console.log(event);
       event.target.playVideo()
     },
     onPlayerStateChange: function(event) {
@@ -81,16 +78,20 @@ export default {
           return document.getElementById('player').remove()
         }
         //If video queue was empty, play new video
-        console.log(oldValue);
         if (oldValue.length == 0) {
-          console.log("we in here")
-          return this.onYouTubeIframeAPIReady(this.videoQueue[0].videoID, this.videoQueue[0].userID)
+          return this.onYouTubeIframeAPIReady(
+            this.videoQueue[0].videoID,
+            this.videoQueue[0].userID
+          )
         }
         //New video added to non-empty array. Do nothing
         if (newValue.length > oldValue.length) {
           return
         }
-        this.onYouTubeIframeAPIReady(this.videoQueue[0].videoID,  this.videoQueue[0].userID)
+        this.onYouTubeIframeAPIReady(
+          this.videoQueue[0].videoID,
+          this.videoQueue[0].userID
+        )
       }
     }
   }

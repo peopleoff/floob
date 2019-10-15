@@ -100,7 +100,9 @@ export default {
         video: this.videoQueue[0],
         username: this.$store.state.user
       }
-      this.$socket.emit('voteToSkip', payload)
+      if (payload.video) {
+        this.$socket.emit('voteToSkip', payload)
+      }
     }
   },
   computed: {
