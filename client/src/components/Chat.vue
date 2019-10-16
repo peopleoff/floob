@@ -9,6 +9,8 @@
         prepend-inner-icon="mdi-youtube"
         label="Video Link"
         full-width
+        v-model="video"
+        @keydown.enter="addVideo"
       ></v-text-field>
     </div>
     <!-- Video Player -->
@@ -40,7 +42,8 @@ export default {
   data() {
     return {
       message: '',
-      messages: []
+      messages: [],
+      video: ''
     }
   },
   sockets: {
@@ -61,6 +64,10 @@ export default {
         let container = document.querySelector('#messages')
         container.scrollTop = container.scrollHeight
       }
+    },
+    addVideo(){
+      let user = this.$store.state.user
+      console.log(user);
     },
     popup() {
       window.open(

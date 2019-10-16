@@ -5,7 +5,7 @@
         to="/"
         tag="img"
         :src="require('@/assets/images/logo-text.svg')"
-        class="logo"
+        class="logo pointer"
       ></router-link>
     </v-list-item>
     <v-list-item v-else>
@@ -38,7 +38,7 @@
     </v-list>
     <template v-slot:append>
       <v-list nav v-if="loggedIn">
-        <v-list-item link to="/Login">
+        <v-list-item link>
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
@@ -46,9 +46,9 @@
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/Signup">
+        <v-list-item link>
           <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
+            <v-icon>mdi-settings</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Settings</v-list-item-title>

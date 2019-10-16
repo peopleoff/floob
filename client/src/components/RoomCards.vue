@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="mx-auto room-card" hover @click="enterRoom(room)">
+    <v-card class="mx-auto room-card" hover flat @click="enterRoom(room)">
       <v-card-text>
         <p class="display-1 font-weight-black">
           {{ room.name }}
