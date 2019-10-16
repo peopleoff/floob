@@ -54,6 +54,14 @@
             <v-list-item-title>Settings</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item link @click="logOut">
+          <v-list-item-icon>
+            <v-icon>mdi-exit-to-app</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Log Out</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
       <v-list nav v-else>
         <v-list-item link to="/Login">
@@ -78,16 +86,23 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
       mini: false,
       items: [
-        { title: 'Home', icon: 'mdi-home', to: '/' },
         { title: 'Search Rooms', icon: 'mdi-magnify' },
         { title: 'Public Rooms', icon: 'mdi-lock-open-variant' },
         { title: 'Private Rooms', icon: 'mdi-lock' }
       ]
+    }
+  },
+  methods: {
+    ...mapMutations(['LOGOUT_USER']),
+    logOut() {
+      console.log('asd')
+      this.LOGOUT_USER()
     }
   },
   computed: {

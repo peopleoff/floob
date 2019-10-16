@@ -2,7 +2,7 @@
   <div id="app">
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
-        <v-flex xs8>
+        <v-flex xs4>
           <v-card class="elevation-12 mt-5">
             <v-toolbar>
               <v-toolbar-title>Register Form</v-toolbar-title>
@@ -60,7 +60,7 @@
     </v-container>
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
-        <v-flex xs8>
+        <v-flex xs4>
           <v-card>
             <v-card-title class="justify-center">
               <h4 class="text-xs-center">
@@ -125,6 +125,11 @@ export default {
       } else {
         UserService.Register(this.user)
           .then(response => {
+            if(response.data.error){
+              this.UPDATE_SNACKBAR(response.data)
+              this.loading = false;
+              return;
+            }
             let today = new Date()
             today.setTime(today.getTime() + 3600000 * 24 * 7)
             document.cookie =

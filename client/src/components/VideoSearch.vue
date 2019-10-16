@@ -90,6 +90,9 @@ export default {
         return true
       }
       return false
+    },
+    loggedIn() {
+      return this.$store.getters.loggedIn
     }
   }
 }

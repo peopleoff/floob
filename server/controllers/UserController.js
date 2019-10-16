@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const salt = '$2a$10$Q/AH0MPPKyMVNzshASojgO'
 const { signUser, decodeToken } = require('../config/auth')
-const { catchError } = require('../functions')
 const jwtSecret = require('../config/config').authentication.jwtSecret
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.API_FLOOB_SENDGRIDAPI)
@@ -24,17 +23,17 @@ module.exports = {
       })
     }
     let User = await Users.findOne({
-      email: req.body.email
+      username: req.body.username
     })
     if (User) {
       return res.send({
         error: true,
-        message: 'Email already registered',
+        message: 'Username already exists',
         type: 'error'
       })
     }
     req.body.password = bcrypt.hashSync(req.body.password, salt)
-    req.body.email = req.body.email.toLowerCase()
+
     let newUser = new Users(req.body)
     newUser.save((error, result) => {
       if (error) {

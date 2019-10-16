@@ -27,7 +27,7 @@ export default new Vuex.Store({
       document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
       router.push('/')
     },
-    logout(state) {
+    LOGOUT_USER(state) {
       state.user = null
       state.token = null
     }

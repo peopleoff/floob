@@ -53,6 +53,7 @@ export default {
       })
     },
     onPlayerReady: function(event) {
+      console.log(event);
       event.target.playVideo()
     },
     onApiChange: function(event) {
