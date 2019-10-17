@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent app :mini-variant="mini">
+  <v-navigation-drawer permanent app :mini-variant="mini" color="purple">
     <v-list-item v-if="!mini">
       <router-link
         to="/"
@@ -13,7 +13,7 @@
         to="/"
         tag="img"
         :src="require('@/assets/images/logo.svg')"
-        class="logo"
+        class="logo pointer"
       ></router-link>
     </v-list-item>
     <v-btn icon @click.stop="mini = !mini" class="mini">
@@ -38,30 +38,45 @@
     </v-list>
     <template v-slot:append>
       <v-list nav v-if="loggedIn">
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Account</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-settings</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link @click="logOut">
-          <v-list-item-icon>
-            <v-icon>mdi-exit-to-app</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Log Out</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-list-item v-on="on" class="pointer" link>
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Account</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+          <span v-if="mini">Account</span>
+        </v-tooltip>
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-list-item v-on="on" class="pointer" link>
+              <v-list-item-icon>
+                <v-icon>mdi-settings</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Settings</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+          <span v-if="mini">Settings</span>
+        </v-tooltip>
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-list-item v-on="on" @click="logOut()" class="pointer" link>
+              <v-list-item-icon>
+                <v-icon>mdi-exit-to-app</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Log Out</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+          <span v-if="mini">Log Out</span>
+        </v-tooltip>
       </v-list>
       <v-list nav v-else>
         <v-list-item link to="/Login">
@@ -90,7 +105,7 @@ import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
-      mini: false,
+      mini: true,
       items: [
         { title: 'Search Rooms', icon: 'mdi-magnify' },
         { title: 'Public Rooms', icon: 'mdi-lock-open-variant' },
@@ -101,7 +116,7 @@ export default {
   methods: {
     ...mapMutations(['LOGOUT_USER']),
     logOut() {
-      this.LOGOUT_USER();
+      this.LOGOUT_USER()
     }
   },
   computed: {

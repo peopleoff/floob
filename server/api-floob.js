@@ -13,7 +13,7 @@ const VideoController = require('./controllers/VideoController')
 const RoomController = require('./controllers/RoomController')
 // Connect to Database
 let mongoURL = process.env.API_FLOOB_MONGOURL
-console.log(mongoURL)
+
 mongoose.connect(
   mongoURL,
   {
@@ -36,7 +36,6 @@ require('./routes')(app)
 const server = app.listen(3000, function() {
   console.log('server running on port 3000')
 })
-send();
 
 const io = require('socket.io')(server, {
   origins: allowedOrigins,

@@ -5,7 +5,7 @@
         <v-flex xs8 md6 lg4>
           <v-card class="elevation-12 mt-5">
             <v-form @keyup.native.enter="signIn">
-              <v-toolbar>
+              <v-toolbar color="purple">
                 <v-toolbar-title>Login form</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
@@ -50,7 +50,7 @@
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs8 md6 lg4>
-          <v-card>
+          <v-card color="primary">
             <v-card-title class="justify-center">
               <h4 class="text-xs-center">
                 Need an account?

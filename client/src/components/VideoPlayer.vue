@@ -13,10 +13,18 @@ export default {
     return {}
   },
   methods: {
-    onYouTubeIframeAPIReady: function(videoId, userId) {
+    onYouTubeIframeAPIReady: function(video) {
       //First remove video player if present
       if (document.getElementById('player')) {
         document.getElementById('player').remove()
+      }
+      let videoID = video.videoID;
+      let videoUserID = video.userID;
+      let currentUserID;
+      if(this.$store.state.user){
+        currentUserID = this.$store.state.user._id;
+      }else{
+        currentUserID = null;
       }
       //Get video card parent
 
@@ -31,13 +39,13 @@ export default {
       //Init Iframe Injection into playerbody
       let controls = 0
       let disablekb = 0
-      if (this.$store.state.user._id == userId) {
+      if (currentUserID == videoUserID) {
         controls = 1
         disablekb = 1
       }
       let player
       player = new YT.Player('player', {
-        videoId: videoId,
+        videoId: videoID,
         playerVars: {
           autoplay: 1,
           controls: controls,
@@ -81,8 +89,7 @@ export default {
         //If video queue was empty, play new video
         if (oldValue.length == 0) {
           return this.onYouTubeIframeAPIReady(
-            this.videoQueue[0].videoID,
-            this.videoQueue[0].userID
+            this.videoQueue[0]
           )
         }
         //New video added to non-empty array. Do nothing
@@ -90,8 +97,7 @@ export default {
           return
         }
         this.onYouTubeIframeAPIReady(
-          this.videoQueue[0].videoID,
-          this.videoQueue[0].userID
+          this.videoQueue[0]
         )
       }
     }

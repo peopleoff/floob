@@ -90,7 +90,7 @@ module.exports = {
       };
 
       //Send email
-      send();
+      send(result.email);
       return res.send({
         token: token,
         user: user

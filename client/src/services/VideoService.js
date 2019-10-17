@@ -6,5 +6,8 @@ export default {
   },
   getAll(data){
     return Api().post('videos/getAll', data);
+  },
+  getThumbnail(data){
+    return Api().post('videos/getThumbnail', data);
   }
 }

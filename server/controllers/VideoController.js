@@ -127,5 +127,28 @@ module.exports = {
         }
       )
     })
-  }
+  },
+  getThumbnail(req, res) {
+    Video.findOne({
+      roomID: req.body.roomID
+    }).then(result => {
+      if(result){
+        return res.send({
+          error: false,
+          image: result.image
+        })
+      }else{
+        return res.send({
+          error: false,
+          image: null
+        })
+      }
+    })
+    .catch(error => {
+      return res.send({
+        error: true,
+        message: error
+      })
+    })
+  },
 }
