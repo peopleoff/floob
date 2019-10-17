@@ -5,9 +5,31 @@ import Room from './views/Room.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
 
+//Import Store
+import store from './store';
+
+
+//Import UserService to login user from router
+import UserService from '@/services/UserService'
+
 Vue.use(Router)
 
-export default new Router({
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+function setError(message) {
+  store.commit('UPDATE_SNACKBAR', {
+    error: true,
+    type: 'error',
+    message: message
+  })
+}
+
+
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -42,3 +64,33 @@ export default new Router({
     }
   ]
 })
+
+
+router.beforeEach((to, from, next) => {
+
+  function tokenLogin() {
+
+    let token = getCookie('token');
+    let user = store.state.user
+
+    //If no user & token is in cookies sign user in.
+    if (!user && token) {
+      UserService.login({
+        token: token
+      }).then(response => {
+        if (response.data.error) {
+          setError('Error signing in')
+          store.commit('LOGOUT_USER')
+        } else {
+          console.log(response);
+          store.commit('ADD_USER', response.data)
+        }
+      })
+    }
+  }
+
+  tokenLogin();
+  next();
+});
+
+export default router

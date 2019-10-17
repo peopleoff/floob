@@ -22,14 +22,10 @@ export default new Vuex.Store({
     UPDATE_SNACKBAR: (state, payload) => {
       state.snackbar = payload
     },
-    SIGN_OUT: state => {
-      state.user = null
-      document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
-      router.push('/')
-    },
     LOGOUT_USER(state) {
-      state.user = null
-      state.token = null
+      state.user = null;
+      state.token = null;
+      document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
     }
   },
   getters: {

@@ -8,6 +8,7 @@ const allowedOrigins =
   'https://floob.gg:* https://www.floob.gg:* http://localhost:*'
 const mongoose = require('mongoose')
 const { catchError, videoSearch, guid } = require('./functions')
+const {send } = require('./controllers/MailController');
 const VideoController = require('./controllers/VideoController')
 const RoomController = require('./controllers/RoomController')
 // Connect to Database
@@ -35,6 +36,7 @@ require('./routes')(app)
 const server = app.listen(3000, function() {
   console.log('server running on port 3000')
 })
+send();
 
 const io = require('socket.io')(server, {
   origins: allowedOrigins,

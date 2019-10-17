@@ -101,8 +101,7 @@ export default {
   methods: {
     ...mapMutations(['LOGOUT_USER']),
     logOut() {
-      console.log('asd')
-      this.LOGOUT_USER()
+      this.LOGOUT_USER();
     }
   },
   computed: {
