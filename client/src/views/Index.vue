@@ -8,7 +8,6 @@
       <v-col
         v-for="room in publicRooms"
         :key="room._id"
-        cols="12"
         sm="6"
         md="4"
         lg="3"

@@ -2,10 +2,10 @@
   <div id="app">
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
-        <v-flex xs8 md6 lg4>
+        <v-flex xs12 md6 lg4>
           <v-card class="elevation-12 mt-5">
             <v-toolbar color="primary">
-              <v-toolbar-title>Getting back into your Floob account</v-toolbar-title>
+              <v-toolbar-title>Getting back into Floob</v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
@@ -19,6 +19,7 @@
                   label="Username or Email"
                   type="text"
                   v-model="username"
+                  @keydown.enter="requestPasswordChange"
                 ></v-text-field>
               </v-form>
             </v-card-text>
@@ -67,6 +68,7 @@ export default {
           .then(response => {
             this.UPDATE_SNACKBAR(response.data);
             this.loading = false;
+            this.username = '';
           })
           .catch(error => {
             this.UPDATE_SNACKBAR(error)

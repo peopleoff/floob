@@ -9,9 +9,15 @@ import VueYoutube from 'vue-youtube'
 
 Vue.use(VueYoutube)
 Vue.use(Vuelidate)
+
+let socketDebug = true;
+if(process.env.NODE_ENV === 'production') {
+  socketDebug = false;
+}
+
 Vue.use(
   new VueSocketIO({
-    debug: true,
+    debug: socketDebug,
     connection: process.env.VUE_APP_API
   })
 )

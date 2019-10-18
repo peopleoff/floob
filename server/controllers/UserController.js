@@ -112,9 +112,8 @@ module.exports = {
     if (req.body.token) {
       tokenLogin(req.body.token, res)
     } else {
-      req.body.username = req.body.username.toLowerCase()
       Users.findOne({
-        username: req.body.username
+        username: req.body.username.toLowerCase()
       }).then(User => {
         if (!User) {
           return res.send({

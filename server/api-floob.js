@@ -13,6 +13,8 @@ const RoomController = require('./controllers/RoomController')
 // Connect to Database
 let mongoURL = process.env.API_FLOOB_MONGOURL
 
+console.log(mongoURL);
+
 mongoose.connect(
   mongoURL,
   {
