@@ -4,6 +4,7 @@ import Index from './views/Index.vue'
 import Room from './views/Room.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
+import PasswordReset from './views/PasswordReset.vue'
 
 //Import Store
 import store from './store';
@@ -44,6 +45,11 @@ const router = new Router({
       component: Room
     },
     {
+      path: '/PasswordReset/:token',
+      name: 'PasswordReset',
+      component: PasswordReset
+    },
+    {
       path: '/Login',
       name: 'Login',
       component: Login
@@ -54,14 +60,14 @@ const router = new Router({
       component: Signup
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/AccountRecovery',
+      name: 'AccountRecovery',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
+        import(/* webpackChunkName: "about" */ './views/AccountRecovery.vue')
+    },
   ]
 })
 

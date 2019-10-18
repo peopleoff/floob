@@ -27,7 +27,7 @@
                   :error-messages="passwordErrors"
                 ></v-text-field>
                 <router-link
-                  to="/PasswordReset"
+                  to="/AccountRecovery"
                   class="text-xs-right white--text"
                   style="float: right;"
                 >
@@ -54,7 +54,7 @@
             <v-card-title class="justify-center">
               <h4 class="text-xs-center">
                 Need an account?
-                <router-link to="/register" class="white--text">
+                <router-link to="/Signup" class="white--text">
                   Register Here
                 </router-link>
               </h4>

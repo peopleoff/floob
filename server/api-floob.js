@@ -8,7 +8,6 @@ const allowedOrigins =
   'https://floob.gg:* https://www.floob.gg:* http://localhost:*'
 const mongoose = require('mongoose')
 const { catchError, videoSearch, guid } = require('./functions')
-const {send } = require('./controllers/MailController');
 const VideoController = require('./controllers/VideoController')
 const RoomController = require('./controllers/RoomController')
 // Connect to Database
@@ -41,7 +40,6 @@ const io = require('socket.io')(server, {
   origins: allowedOrigins,
   secure: true
 })
-
 // <----------------------------Socket Functions----------------------------> //
 
 function addMessage(payload) {

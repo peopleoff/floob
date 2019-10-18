@@ -79,15 +79,22 @@
         </v-tooltip>
       </v-list>
       <v-list nav v-else>
-        <v-list-item link to="/Login">
-          <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Log In</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link to="/Signup">
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-list-item v-on="on" class="pointer" link to="/Login">
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Log In</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+          <span v-if="mini">Log In</span>
+        </v-tooltip>
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+        <v-list-item v-on=on link to="/Signup">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
@@ -95,6 +102,9 @@
             <v-list-item-title>Sign Up</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+          </template>
+          <span v-if="mini">Sign Up</span>
+        </v-tooltip>
       </v-list>
     </template>
   </v-navigation-drawer>
