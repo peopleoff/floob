@@ -1,41 +1,56 @@
 <template>
-  <div>
-    <v-container fluid fill-height>
-      <v-layout align-center justify-center>
-        <v-flex xs12 md8 lg6>
-          <v-card class="elevation-12 mt-5">
-            <SignupForm />
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
-    <v-container fluid fill-height>
-      <v-layout align-center justify-center>
-        <v-flex xs12 md8 lg6>
-          <v-card color="primary">
-            <v-card-title class="justify-center">
-              <h4 class="text-xs-center">
-                Already have an account?
-                <router-link to="/login" class="white--text">Sign In</router-link>
-              </h4>
-            </v-card-title>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </div>
+  <v-form @keyup.native.enter="Register">
+    <v-toolbar color="purple">
+      <v-toolbar-title>Sign Up</v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-card-text>
+      <v-text-field
+        prepend-icon="mdi-account"
+        name="username"
+        label="Username"
+        type="text"
+        v-model="user.username"
+        :error-messages="usernameErrors"
+      ></v-text-field>
+      <v-text-field
+        prepend-icon="mdi-email"
+        name="email"
+        label="Email"
+        type="email"
+        v-model="user.email"
+        :error-messages="emailErrors"
+      ></v-text-field>
+      <v-text-field
+        prepend-icon="mdi-lock"
+        name="password"
+        label="Password"
+        type="password"
+        v-model="user.password"
+        :error-messages="passwordErrors"
+      ></v-text-field>
+      <v-text-field
+        prepend-icon="mdi-lock"
+        name="confirmPassword"
+        label="Confirm Password"
+        type="password"
+        v-model="user.confirmPassword"
+        :error-messages="confirmPasswordErrors"
+      ></v-text-field>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn @click="Register" :loading="loading">Sign Up</v-btn>
+    </v-card-actions>
+  </v-form>
 </template>
 
 <script>
 import UserService from "@/services/UserService";
-import SignupForm from "@/components/SignupForm";
 import { mapMutations } from "vuex";
 import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
 export default {
   name: "Signup",
-  components: {
-    SignupForm
-  },
   data() {
     return {
       user: {

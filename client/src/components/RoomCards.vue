@@ -1,12 +1,10 @@
 <template>
-  <div>
     <v-card
       class="mx-auto room-card"
       color="primary"
       hover
-      shaped
-      :id="room._id"
-      @click="enterRoom(room)"
+      :id="room.id"
+      :to="'room/'+room.id"
     >
       <v-card-text>
         <p class="display-1 font-weight-black">
@@ -15,26 +13,6 @@
         <p class="black--text">{{ room.description }}</p>
       </v-card-text>
     </v-card>
-    <v-dialog v-if="selectedRoom" v-model="dialog" width="500">
-      <v-card>
-        <v-card-title class="headline" primary-title>
-          {{ this.selectedRoom.name }}
-        </v-card-title>
-        <v-card-text>
-          <v-text-field
-            type="text"
-            label="Enter Room Password"
-            v-model="password"
-            ref="search"
-          ></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn @click="checkRoomPassword" :loading="loading">Enter</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
 </template>
 
 <script>
@@ -56,41 +34,6 @@ export default {
   },
   methods: {
     ...mapMutations(['UPDATE_SNACKBAR']),
-    checkRoomPassword() {
-      if (this.password && !this.loading) {
-        this.loading = true
-        let payload = {
-          roomID: this.selectedRoom._id,
-          password: this.password
-        }
-        RoomService.checkRoomPassword(payload)
-          .then(result => {
-            this.loading = false
-            if (result.data) {
-              this.$router.push({
-                path: '/room/' + this.roomID
-              })
-            } else {
-              let newError = {
-                error: true,
-                type: 'error',
-                message: 'Invalid Password'
-              }
-              this.UPDATE_SNACKBAR(newError)
-            }
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      } else {
-        let newError = {
-          error: true,
-          type: 'error',
-          message: 'Invalid Password'
-        }
-        this.UPDATE_SNACKBAR(newError)
-      }
-    },
     enterRoom(room) {
       if (room.password) {
         this.selectedRoom = room
@@ -119,7 +62,7 @@ export default {
 
 <style scoped>
 .room-card {
-  height: 150px;
+  height: 15vh;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

@@ -124,9 +124,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['LOGOUT_USER']),
+    ...mapMutations(['LOGOUT_USER', 'UPDATE_SNACKBAR']),
     logOut() {
-      this.LOGOUT_USER()
+      this.LOGOUT_USER();
+      this.UPDATE_SNACKBAR({
+        type: 'success',
+        message: 'Signed Out'
+      })
     }
   },
   computed: {

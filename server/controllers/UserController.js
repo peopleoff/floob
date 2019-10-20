@@ -1,291 +1,299 @@
-const Users = require('../models/users')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const salt = '$2a$10$Q/AH0MPPKyMVNzshASojgO'
-const { signUser, decodeToken } = require('../config/auth')
+const { users } = require("../models");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { signUser } = require("../config/auth");
 const {
   passwordResetEmail,
   welcomeEmail
-} = require('../controllers/MailController')
-const jwtSecret = require('../config/config').authentication.jwtSecret
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.API_FLOOB_SENDGRIDAPI)
-
-function validateEmail(email) {
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  return re.test(String(email).toLowerCase())
-}
+} = require("../controllers/MailController");
+const jwtSecret = require("../config/config").authentication.jwtSecret;
+const salt = require("../config/config").authentication.salt;
+const sgMail = require("@sendgrid/mail");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
+sgMail.setApiKey(process.env.API_FLOOB_SENDGRIDAPI);
 
 function tokenLogin(token, res) {
   try {
-    decoded = jwt.verify(token, jwtSecret).user
-
-    let username = decoded.username.toLowerCase()
-    let password = decoded.password
-
-    Users.findOne({
-      active: 1,
-      username: username,
-      password: password
-    }).then(User => {
-      if (!User) {
-        return res.send({
-          error: true,
-          message: 'Username or Password is incorrect',
-          type: 'error'
-        })
-      } else {
-        User.toJSON()
-        delete User.password
-        let token = signUser(User)
-        return res.send({
-          token: token,
-          user: User
-        })
-      }
-    })
+    decoded = jwt.verify(token, jwtSecret).user;
+    let username = decoded.username.toLowerCase();
+    let password = decoded.password;
+    users
+      .findOne({
+        active: 1,
+        username: username,
+        password: password
+      })
+      .then(response => {
+        if (!response) {
+          return res.send({
+            error: true,
+            type: "error",
+            message: "Username or Password is incorrect"
+          });
+        } else {
+          let token = signUser(response);
+          let user = {
+            id: response.id,
+            email: response.email,
+            username: response.username
+          };
+          return res.send({
+            token: token,
+            user: user
+          });
+        }
+      });
   } catch (err) {
     return res.send({
-      type: 'error',
+      error: true,
+      type: "error",
       message: err
-    })
+    });
   }
 }
 
 module.exports = {
-  async register(req, res) {
+  register(req, res) {
     if (!req.body) {
       return res.send({
         error: true,
-        message: 'Please fill out all fields',
-        type: 'error'
-      })
+        type: "error",
+        message: "No Information submitted"
+      });
     }
-    let User = await Users.findOne({
-      username: req.body.username
-    })
-    if (User) {
+    if (req.body.password !== req.body.confirmPassword) {
       return res.send({
         error: true,
-        message: 'Username already exists',
-        type: 'error'
-      })
+        type: "error",
+        message: "Passwords do not match"
+      });
     }
-    req.body.password = bcrypt.hashSync(req.body.password, salt)
-
-    let newUser = new Users(req.body)
-    newUser.save((error, result) => {
-      if (error) {
+    users
+      .findOne({
+        where: {
+          [Op.or]: [
+            {
+              username_lowercase: req.body.username.toLowerCase()
+            },
+            {
+              email_lowercase: req.body.email.toLowerCase()
+            }
+          ]
+        }
+      })
+      .then(user => {
+        if (user) {
+          return res.send({
+            error: true,
+            type: "error",
+            message: "User already exsists"
+          });
+        } else {
+          req.body.password = bcrypt.hashSync(req.body.password, salt);
+          users.create(req.body).then(response => {
+            let token = signUser(response);
+            let user = {
+              id: response.id,
+              email: response.email,
+              username: response.username
+            };
+            welcomeEmail(response.email);
+            return res.send({
+              token: token,
+              user: user
+            });
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
         return res.send({
           error: true,
-          message: error,
-          type: 'error'
-        })
-      }
-      result.toJSON()
-      delete result.password
-      let token = signUser(result)
-      let user = {
-        _id: result._id,
-        email: result.email,
-        username: result.username
-      }
-
-      //Send email
-      welcomeEmail(result.email)
-      return res.send({
-        token: token,
-        user: user
-      })
-    })
+          type: "error",
+          message: err
+        });
+      });
   },
   login(req, res) {
     //If no post data is sent, return error
     if (!req.body) {
       return res.send({
         error: true,
-        message: 'Error',
-        type: 'error'
-      })
+        type: "error",
+        message: "Error"
+      });
     }
     //Check for token login
     if (req.body.token) {
-      tokenLogin(req.body.token, res)
+      tokenLogin(req.body.token, res);
     } else {
-      Users.findOne({
-        username: req.body.username.toLowerCase()
-      }).then(User => {
-        if (!User) {
-          return res.send({
-            error: true,
-            message: 'Username or Password is incorrect',
-            type: 'error'
-          })
-        } else {
-          if (
-            bcrypt.compareSync(req.body.password, User.password) &&
-            User.active == 1
-          ) {
-            User.toJSON()
-            delete User.password
-            let token = signUser(User)
-            return res.send({
-              token: token,
-              user: User
-            })
-          } else {
+      users
+        .findOne({
+          status_id: 1,
+          [Op.or]: [
+            { email_lowercase: req.body.username.toLowerCase() },
+            { username_lowercase: req.body.username.toLowerCase() }
+          ]
+        })
+        .then(response => {
+          if (!response) {
             return res.send({
               error: true,
-              message: 'Email or Password incorrect',
-              type: 'error'
-            })
+              type: "error",
+              message: "Username or Password is incorrect"
+            });
+          } else {
+            let passwordMatch = bcrypt.compareSync(
+              req.body.password,
+              response.password
+            );
+            if (passwordMatch) {
+              let token = signUser(response);
+              let user = {
+                id: response.id,
+                email: response.email,
+                username: response.username
+              };
+              return res.send({
+                token: token,
+                user: user
+              });
+              return res.send({
+                error: true,
+                type: "error",
+                message: "Email or Password incorrect"
+              });
+            }
           }
-        }
-      })
+        });
     }
   },
-  tokenLogin(req, res) {
-    try {
-      decoded = jwt.verify(req.body.token, jwtSecret).user
-      return res.send({
-        token: req.body.token,
-        username: decoded.username
-      })
-    } catch (err) {
+  requestPasswordChange(req, res) {
+    if (!req.body.username) {
       return res.send({
         error: true,
-        type: 'error',
-        message: err
-      })
+        message: "Please fill out all fields",
+        type: "error"
+      });
     }
-  },
-
-  requestPasswordChange(req, res) {
-    if (!req.body) {
-      return res.send({
-        message: 'Please fill out all fields',
-        type: 'error'
-      })
-    }
-
     let token = jwt.sign(
       {
-        email: req.body.email
+        username: req.body.username
       },
       jwtSecret,
       {
-        expiresIn: '30m'
+        expiresIn: "30m"
       }
-    )
-    Users.findOneAndUpdate(
-      {
-        $or: [{ email: req.body.username }, { username: req.body.username }]
-      },
-      {
-        resettoken: token
-      },
-      {
-        new: true
-      }
-    )
+    );
+    users
+      .update(
+        {
+          reset_token: token
+        },
+        {
+          where: {
+            [Op.or]: [
+              { email_lowercase: req.body.username.toLowerCase() },
+              { username_lowercase: req.body.username.toLowerCase() }
+            ]
+          }
+        }
+      )
       .then(user => {
-        if (user) {
-          passwordResetEmail(user.email, user.username, user.resettoken)
+        //If no user found. Return generic message
+        if (!user[0]) {
           return res.send({
             error: false,
-            type: 'success',
-            message: 'Thank you a password reset has to been sent'
-          })
+            type: "success",
+            message: "Thank you a password reset has to been sent"
+          });
         } else {
-          return res.send({
-            error: false,
-            type: 'success',
-            message: 'Thank you a password reset has to been sent'
-          })
+          users
+            .findOne({
+              reset_token: token
+            })
+            .then(result => {
+              passwordResetEmail(
+                result.email,
+                result.username,
+                result.resettoken
+              );
+              return res.send({
+                error: false,
+                type: "success",
+                message: "Thank you a password reset has to been sent"
+              });
+            })
+            .catch(error => {
+              console.error(error);
+            });
         }
       })
       .catch(error => {
         return res.send({
           error: true,
-          type: 'error',
+          type: "error",
           message: error
-        })
-      })
-    // Users.findOneAndUpdate(
-    //   {
-    //     email: req.body.email
-    //   },
-    //   {
-    //     resettoken: token
-    //   }
-    // )
-    //   .then(user => {
-    //     if (user) {
-    //       const msg = {
-    //         to: req.body.email,
-    //         from: "support@floob.club",
-    //         subject: "Floob Password Reset",
-    //         html: `
-    //           Please use the following link to <a href="https://floob.club/reset/${token}"> reset your password </a>
-    //           <br>
-    //           If you did not request this password change please feel free to ignore it.
-    //           <br>
-    //       `
-    //       };
-    //       sgMail.send(msg);
-    //     }
-    //     return res.send({
-    //       message: "Email has been sent"
-    //     });
-    //   })
-    //   .catch(error => {
-    //     return res.send({
-    //       message: error,
-    //       type: "error"
-    //     });
-    //   });
+        });
+      });
   },
   changePassword(req, res) {
     if (!req.body) {
       return res.send({
-        message: 'Please try again',
-        type: 'error'
-      })
+        error: true,
+        type: "error",
+        message: "Please try again"
+      });
     }
+    if (req.body.password !== req.body.confirmPassword) {
+      return res.send({
+        error: true,
+        type: "error",
+        message: "Passwords do not match"
+      });
+    }
+    //Decode token to get email
     jwt.verify(req.body.token, jwtSecret, function(err, decoded) {
       if (!decoded) {
         return res.send({
           error: true,
-          type: 'error',
-          message: 'Token has expired. Please resend password reset.'
-        })
+          type: "error",
+          message: "Token has expired. Please resend password reset."
+        });
       } else {
-        req.body.password = bcrypt.hashSync(req.body.password, salt)
-        Users.update(
-          {
-            resettoken: req.body.token
-          },
-          {
-            password: req.body.password
-          }
-        )
+        let newPassword = bcrypt.hashSync(req.body.password, salt);
+        users
+          .update(
+            {
+              password: newPassword
+            },
+            {
+              where: {
+                username_lowercase: decoded.username.toLowerCase()
+              }
+            }
+          )
           .then(result => {
-            if (result[0] !== 0) {
+            //if no user found, return error
+            if (!result[0]) {
+              return res.send({
+                error: true,
+                type: "error",
+                message: "Error updating password. Please try to reset again."
+              });
+            } else {
               return res.send({
                 error: false,
-                type: 'success',
-                message: 'Your password has been succesfully changed'
-              })
+                type: "success",
+                message: "Password reset. Please login again"
+              });
             }
           })
           .catch(error => {
-            return res.send({
-              error: true,
-              type: 'error',
-              message: error
-            })
-          })
+            console.error(error);
+          });
       }
-    })
+    });
   }
-}
+};

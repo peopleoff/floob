@@ -13,11 +13,10 @@ module.exports = (app) => {
     //User's Requests
     app.post('/users/register', UserController.register);
     app.post('/users/login', UserController.login);
-    app.post('/users/tokenLogin', UserController.tokenLogin);
     app.post('/users/requestPasswordChange', UserController.requestPasswordChange);
     app.post('/users/changePassword', UserController.changePassword);
     //Rooms Requests
     app.post('/rooms/register', RoomController.register);
-    app.post('/rooms/checkPassword', RoomController.checkPassword);
+    // app.post('/rooms/checkPassword', RoomController.checkPassword);
 
 };

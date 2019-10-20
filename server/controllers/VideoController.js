@@ -1,76 +1,61 @@
-const Video = require('../models/videos')
-const { getVideoID, getVideoInfo } = require('../functions')
-const { catchError } = require('../functions')
+const {videos} = require("../models");
+const { getVideoID, getVideoInfo } = require("../functions");
 
 module.exports = {
   getAll(id) {
-    return new Promise(resolve => {
-      Video.find(
-        {
-          roomID: id
-        },
-        null,
-        {
-          sort: {
-            date: 1
-          }
-        },
-        (error, result) => {
-          if (error) {
-            return error
-          }
-          resolve(result)
-        }
-      )
-    })
+    return new Promise((resolve, reject) => {
+      videos
+        .findAll({
+          where: {
+            roomID: id
+          },
+          order: [
+            ['createdAt', 'DESC'],
+          ]
+        })
+        .then(result => {
+          resolve(result);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   },
   add(payload) {
     return new Promise((resolve, reject) => {
-      const { videoLink, roomID, pure, user } = payload
-      videoID = ''
+      const { videoLink, roomID, pure, user } = payload;
+      videoID = "";
       //Pure means Pure video ID was passed
       if (pure) {
-        videoID = videoLink
+        videoID = videoLink;
       } else {
-        videoID = getVideoID('v', videoLink)
+        videoID = getVideoID("v", videoLink);
       }
-      console.log(user._id)
       getVideoInfo(videoID)
         .then(result => {
-          let videoInfo = result.data.items[0].snippet
-          let newVideo = new Video({
-            videoID: videoID,
-            roomID: roomID,
-            title: videoInfo.title,
-            channel: videoInfo.channelTitle,
-            image: videoInfo.thumbnails.default.url,
-            username: user.username,
-            userID: user._id
-          })
-          newVideo.save((error, result) => {
-            if (error) {
-              reject(error)
-            }
-            resolve(result)
-          })
+          let videoInfo = result.data.items[0].snippet;
+          console.log(videoInfo);
+          let newVideo = {
+
+          };
         })
         .catch(error => {
-          reject(error)
-        })
-    })
+          reject(error);
+        });
+    });
   },
   async voteToSkip(payload, votesNeeded) {
     // Get video first to check current skip counter
-    let video = await Video.findById(payload.video._id)
+    let video = await Video.findById(payload.video._id);
 
     return new Promise((resolve, reject) => {
       // Function to check if user already skipped
       function alreadySkipped() {
-        return video.skipCounter.includes(payload.username)
+        return video.skipCounter.includes(payload.username);
       }
       // If user already skipped, return and do nothing.
       if (alreadySkipped()) {
-        return resolve('Already Voted')
+        return resolve("Already Voted");
       }
 
       // If user hasn't voted on video yet, add one to video's skip counter for current action.
@@ -81,10 +66,10 @@ module.exports = {
             _id: payload.video._id
           },
           (error, video) => {
-            if (error) return reject(error)
-            if (video) return resolve('Video Deleted')
+            if (error) return reject(error);
+            if (video) return resolve("Video Deleted");
           }
-        )
+        );
       } else {
         // Default, add user to skip counter.
         Video.findOneAndUpdate(
@@ -100,12 +85,12 @@ module.exports = {
             new: true
           },
           (error, result) => {
-            if (error) return reject(error)
-            return resolve(result)
+            if (error) return reject(error);
+            return resolve(result);
           }
-        )
+        );
       }
-    })
+    });
   },
   searchVideos(payload) {},
   removeVideo(payload) {
@@ -116,39 +101,40 @@ module.exports = {
         },
         (error, result) => {
           if (error) {
-            return reject(error)
+            return reject(error);
           } else {
             if (result) {
-              resolve(result)
+              resolve(result);
             } else {
-              resolve(false)
+              resolve(false);
             }
           }
         }
-      )
-    })
+      );
+    });
   },
   getThumbnail(req, res) {
     Video.findOne({
       roomID: req.body.roomID
-    }).then(result => {
-      if(result){
-        return res.send({
-          error: false,
-          image: result.image
-        })
-      }else{
-        return res.send({
-          error: false,
-          image: null
-        })
-      }
     })
-    .catch(error => {
-      return res.send({
-        error: true,
-        message: error
+      .then(result => {
+        if (result) {
+          return res.send({
+            error: false,
+            image: result.image
+          });
+        } else {
+          return res.send({
+            error: false,
+            image: null
+          });
+        }
       })
-    })
-  },
-}
+      .catch(error => {
+        return res.send({
+          error: true,
+          message: error
+        });
+      });
+  }
+};

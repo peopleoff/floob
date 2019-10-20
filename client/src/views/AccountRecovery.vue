@@ -9,19 +9,15 @@
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
-              <h3>
-                Enter your username or email and we will send you a link to reset your password.
-              </h3>
-              <v-form>
-                <v-text-field
-                  prepend-icon="mdi-account"
-                  name="username"
-                  label="Username or Email"
-                  type="text"
-                  v-model="username"
-                  @keydown.enter="requestPasswordChange"
-                ></v-text-field>
-              </v-form>
+              <h3>Enter your username or email and we will send you a link to reset your password.</h3>
+              <v-text-field
+                prepend-icon="mdi-account"
+                name="username"
+                label="Username or Email"
+                type="text"
+                v-model="username"
+                @keydown.enter="requestPasswordChange"
+              ></v-text-field>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -30,9 +26,7 @@
                 @click="requestPasswordChange"
                 :loading="loading"
                 :disabled="this.$v.username.$invalid"
-              >
-                Continue
-              </v-btn>
+              >Continue</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -42,25 +36,25 @@
 </template>
 
 <script>
-import UserService from '@/services/UserService'
-import { mapMutations } from 'vuex'
-import { required, sameAs, minLength } from 'vuelidate/lib/validators'
+import UserService from "@/services/UserService";
+import { mapMutations } from "vuex";
+import { required, sameAs, minLength } from "vuelidate/lib/validators";
 export default {
-  name: 'PasswordReset',
+  name: "PasswordReset",
   data() {
     return {
-      username: '',
+      username: "",
       loading: false
-    }
+    };
   },
   methods: {
-    ...mapMutations(['ADD_USER', 'UPDATE_SNACKBAR']),
+    ...mapMutations(["ADD_USER", "UPDATE_SNACKBAR"]),
     requestPasswordChange: function() {
-      this.loading = true
-      this.$v.$touch()
+      this.loading = true;
+      this.$v.$touch();
       if (this.$v.$invalid) {
-        this.loading = false
-        return
+        this.loading = false;
+        return;
       } else {
         UserService.requestPasswordChange({
           username: this.username
@@ -68,30 +62,30 @@ export default {
           .then(response => {
             this.UPDATE_SNACKBAR(response.data);
             this.loading = false;
-            this.username = '';
+            this.username = "";
           })
           .catch(error => {
-            this.UPDATE_SNACKBAR(error)
-            this.loading = false
-          })
+            this.UPDATE_SNACKBAR(error);
+            this.loading = false;
+          });
       }
     }
   },
   computed: {
     passwordErrors() {
-      const errors = []
+      const errors = [];
       if (!this.$v.username.$dirty) {
-        return errors
+        return errors;
       }
       if (!this.$v.username.minLength) {
         errors.push(
           `Must be at least ${this.$v.username.$params.minLength.min} characters long`
-        )
+        );
       }
       if (!this.$v.username.required) {
-        errors.push('Password is required')
+        errors.push("Password is required");
       }
-      return errors
+      return errors;
     }
   },
   validations: {
@@ -100,7 +94,7 @@ export default {
       minLength: minLength(4)
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -1,114 +1,91 @@
-const Room = require('../models/rooms')
-const bcrypt = require('bcryptjs')
-const {catchError} = require('../functions')
-const salt = '$2a$10$Q/AH0MPPKyMVNzshASojgO'
+const { rooms } = require("../models");
 
 module.exports = {
-  register (req, res) {
+  getAll(req, res) {
+    rooms
+      .findAll()
+      .then(result => {
+        return res.send({
+          error: false,
+          result: result
+        });
+      })
+      .catch(error => {
+        return res.send({
+          error: true,
+          type: "error",
+          message: error
+        });
+      });
+  },
+  addToRoom(payload, socketID) {
+    console.log(payload, socketID);
+    const { roomID, username } = payload;
+    rooms
+      .update(
+        {
+          currentUsers: username
+        },
+        {
+          where: {
+            id: roomID
+          }
+        }
+      )
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    // Room.findOneAndUpdate(
+    //   {
+    //     _id: roomID
+    //   },
+    //   {
+    //     $push: {
+    //       currentUsers: {
+    //         socketID: socketID,
+    //         username: username
+    //       }
+    //     }
+    //   },
+    //   {
+    //     returnOriginal: false
+    //   },
+    //   (error, result) => {
+    //     if (error) {
+    //       // console.log(error);
+    //     } else {
+    //       // console.log(result);
+    //     }
+    //   }
+    // );
+  },
+  register(req, res) {
     if (!req.body) {
       return res.send({
         error: true,
-        message: ['Error'],
-        type: 'danger'
-      })
-    };
-    if (req.body.password) {
-      req.body.password = bcrypt.hashSync(req.body.password, salt)
+        type: "error",
+        message: "Error"
+      });
     }
-    let newRoom = new Room({
+    let newRoom = {
       name: req.body.name,
-      password: req.body.password ? req.body.password : '',
       description: req.body.description,
       nsfw: req.body.nsfw,
-      createdBy: req.body.username
+      createdBy: req.body.userID,
+      type: req.body.roomType
+    };
+    rooms.create(newRoom)
+    .then(response => {
+      return res.send({
+        error: false,
+        room: response.roomID
+      });
     })
-    newRoom.save((error, result) => {
-      if (error) {
-        return res.send(error)
-      }
-      return res.send(result)
-    })
-  },
-  checkPassword (req, res) {
-    Room.findById(req.body.roomID, function (err, response) {
-      if (err) {
-        return res.send({
-          error: true,
-          message: err,
-          type: 'danger'
-        })
-      }
-      if (response) {
-        if (bcrypt.compareSync(req.body.password, response.password)) {
-          return res.send(true)
-        } else {
-          return res.send(false)
-        }
-      } else {
-        return res.send({
-          error: true,
-          message: ['Username or Password incorrect'],
-          type: 'danger'
-        })
-      }
-    })
-  },
-  getAll (req, res) {
-    Room.find({
-      active: 1
-    }, (error, result) => {
-      if (error) {
-        return res.send(error)
-      } else {
-        return res.send(result)
-      }
-    })
-  },
-  addToRoom (payload, socketID) {
-    const {
-      roomID,
-      username
-    } = payload
-    Room.findOneAndUpdate({
-      _id: roomID
-    }, {
-      $push: {
-        currentUsers: {
-          socketID: socketID,
-          username: username
-        }
-      }
-    }, {
-      returnOriginal: false
-    }, (error, result) => {
-      if (error) {
-        // console.log(error);
-      } else {
-        // console.log(result);
-      }
-    })
-  },
-  removeFromRoom (socketID) {
-    Room.findOneAndUpdate({
-      currentUsers: {
-        $elemMatch: {
-          socketID: socketID
-        }
-      }
-    }, {
-      $pull: {
-        currentUsers: {
-          socketID: socketID
-        }
-      }
-    }, {
-      returnOriginal: false
-    }, (error, result) => {
-      if (error) {
-        // console.log(error);
-      } else {
-        // console.log(result);
-      }
+    .catch(error => {
+      console.error(error);
     })
   }
-}
+};
