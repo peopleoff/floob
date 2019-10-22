@@ -3,6 +3,7 @@
       class="mx-auto room-card"
       color="primary"
       hover
+      shaped
       :id="room.id"
       :to="'room/'+room.id"
     >
