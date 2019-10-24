@@ -4,10 +4,13 @@ export default {
   Register (data) {
     return Api().post('register', data)
   },
-  getAll(){
-    return Api().get('rooms/getAll');
+  getAll(data){
+    return Api().post('rooms/getAll', data);
   },
   checkRoomPassword(data){
     return Api().post('rooms/checkPassword', data);
+  },
+  toggleRoom(data){
+    return Api().post('rooms/toggleRoom', data);
   }
 }

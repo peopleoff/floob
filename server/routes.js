@@ -5,8 +5,6 @@ const RoomController = require('./controllers/RoomController');
 module.exports = (app) => {
 
     // // Get Requests
-    // app.get('/getGames', GameController.getGames);
-    app.get('/rooms/getAll', RoomController.getAll);
     // // Post Requests
     app.post('/videos/add', VideoController.add)
     app.post('/videos/getThumbnail', VideoController.getThumbnail)
@@ -16,7 +14,9 @@ module.exports = (app) => {
     app.post('/users/requestPasswordChange', UserController.requestPasswordChange);
     app.post('/users/changePassword', UserController.changePassword);
     //Rooms Requests
+    app.post('/rooms/getAll', RoomController.getAll);
     app.post('/rooms/register', RoomController.register);
+    app.post('/rooms/toggleRoom', RoomController.toggleRoom);
     // app.post('/rooms/checkPassword', RoomController.checkPassword);
 
 };

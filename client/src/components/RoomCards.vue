@@ -1,19 +1,25 @@
 <template>
-    <v-card
-      class="mx-auto room-card"
-      color="primary"
-      hover
-      shaped
-      :id="room.id"
-      :to="'room/'+room.id"
-    >
-      <v-card-text>
-        <p class="display-1 font-weight-black">
-          {{ room.name }}
-        </p>
-        <p class="black--text">{{ room.description }}</p>
-      </v-card-text>
-    </v-card>
+  <v-card
+    class="mx-auto room-card"
+    color="primary"
+    hover
+    shaped
+    :id="room.id"
+    :to="'room/' + room.id"
+  >
+    <v-card-text>
+      <p class="display-1 font-weight-black">
+        {{ room.name }}
+      </p>
+      <p class="black--text">{{ room.description }}</p>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn icon v-on:click.prevent="toggleRoom(room.id)">
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -45,6 +51,26 @@ export default {
         })
       }
     },
+    toggleRoom: _.debounce(function(roomID) {
+      if(!this.loggedIn){
+        this.UPDATE_SNACKBAR({
+          type: 'info',
+          message: 'Please Login First!'
+        });
+        return;
+      }
+      let room = {
+        user: this.$store.state.user.id,
+        room: roomID
+      }
+      RoomService.toggleRoom(room)
+        .then(result => {
+          this.UPDATE_SNACKBAR(result.data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    }, 500),
     removeThumbnail(room) {
       let card = document.getElementById(room._id)
       card.style.backgroundImage = ''
@@ -57,13 +83,17 @@ export default {
         card.style.backgroundImage = 'url(' + result.data.image + ')'
       })
     }
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.getters.loggedIn
+    }
   }
 }
 </script>
 
 <style scoped>
 .room-card {
-  height: 15vh;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

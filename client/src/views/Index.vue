@@ -1,17 +1,22 @@
 <template>
-  <!-- <Rooms :publicRooms=publicRooms :privateRooms=privateRooms /> -->
   <v-container fluid>
-    <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+    <h1>My Rooms</h1>
+    <h3>View the most engaged public rooms.</h3>
+    <v-row v-if="favoriteRooms">
+      <v-col v-for="room in favoriteRooms" :key="room.id" sm="6" md="4" lg="3">
+        <v-skeleton-loader
+          type="card"
+          :loading="loading"
+          transition="fade-transition"
+        >
+          <RoomCard :room="room" />
+        </v-skeleton-loader>
+      </v-col>
+    </v-row>
     <h1>Rooms</h1>
     <h3>View the most engaged public rooms.</h3>
     <v-row>
-      <v-col
-        v-for="room in rooms"
-        :key="room.id"
-        sm="6"
-        md="4"
-        lg="3"
-      >
+      <v-col v-for="room in publicRooms" :key="room.id" sm="6" md="4" lg="3">
         <v-skeleton-loader
           type="card"
           :loading="loading"
@@ -38,15 +43,23 @@ export default {
   data() {
     return {
       loading: true,
-      rooms: []
+      publicRooms: [],
+      favoriteRooms: []
     }
   },
   methods: {
     ...mapMutations(['TOGGLE_LOADING']),
     getRooms() {
-      RoomService.getAll()
+      let user = null
+      if (this.$store.state.user) {
+        user = this.$store.state.user.id
+      }
+      RoomService.getAll({
+        user: user
+      })
         .then(response => {
-          this.rooms = response.data.result;
+          this.publicRooms = response.data.publicRooms
+          this.favoriteRooms = response.data.favoriteRooms
           this.loading = false
         })
         .catch(error => {

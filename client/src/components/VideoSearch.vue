@@ -43,6 +43,8 @@
 <script>
 import _ from 'lodash'
 import ClickOutside from 'vue-click-outside'
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'VideoSearch',
   directives: {
@@ -60,6 +62,7 @@ export default {
     }
   },
   methods: {
+     ...mapMutations(['UPDATE_SNACKBAR']),
     clickOffSearch: function() {
       this.searchResult = null
       this.searchCriteria = ''
@@ -70,6 +73,13 @@ export default {
       })
     }, 250),
     addVideo(videoID) {
+      if (!this.loggedIn) {
+        this.UPDATE_SNACKBAR({
+          type: 'info',
+          message: "Please Login first"
+        })
+        return;
+      }
       let newVideo = {
         videoLink: videoID,
         pure: true,

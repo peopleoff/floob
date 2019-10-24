@@ -15,20 +15,23 @@ export default {
   methods: {
     onYouTubeIframeAPIReady: function(video) {
       //First remove video player if present
+      if(!video){
+        return;
+      }
       if (document.getElementById('player')) {
         document.getElementById('player').remove()
       }
-      let videoID = video.videoID;
-      let videoUserID = video.userID;
-      let currentUserID;
-      if(this.$store.state.user){
-        currentUserID = this.$store.state.user._id;
-      }else{
-        currentUserID = null;
+      let videoID = video.videoID
+      let videoUserID = video.user
+      let currentUserID
+      if (this.$store.state.user) {
+        currentUserID = this.$store.state.user.id
+      } else {
+        currentUserID = null
       }
       //Get video card parent
 
-      let playerCard = document.getElementById('aee');
+      let playerCard = document.getElementById('aee')
       //Create video div for API to inject Iframe
       let videoPlayer = document.createElement('div')
       videoPlayer.setAttribute('id', 'player')
@@ -61,13 +64,14 @@ export default {
       })
     },
     onPlayerReady: function(event) {
-      console.log(event);
+      console.log(event)
       event.target.playVideo()
     },
     onApiChange: function(event) {
       event.target.playVideo()
     },
     onPlayerStateChange: function(event) {
+      console.log(event)
       if (event.data === 0) {
         this.$socket.emit('removeVideo', this.videoQueue[0])
         this.videoQueue.shift()
@@ -88,17 +92,13 @@ export default {
         }
         //If video queue was empty, play new video
         if (oldValue.length == 0) {
-          return this.onYouTubeIframeAPIReady(
-            this.videoQueue[0]
-          )
+          return this.onYouTubeIframeAPIReady(this.videoQueue[0])
         }
         //New video added to non-empty array. Do nothing
         if (newValue.length > oldValue.length) {
           return
         }
-        this.onYouTubeIframeAPIReady(
-          this.videoQueue[0]
-        )
+        this.onYouTubeIframeAPIReady(this.videoQueue[0])
       }
     }
   }

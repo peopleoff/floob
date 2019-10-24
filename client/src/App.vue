@@ -3,7 +3,8 @@
     <Sidebar />
     <v-content>
       <router-view />
-      <Snackbar :snackbar="snackbar" />
+      <Snackbar :snackbar="snackbar" />      
+      <LoginDialog :dialog="showLoginForm" />
     </v-content>
   </v-app>
 </template>
@@ -11,17 +12,18 @@
 <script>
 import Sidebar from './components/includes/Sidebar'
 import Snackbar from './components/includes/Snackbar'
+import LoginDialog from './components/Dialogs/Signup-Dialog'
 
 import { mapMutations } from 'vuex'
 
 export default {
   components: {
     Sidebar,
+    LoginDialog,
     Snackbar
   },
   sockets: {
     updateSnackbar(data) {
-      this.searchResult = data
       this.UPDATE_SNACKBAR(data)
     }
   },
@@ -34,11 +36,14 @@ export default {
     right: null
   }),
   methods: {
-    ...mapMutations(['UPDATE_SNACKBAR'])
+    ...mapMutations(['UPDATE_SNACKBAR','TOGGLE_FORM']),
   },
   computed: {
     snackbar() {
       return this.$store.state.snackbar
+    },
+    showLoginForm(){
+      return this.$store.state.loginForm
     }
   }
 }

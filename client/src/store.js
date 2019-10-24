@@ -9,7 +9,8 @@ export default new Vuex.Store({
     user: null,
     room: null,
     token: localStorage.getItem('token') || '',
-    snackbar: null
+    snackbar: null,
+    loginForm: false
   },
   mutations: {
     ADD_USER: (state, payload) => {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     UPDATE_SNACKBAR: (state, payload) => {
       state.snackbar = payload
+    },
+    TOGGLE_FORM: (state, payload) => {
+      state.loginForm = !state.loginForm
     },
     LOGOUT_USER(state) {
       state.user = null;

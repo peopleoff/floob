@@ -1,6 +1,6 @@
 <template>
     <v-snackbar v-model="active" top right :color="snackbar.type" :timeout="timeout" v-if="snackbar">
-        {{snackbar.message}}
+        <div v-html=snackbar.message></div>
         <v-icon @click="snackbar.active = false">mdi-close</v-icon>
     </v-snackbar>
 </template>
@@ -19,6 +19,11 @@
             message: function (payload) {
                 this.active = true;
                 this.snackbar = payload;
+            }
+        },
+        methods:{
+            toggleSignup(){
+                console.log('test');
             }
         },
         watch: {

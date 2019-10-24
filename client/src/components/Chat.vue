@@ -33,24 +33,19 @@
         @keydown.enter="addMessage"
       ></v-text-field>
     </div>
-    <Signup :dialog="showForm" @closeDialog="closeDialog" />
   </div>
 </template>
 
 <script>
-import Signup from "@/components/Dialogs/Signup-Dialog.vue";
+import { mapMutations } from 'vuex'
+
 export default {
   name: "Chat",
-  components: {
-    Signup
-  },
   data() {
     return {
       message: "",
       messages: [],
       video: "",
-      signup: false,
-      showForm: false
     };
   },
   sockets: {
@@ -59,10 +54,7 @@ export default {
     }
   },
   methods: {
-    closeDialog() {
-      console.log("asdasd");
-      this.signup = false;
-    },
+    ...mapMutations(['UPDATE_SNACKBAR']),
     getVideoID(name, url) {
       if (url.includes("youtu.be")) {
         let index = 0;
@@ -86,7 +78,10 @@ export default {
     },
     addMessage() {
       if (!this.loggedIn) {
-        this.signup = true;
+        this.UPDATE_SNACKBAR({
+          type: 'info',
+          message: "Please Login first"
+        })
         return;
       }
       if (this.message) {
@@ -102,20 +97,23 @@ export default {
       }
     },
     addVideo() {
+      if (!this.loggedIn) {
+        this.UPDATE_SNACKBAR({
+          type: 'info',
+          message: "Please Login first"
+        })
+        return;
+      }
       let user = this.$store.state.user;
       let videoID = this.getVideoID("v", this.video);
-
-      if (this.loggedIn) {
-        let newVideo = {
-          videoLink: videoID,
-          pure: true,
-          roomID: this.$route.params.id,
-          user: this.$store.state.user
-        };
-        this.$socket.emit("addVideo", newVideo);
-      } else {
-        console.log("NOPE");
-      }
+      let newVideo = {
+        videoLink: videoID,
+        pure: true,
+        roomID: this.$route.params.id,
+        user: this.$store.state.user
+      };
+      this.$socket.emit("addVideo", newVideo);
+      this.video = '';
     }
   },
   computed: {

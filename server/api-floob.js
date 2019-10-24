@@ -11,6 +11,7 @@ const { sequelize } = require("./models");
 const { catchError, videoSearch, guid } = require("./functions");
 const VideoController = require("./controllers/VideoController");
 const RoomController = require("./controllers/RoomController");
+const MessageController = require("./controllers/MessageController");
 // Connect to Database
 let mongoURL = process.env.API_FLOOB_MONGOURL;
 
@@ -55,6 +56,7 @@ function addMessage(payload) {
     message: payload.message
   };
   io.sockets.in(payload.roomID).emit("newMessage", newMessage);
+  MessageController.addMessage(payload);
 }
 
 function searchVideos(payload, socket) {

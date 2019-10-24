@@ -10,7 +10,7 @@ module.exports = {
             roomID: id
           },
           order: [
-            ['createdAt', 'DESC'],
+            ['createdAt', 'ASC'],
           ]
         })
         .then(result => {
@@ -106,22 +106,17 @@ module.exports = {
   searchVideos(payload) {},
   removeVideo(payload) {
     return new Promise((resolve, reject) => {
-      Video.deleteOne(
-        {
-          _id: payload._id
-        },
-        (error, result) => {
-          if (error) {
-            return reject(error);
-          } else {
-            if (result) {
-              resolve(result);
-            } else {
-              resolve(false);
-            }
-          }
+      videos.destroy({
+        where: {
+          id: payload.id
         }
-      );
+      })
+      .then(result => {
+        resolve(result)
+      })
+      .catch(error => {
+        reject(error);
+      })
     });
   },
   getThumbnail(req, res) {
