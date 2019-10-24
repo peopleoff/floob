@@ -9,7 +9,7 @@
           :loading="loading"
           transition="fade-transition"
         >
-          <RoomCard :room="room" />
+          <RoomCard :favoriteRoom="room" />
         </v-skeleton-loader>
       </v-col>
     </v-row>

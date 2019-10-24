@@ -1,4 +1,10 @@
-const { rooms, users_rooms } = require('../models')
+const { rooms, users_rooms, users } = require('../models')
+
+// users.belongsToMany(rooms, {through: users_rooms, foreignKey: 'user'});
+// rooms.belongsToMany(users, {through: users_rooms, foreignKey: 'room'});
+// users.hasMany(users, {as: 'test',foreignKey: 'user'});
+users_rooms.belongsTo(users, {as: 'roomUser',foreignKey: 'user'});
+users_rooms.belongsTo(rooms, {as: 'roomInfo',foreignKey: 'room'});
 
 module.exports = {
   getAll(req, res) {
@@ -12,9 +18,16 @@ module.exports = {
         publicRooms = result
         //Next find all rooms for user if logged in.
         users_rooms.findAll({
-          where: {
-            user: req.body.user
-          }
+          include: [
+            {
+            model: users,
+            as: 'roomUser'
+          },
+            {
+            model: rooms,
+            as: 'roomInfo'
+          },
+        ]
         }).then(response => {
           //Set result to global var
           favoriteRooms = response
