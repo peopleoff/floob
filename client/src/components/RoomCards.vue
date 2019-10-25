@@ -15,8 +15,9 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn icon v-on:click.prevent="toggleRoom(room.id)">
-        <v-icon>mdi-heart</v-icon>
+      <v-btn icon v-on:click.prevent="toggleRoom(room.id)" color="secondary">
+        <v-icon v-if="room.favoriteRoom">mdi-heart</v-icon>
+        <v-icon v-else>mdi-heart-outline</v-icon>
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -65,7 +66,8 @@ export default {
       }
       RoomService.toggleRoom(room)
         .then(result => {
-          this.UPDATE_SNACKBAR(result.data)
+          this.UPDATE_SNACKBAR(result.data);
+          this.$emit('toggledRoom', 'carrier');
         })
         .catch(error => {
           console.error(error)

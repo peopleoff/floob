@@ -1,8 +1,8 @@
 import Api from '@/services/Api'
 
 export default {
-  Register (data) {
-    return Api().post('register', data)
+  register (data) {
+    return Api().post('rooms/register', data)
   },
   getAll(data){
     return Api().post('rooms/getAll', data);

@@ -1,10 +1,11 @@
 const { rooms, users_rooms, users } = require('../models')
+const Sequelize = require('sequelize')
 
 // users.belongsToMany(rooms, {through: users_rooms, foreignKey: 'user'});
 // rooms.belongsToMany(users, {through: users_rooms, foreignKey: 'room'});
 // users.hasMany(users, {as: 'test',foreignKey: 'user'});
-users_rooms.belongsTo(users, {as: 'roomUser',foreignKey: 'user'});
-users_rooms.belongsTo(rooms, {as: 'roomInfo',foreignKey: 'room'});
+users_rooms.belongsTo(users, { as: 'roomUser', foreignKey: 'user' })
+users_rooms.belongsTo(rooms, { as: 'roomInfo', foreignKey: 'room' })
 
 module.exports = {
   getAll(req, res) {
@@ -12,31 +13,35 @@ module.exports = {
     let favoriteRooms = []
     //First find all public rooms
     rooms
-      .findAll()
+      .findAll({
+        where: Sequelize.literal('')
+      })
       .then(result => {
         //Set result to global var
         publicRooms = result
         //Next find all rooms for user if logged in.
-        users_rooms.findAll({
-          include: [
-            {
-            model: users,
-            as: 'roomUser'
-          },
-            {
-            model: rooms,
-            as: 'roomInfo'
-          },
-        ]
-        }).then(response => {
-          //Set result to global var
-          favoriteRooms = response
-          //Send global vars
-          return res.send({
-            publicRooms: publicRooms,
-            favoriteRooms: favoriteRooms
+        users_rooms
+          .findAll({
+            include: [
+              {
+                model: users,
+                as: 'roomUser'
+              },
+              {
+                model: rooms,
+                as: 'roomInfo'
+              }
+            ]
           })
-        })
+          .then(response => {
+            //Set result to global var
+            favoriteRooms = response
+            //Send global vars
+            return res.send({
+              publicRooms: publicRooms,
+              favoriteRooms: favoriteRooms
+            })
+          })
       })
       .catch(error => {
         return res.send({
