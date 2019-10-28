@@ -40,88 +40,92 @@
 import { mapMutations } from 'vuex'
 
 export default {
-  name: "Chat",
+  name: 'Chat',
   data() {
     return {
-      message: "",
+      message: '',
       messages: [],
-      video: "",
-    };
+      video: ''
+    }
   },
   sockets: {
     newMessage: function(payload) {
-      this.messages.push(payload);
+      this.messages.push(payload)
     }
   },
   methods: {
     ...mapMutations(['UPDATE_SNACKBAR']),
     getVideoID(name, url) {
-      if (url.includes("youtu.be")) {
-        let index = 0;
+      if (url.includes('youtu.be')) {
+        let index = 0
         //Mobile Link
-        let firstCheck = url.split("/")[url.split("/").length - 1];
+        let firstCheck = url.split('/')[url.split('/').length - 1]
         if (firstCheck.length > 0) {
-          index = url.split("/").length - 1;
+          index = url.split('/').length - 1
         } else {
-          index = url.split("/").length - 2;
+          index = url.split('/').length - 2
         }
-        let videoID = url.split("/")[index];
-        return videoID;
+        let videoID = url.split('/')[index]
+        return videoID
       }
-      if (!url) url = window.location.href;
-      name = name.replace(/[\[\]]/g, "\\$&");
-      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return "";
-      return decodeURIComponent(results[2].replace(/\+/g, " "));
+      if (!url) url = window.location.href
+      name = name.replace(/[\[\]]/g, '\\$&')
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url)
+      if (!results) return null
+      if (!results[2]) return ''
+      return decodeURIComponent(results[2].replace(/\+/g, ' '))
     },
     addMessage() {
       if (!this.loggedIn) {
         this.UPDATE_SNACKBAR({
           type: 'info',
-          message: "Please Login first"
+          message: 'Please Login first',
+          x: 'right',
+          y: 'bottom'
         })
-        return;
+        return
       }
       if (this.message) {
         let newMessage = {
           message: this.message,
           roomID: this.$route.params.id,
           user: this.$store.state.user
-        };
-        this.$socket.emit("addMessage", newMessage);
-        this.message = "";
-        let container = document.querySelector("#messages");
-        container.scrollTop = container.scrollHeight;
+        }
+        this.$socket.emit('addMessage', newMessage)
+        this.message = ''
+        let container = document.querySelector('#messages')
+        container.scrollTop = container.scrollHeight
       }
     },
     addVideo() {
       if (!this.loggedIn) {
         this.UPDATE_SNACKBAR({
           type: 'info',
-          message: "Please Login first"
+          message: 'Please Login first',
+          x: 'right',
+          y: 'top'
         })
-        return;
+        return
       }
-      let user = this.$store.state.user;
-      let videoID = this.getVideoID("v", this.video);
+      let user = this.$store.state.user
+      let videoID = this.getVideoID('v', this.video)
       let newVideo = {
         videoLink: videoID,
         pure: true,
         roomID: this.$route.params.id,
         user: this.$store.state.user
-      };
-      this.$socket.emit("addVideo", newVideo);
-      this.video = '';
+      }
+      this.$socket.emit('addVideo', newVideo)
+      this.video = ''
     }
   },
   computed: {
     loggedIn() {
-      return this.$store.getters.loggedIn;
+      return this.$store.getters.loggedIn
     }
   }
-};
+}
 </script>
 
 <style scoped>

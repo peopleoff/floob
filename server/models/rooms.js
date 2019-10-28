@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
         defaultValue: 0,
         allowNull: true
       },
-      createdBy: {
+      user: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -41,7 +41,8 @@ module.exports = function(sequelize, DataTypes) {
       },
       type: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: 1,
         references: {
           model: "room_types",
           key: "id"

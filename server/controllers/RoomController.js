@@ -6,16 +6,16 @@ users_rooms.belongsTo(users, { as: 'roomUser', foreignKey: 'user' })
 users_rooms.belongsTo(rooms, { as: 'roomInfo', foreignKey: 'room' })
 
 fs.readFile('./wordLists/commonWords.json', handleFile)
-let wordList;
+let wordList
 // Write the callback function
 function handleFile(err, data) {
   if (err) throw err
   wordList = JSON.parse(data)
 }
-function randomName(){
-  let random = Math.floor(Math.random() * Math.floor(1000));
-  let random2 = Math.floor(Math.random() * Math.floor(1000));
-  return wordList[random] + ' ' + wordList[random2];
+function randomName() {
+  let random = Math.floor(Math.random() * Math.floor(1000))
+  let random2 = Math.floor(Math.random() * Math.floor(1000))
+  return wordList[random] + ' ' + wordList[random2]
 }
 module.exports = {
   getAll(req, res) {
@@ -62,7 +62,6 @@ module.exports = {
       })
   },
   getInfo(req, res) {
-    console.log(req.body)
     rooms
       .findOne({
         where: {
@@ -72,12 +71,10 @@ module.exports = {
       })
       .then(result => {
         if (req.body.user) {
-          if (result.createdBy === req.body.user.id) {
+          if (result.user === req.body.user.id) {
             result.roomOwner = true
           }
         }
-        console.log(result)
-        console.log('in here')
         return res.send({
           room: result
         })
@@ -120,18 +117,25 @@ module.exports = {
     }
     let newRoom = {
       name: randomName(),
-      description: req.body.description,
-      nsfw: req.body.nsfw,
-      createdBy: req.body.userID,
-      type: req.body.roomType
+      user: req.body.userID
     }
     rooms
       .create(newRoom)
       .then(response => {
-        return res.send({
-          error: false,
-          room: response.id
-        })
+        users_rooms
+          .create({
+            user: req.body.userID,
+            room: result.id
+          })
+          .then(createdResponse => {
+            return res.send({
+              error: false,
+              room: response.id
+            })
+          })
+          .catch(createdError => {
+            console.error(createdError)
+          })
       })
       .catch(error => {
         console.error(error)

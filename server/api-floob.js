@@ -6,28 +6,12 @@ const cors = require("cors");
 const morgan = require("morgan");
 const allowedOrigins =
   "https://floob.gg:* https://www.floob.gg:* http://localhost:*";
-const mongoose = require("mongoose");
 const { sequelize } = require("./models");
 const { catchError, videoSearch, guid } = require("./functions");
 const VideoController = require("./controllers/VideoController");
 const RoomController = require("./controllers/RoomController");
 const MessageController = require("./controllers/MessageController");
-// Connect to Database
-let mongoURL = process.env.API_FLOOB_MONGOURL;
 
-// mongoose.connect(
-//   mongoURL,
-//   {
-//     useNewUrlParser: true
-//   },
-//   function(error) {
-//     if (!error) {
-//       console.log('Mongo is running')
-//     } else {
-//       console.log(error)
-//     }
-//   }
-// )
 
 app.use(morgan("combined"));
 app.use(bodyParser.json());

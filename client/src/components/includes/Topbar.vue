@@ -9,7 +9,9 @@
 
     <v-spacer></v-spacer>
     <div v-if="loggedIn">
-      <v-btn class="ma-2" color="secondary" @click="createRoom">Create a Room</v-btn>
+      <v-btn class="ma-2" color="secondary" @click="createRoom">
+        Create a Room
+      </v-btn>
       <v-btn class="ma-2" outlined color="secondary" @click="logOut()">
         Log Out
       </v-btn>
@@ -47,12 +49,17 @@ export default {
       })
     },
     createRoom() {
+      if (!this.loggedIn) {
+        this.UPDATE_SNACKBAR({
+          type: 'info',
+          message: 'Please Login first',
+          x: 'top',
+          y: 'right'
+        })
+        return
+      }
       let newRoom = {
-        name: 'Test Name 23',
-        description: 'Test Description 23',
-        nsfw: 1,
-        userID: 1,
-        roomType: 1
+        userID: this.$store.state.user.id
       }
       RoomService.register(newRoom)
         .then(result => {

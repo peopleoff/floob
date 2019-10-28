@@ -75,7 +75,9 @@ export default {
       if (!this.loggedIn) {
         this.UPDATE_SNACKBAR({
           type: 'info',
-          message: 'Please Login first'
+          message: 'Please Login first',
+          x: 'left',
+          y: 'top'
         })
         return
       }
@@ -85,7 +87,8 @@ export default {
         roomID: this.$route.params.id,
         user: this.$store.state.user
       }
-      this.$socket.emit('addVideo', newVideo)
+      this.$socket.emit('addVideo', newVideo);
+      this.searchResult = [];
     },
     videoWidth() {
       let widths = document.getElementById('videoSearch')

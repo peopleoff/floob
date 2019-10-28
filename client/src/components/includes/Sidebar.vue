@@ -13,7 +13,7 @@
         to="/"
         tag="img"
         :src="require('@/assets/images/logo.svg')"
-        class="logo pointer"
+        class="logo-mobile pointer"
       ></router-link>
     </v-list-item>
     <v-btn icon @click.stop="mini = !mini" class="mini">
@@ -21,19 +21,18 @@
       <v-icon v-else>mdi-chevron-left</v-icon>
     </v-btn>
     <v-list nav>
-      <v-tooltip v-for="item in items" :key="item.title" right>
+      <v-tooltip right>
         <template v-slot:activator="{ on }">
-          <v-list-item v-on="on" class="pointer" link :to="item.to">
+          <v-list-item v-on="on" class="pointer" link @click="createRoom">
             <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
+              <v-icon>mdi-folder-plus-outline</v-icon>
             </v-list-item-icon>
-
             <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-title>Create Room</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </template>
-        <span v-if="mini">{{ item.title }}</span>
+        <span v-if="mini">Create Room</span>
       </v-tooltip>
     </v-list>
     <template v-slot:append>
@@ -94,14 +93,14 @@
         </v-tooltip>
         <v-tooltip right>
           <template v-slot:activator="{ on }">
-        <v-list-item v-on=on link to="/Signup">
-          <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Sign Up</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+            <v-list-item v-on="on" link to="/Signup">
+              <v-list-item-icon>
+                <v-icon>mdi-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Sign Up</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </template>
           <span v-if="mini">Sign Up</span>
         </v-tooltip>
@@ -111,6 +110,7 @@
 </template>
 
 <script>
+import RoomService from '@/services/RoomService.js'
 import { mapMutations } from 'vuex'
 export default {
   data() {
@@ -125,8 +125,42 @@ export default {
   },
   methods: {
     ...mapMutations(['LOGOUT_USER', 'UPDATE_SNACKBAR']),
+    createRoom() {
+      if (!this.loggedIn) {
+        this.UPDATE_SNACKBAR({
+          type: 'info',
+          message: 'Please Login first',
+          x: 'top',
+          y: 'right'
+        })
+        return
+      }
+      let newRoom = {
+        name: 'Test Name 23',
+        description: 'Test Description 23',
+        nsfw: 1,
+        userID: 1,
+        roomType: 1
+      }
+      RoomService.register(newRoom)
+        .then(result => {
+          console.log(result)
+          let roomID = result.data.room
+          this.$router.push({
+            name: 'room',
+            params: { id: roomID, createdRoom: true }
+          })
+          // this.$router.push({
+          //   path: '/room/' + result.data.room,
+          //   params: { newRoom: true }
+          // })
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
     logOut() {
-      this.LOGOUT_USER();
+      this.LOGOUT_USER()
       this.UPDATE_SNACKBAR({
         type: 'success',
         message: 'Signed Out'
@@ -144,6 +178,12 @@ export default {
 <style scoped>
 .logo {
   height: 100%;
+  width: 100%;
+  padding: 8px;
+}
+.logo-mobile {
+  height: 100%;
+  max-height: 100px;
   width: 100%;
   padding: 8px;
 }

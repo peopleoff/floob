@@ -1,12 +1,31 @@
 <template>
-  <v-row class="videoQue flex-nowrap" dense v-if="nextVideo">
-    <v-col cols="2" class="nextVideo">
-      <v-img :src="nextVideo.image" :height="imageHeight"></v-img>
-    </v-col>
-    <v-col v-for="(video, index) in queue" :key="index" cols="2">
-      <v-img :src="video.image" :height="imageHeight"></v-img>
-    </v-col>
-  </v-row>
+  <div>
+    <v-row class="flex-nowrap videoQue" dense v-if="nextVideo">
+      <v-col
+        v-for="(video, index) in queue"
+        :key="index"
+        cols="2"
+        class="videoImage"
+      >
+        <v-card class="mx-auto">
+          <v-img :src="video.image" :height="imageHeight"></v-img>
+
+          <v-card-text class="videoTitle">
+            <div>{{ video.title }}</div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <!-- <v-col cols="2" class="nextVideo">
+        <v-img :src="nextVideo.image" :height="imageHeight"></v-img>
+      </v-col>
+      <v-col v-for="(video, index) in queue" :key="index" cols="2" class="videoImage">
+        <v-img :src="video.image" :height="imageHeight"></v-img>
+        <div class="videoTitle">
+          test
+        </div>
+      </v-col> -->
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -20,7 +39,7 @@ export default {
     queue() {
       let videos = []
       this.videoQueue.forEach((element, index) => {
-        if (index !== 0 && index !== 1 ) {
+        if (index !== 0 && index !== 1) {
           videos.push(element)
         }
       })
@@ -48,10 +67,20 @@ export default {
 </script>
 
 <style scoped>
+.v-card__text {
+  width: auto;
+  padding: 0;
+}
 .videoQue {
   overflow-x: scroll;
+  scroll-behavior: smooth;
   font-size: 14px;
 }
+.videoTitle {
+  position: fixed;
+  bottom: -100px;
+}
+
 .videoQue > div:first-child {
   color: red;
 }
@@ -62,7 +91,7 @@ export default {
 .queCard {
   height: 5rem;
 }
-.nextVideo{
+.nextVideo {
   border: 2px solid white;
 }
 </style>

@@ -46,21 +46,21 @@
 </template>
 
 <script>
-import UserService from "@/services/UserService";
-import { mapMutations } from "vuex";
-import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
+import UserService from '@/services/UserService'
+import { mapMutations } from 'vuex'
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 export default {
-  name: "Signup",
+  name: 'Signup',
   data() {
     return {
       user: {
-        username: "",
-        password: "",
-        confirmPassword: "",
-        email: ""
+        username: '',
+        password: '',
+        confirmPassword: '',
+        email: ''
       },
       loading: false
-    };
+    }
   },
   validations: {
     user: {
@@ -73,7 +73,7 @@ export default {
         required
       },
       confirmPassword: {
-        sameAsPassword: sameAs("password")
+        sameAsPassword: sameAs('password')
       },
       email: {
         minLength: minLength(4),
@@ -83,101 +83,105 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["ADD_USER", "UPDATE_SNACKBAR"]),
+    ...mapMutations(['ADD_USER', 'UPDATE_SNACKBAR']),
     Register: function() {
-      this.loading = true;
-      this.$v.$touch();
+      this.loading = true
+      this.$v.$touch()
       if (this.$v.$invalid) {
-        this.loading = false;
-        return;
+        this.loading = false
+        return
       } else {
         UserService.Register(this.user)
           .then(response => {
             if (response.data.error) {
-              this.UPDATE_SNACKBAR(response.data);
-              this.loading = false;
-              return;
+              this.UPDATE_SNACKBAR(response.data)
+              this.loading = false
+              return
             }
-            let today = new Date();
-            today.setTime(today.getTime() + 3600000 * 24 * 7);
+            let today = new Date()
+            today.setTime(today.getTime() + 3600000 * 24 * 7)
             document.cookie =
-              "token=" +
+              'token=' +
               escape(response.data.token) +
-              ";expires=" +
-              today.toGMTString();
+              ';expires=' +
+              today.toGMTString()
             this.ADD_USER({
               token: response.data.token,
               user: response.data.user
-            });
-            this.$router.push("/");
-            this.loading = false;
+            })
+            this.UPDATE_SNACKBAR({
+              type: 'success',
+              message: 'Signed In!'
+            })
+            this.$router.push('/')
+            this.loading = false
           })
           .catch(error => {
-            this.UPDATE_SNACKBAR(error.data);
-            this.loading = false;
-          });
+            this.UPDATE_SNACKBAR(error.data)
+            this.loading = false
+          })
       }
     }
   },
   computed: {
     usernameErrors() {
-      const errors = [];
+      const errors = []
       if (!this.$v.user.username.$dirty) {
-        return errors;
+        return errors
       }
       if (!this.$v.user.username.minLength) {
         errors.push(
           `Must be at least ${this.$v.user.username.$params.minLength.min} characters long`
-        );
+        )
       }
       if (!this.$v.user.username.required) {
-        errors.push("Username is required");
+        errors.push('Username is required')
       }
-      return errors;
+      return errors
     },
     passwordErrors() {
-      const errors = [];
+      const errors = []
       if (!this.$v.user.password.$dirty) {
-        return errors;
+        return errors
       }
       if (!this.$v.user.password.minLength) {
         errors.push(
           `Must be at least ${this.$v.user.password.$params.minLength.min} characters long`
-        );
+        )
       }
       if (!this.$v.user.password.required) {
-        errors.push("Password is required");
+        errors.push('Password is required')
       }
-      return errors;
+      return errors
     },
     confirmPasswordErrors() {
-      const errors = [];
+      const errors = []
       if (!this.$v.user.confirmPassword.$dirty) {
-        return errors;
+        return errors
       }
       if (!this.$v.user.confirmPassword.$model) {
-        errors.push("Can not be empty");
+        errors.push('Can not be empty')
       }
       if (!this.$v.user.confirmPassword.sameAsPassword) {
-        errors.push("Passwords must match");
+        errors.push('Passwords must match')
       }
-      return errors;
+      return errors
     },
     emailErrors() {
-      const errors = [];
+      const errors = []
       if (!this.$v.user.email.$dirty) {
-        return errors;
+        return errors
       }
       if (!this.$v.user.email.email) {
-        errors.push("Must be valid e-mail");
+        errors.push('Must be valid e-mail')
       }
       if (!this.$v.user.email.required) {
-        errors.push("E-mail is required");
+        errors.push('E-mail is required')
       }
-      return errors;
+      return errors
     }
   }
-};
+}
 </script>
 
 <style scoped></style>

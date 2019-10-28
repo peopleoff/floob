@@ -160,6 +160,12 @@ module.exports = {
                 token: token,
                 user: user
               })
+            } else {
+              return res.send({
+                error: true,
+                type: 'error',
+                message: 'Username or Password is incorrect'
+              })
             }
           }
         })
