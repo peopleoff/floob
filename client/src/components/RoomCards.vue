@@ -53,12 +53,12 @@ export default {
       }
     },
     toggleRoom: _.debounce(function(roomID) {
-      if(!this.loggedIn){
+      if (!this.loggedIn) {
         this.UPDATE_SNACKBAR({
           type: 'info',
           message: 'Please Login First!'
-        });
-        return;
+        })
+        return
       }
       let room = {
         user: this.$store.state.user.id,
@@ -66,8 +66,8 @@ export default {
       }
       RoomService.toggleRoom(room)
         .then(result => {
-          this.UPDATE_SNACKBAR(result.data);
-          this.$emit('toggledRoom', 'carrier');
+          this.UPDATE_SNACKBAR(result.data)
+          this.$emit('toggledRoom', 'carrier')
         })
         .catch(error => {
           console.error(error)
@@ -79,7 +79,6 @@ export default {
     },
     getThumbnail(room) {
       let card = document.getElementById(room._id)
-      console.log(card)
       VideoService.getThumbnail({ roomID: room._id }).then(result => {
         console.log(result.data)
         card.style.backgroundImage = 'url(' + result.data.image + ')'

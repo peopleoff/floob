@@ -1,55 +1,3 @@
-// const mongoose = require('mongoose')
-
-// const User = mongoose.Schema({
-//   active: {
-//     type: Boolean,
-//     required: true,
-//     default: 1
-//   },
-//   username: {
-//     type: String,
-//     required: true
-//   },
-//   username_lowercase: {
-//     type: String,
-//     lowercase: true
-//   },
-//   email: {
-//     type: String,
-//     required: true
-//   },
-//   email_lowercase: {
-//     type: String,
-//     lowercase: true
-//   },
-//   password: {
-//     type: String,
-//     minlength: 8,
-//     required: true
-//   },
-//   resettoken: {
-//     type: String
-//   },
-//   token: {
-//     type: String
-//   },
-//   socketID: {
-//     type: String
-//   }
-// })
-
-// User.pre('save', function (next) {
-//   this.username_lowercase = this.get('username');
-//   next();
-// });
-
-// User.pre('save', function (next) {
-//   this.email_lowercase = this.get('email');
-//   next();
-// });
-
-// module.exports = mongoose.model('User', User)
-
 module.exports = function(sequelize, DataTypes) {
   const users = sequelize.define(
     "users",
@@ -76,7 +24,8 @@ module.exports = function(sequelize, DataTypes) {
       },
       type: {
         type: DataTypes.INTEGER(11),
-        allowNull: false,
+        allowNull: true,
+        defaultValue: 1,
         references: {
           model: "user_types",
           key: "id"

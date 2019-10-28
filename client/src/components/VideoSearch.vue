@@ -19,6 +19,11 @@
       :width="videoWidth()"
     >
       <v-list-item v-for="item in searchResult" :key="item.id.videoId">
+        <v-list-item-icon>
+          <v-btn icon class="pointer" @click="addVideo(item.id.videoId)">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-list-item-icon>
         <v-list-item-avatar>
           <v-img :src="item.snippet.thumbnails.default.url"></v-img>
         </v-list-item-avatar>
@@ -29,12 +34,6 @@
             v-html="item.snippet.channelTitle"
           ></v-list-item-subtitle>
         </v-list-item-content>
-
-        <v-list-item-icon>
-          <v-btn icon class="pointer" @click="addVideo(item.id.videoId)">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </v-list-item-icon>
       </v-list-item>
     </v-list>
   </div>
@@ -62,7 +61,7 @@ export default {
     }
   },
   methods: {
-     ...mapMutations(['UPDATE_SNACKBAR']),
+    ...mapMutations(['UPDATE_SNACKBAR']),
     clickOffSearch: function() {
       this.searchResult = null
       this.searchCriteria = ''
@@ -76,9 +75,9 @@ export default {
       if (!this.loggedIn) {
         this.UPDATE_SNACKBAR({
           type: 'info',
-          message: "Please Login first"
+          message: 'Please Login first'
         })
-        return;
+        return
       }
       let newVideo = {
         videoLink: videoID,

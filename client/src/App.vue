@@ -1,16 +1,21 @@
 <template>
   <v-app>
-    <Sidebar />
+    <Sidebar v-if="right" />
+    <Topbar v-else />
     <v-content>
       <router-view />
-      <Snackbar :snackbar="snackbar" />      
+      <Snackbar :snackbar="snackbar" />
       <LoginDialog :dialog="showLoginForm" />
+      <v-btn fixed dark fab bottom right color="secondary" @click="right = !right">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import Sidebar from './components/includes/Sidebar'
+import Topbar from './components/includes/Topbar'
 import Snackbar from './components/includes/Snackbar'
 import LoginDialog from './components/Dialogs/Signup-Dialog'
 
@@ -19,6 +24,7 @@ import { mapMutations } from 'vuex'
 export default {
   components: {
     Sidebar,
+    Topbar,
     LoginDialog,
     Snackbar
   },
@@ -33,16 +39,16 @@ export default {
       { title: 'Photos', icon: 'mdi-image' },
       { title: 'About', icon: 'mdi-help-box' }
     ],
-    right: null
+    right: false
   }),
   methods: {
-    ...mapMutations(['UPDATE_SNACKBAR','TOGGLE_FORM']),
+    ...mapMutations(['UPDATE_SNACKBAR', 'TOGGLE_FORM'])
   },
   computed: {
     snackbar() {
       return this.$store.state.snackbar
     },
-    showLoginForm(){
+    showLoginForm() {
       return this.$store.state.loginForm
     }
   }
@@ -54,10 +60,9 @@ export default {
 * {
   font-family: 'Poppins', sans-serif;
 }
-.logo {
-  height: 100%;
-  width: 100%;
-  padding: 8px;
+html,
+body {
+  overscroll-behavior: none;
 }
 
 .h100 {

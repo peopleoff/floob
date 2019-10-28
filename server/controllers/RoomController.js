@@ -1,12 +1,22 @@
 const { rooms, users_rooms, users } = require('../models')
 const Sequelize = require('sequelize')
+const fs = require('fs')
 
-// users.belongsToMany(rooms, {through: users_rooms, foreignKey: 'user'});
-// rooms.belongsToMany(users, {through: users_rooms, foreignKey: 'room'});
-// users.hasMany(users, {as: 'test',foreignKey: 'user'});
 users_rooms.belongsTo(users, { as: 'roomUser', foreignKey: 'user' })
 users_rooms.belongsTo(rooms, { as: 'roomInfo', foreignKey: 'room' })
 
+fs.readFile('./wordLists/commonWords.json', handleFile)
+let wordList;
+// Write the callback function
+function handleFile(err, data) {
+  if (err) throw err
+  wordList = JSON.parse(data)
+}
+function randomName(){
+  let random = Math.floor(Math.random() * Math.floor(1000));
+  let random2 = Math.floor(Math.random() * Math.floor(1000));
+  return wordList[random] + ' ' + wordList[random2];
+}
 module.exports = {
   getAll(req, res) {
     let publicRooms = []
@@ -51,6 +61,35 @@ module.exports = {
         })
       })
   },
+  getInfo(req, res) {
+    console.log(req.body)
+    rooms
+      .findOne({
+        where: {
+          id: req.body.id
+        },
+        raw: true
+      })
+      .then(result => {
+        if (req.body.user) {
+          if (result.createdBy === req.body.user.id) {
+            result.roomOwner = true
+          }
+        }
+        console.log(result)
+        console.log('in here')
+        return res.send({
+          room: result
+        })
+      })
+      .catch(error => {
+        return res.send({
+          error: true,
+          type: 'error',
+          message: error
+        })
+      })
+  },
   addToRoom(payload, socketID) {
     const { roomID, username } = payload
     rooms
@@ -80,7 +119,7 @@ module.exports = {
       })
     }
     let newRoom = {
-      name: req.body.name,
+      name: randomName(),
       description: req.body.description,
       nsfw: req.body.nsfw,
       createdBy: req.body.userID,
@@ -91,7 +130,7 @@ module.exports = {
       .then(response => {
         return res.send({
           error: false,
-          room: response.roomID
+          room: response.id
         })
       })
       .catch(error => {

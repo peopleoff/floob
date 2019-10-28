@@ -7,6 +7,9 @@ export default {
   getAll(data){
     return Api().post('rooms/getAll', data);
   },
+  getInfo(data){
+    return Api().post('rooms/getInfo', data);
+  },
   checkRoomPassword(data){
     return Api().post('rooms/checkPassword', data);
   },

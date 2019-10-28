@@ -57,11 +57,14 @@ export default {
     signIn: function() {
       this.$v.$touch();
       this.loading = true;
+      console.log('what');
       if (this.$v.$invalid) {
         this.loading = false;
         return;
       } else {
-        UserService.login(this.user).then(response => {
+        UserService.login(this.user)
+        .then(response => {
+          console.log("test");
           this.loading = false;
           if (response.data.message) {
             this.UPDATE_SNACKBAR(response.data);

@@ -1,45 +1,10 @@
-// const mongoose = require('mongoose')
-
-// const Room = mongoose.Schema({
-//   name: {
-//     type: String,
-//     required: true
-//   },
-//   password: {
-//     type: String,
-//     required: false
-//   },
-//   description: {
-//     type: String,
-//     required: false
-//   },
-//   nsfw:{
-//     type: Boolean,
-//     default: false
-//   },
-//   createdBy: {
-//     type: String,
-//     required: true
-//   },
-//   active: {
-//     type: Boolean,
-//     required: true,
-//     default: 1
-//   },
-//   currentUsers: [],
-//   date: {
-//     type: Date,
-//     default: Date.now
-//   }
-// })
-
-// module.exports = mongoose.model('Room', Room)
 var mongoObjectId = function () {
   var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
   return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
       return (Math.random() * 16 | 0).toString(16);
   }).toLowerCase();
 };
+
 module.exports = function(sequelize, DataTypes) {
   const rooms = sequelize.define(
     "rooms",

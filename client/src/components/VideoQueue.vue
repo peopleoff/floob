@@ -1,22 +1,10 @@
 <template>
-  <v-row class="videoQue flex-nowrap" dense>
-    <v-col v-for="(video, index) in queue" :key="index" cols="3">
-      <v-card class="mx-auto" flat>
-        <v-img :src="video.image" max-height="100" max-width="100"></v-img>
-        <v-card-text class="text--primary">
-          <div>{{video.title}}</div>
-
-          <div>{{video.channel}}</div>
-        </v-card-text>
-      </v-card>
-      <!-- <div>
-        <div class="vl"></div>
-        <v-img class="white--text queImage" :src="video.image"></v-img>
-        <span>{{ video.title }}</span>
-        <br />
-        <span class="primary--text">- {{ video.channel }}</span>
-        <br />
-      </div> -->
+  <v-row class="videoQue flex-nowrap" dense v-if="nextVideo">
+    <v-col cols="2" class="nextVideo">
+      <v-img :src="nextVideo.image" :height="imageHeight"></v-img>
+    </v-col>
+    <v-col v-for="(video, index) in queue" :key="index" cols="2">
+      <v-img :src="video.image" :height="imageHeight"></v-img>
     </v-col>
   </v-row>
 </template>
@@ -32,20 +20,28 @@ export default {
     queue() {
       let videos = []
       this.videoQueue.forEach((element, index) => {
-        if (index !== 0) {
+        if (index !== 0 && index !== 1 ) {
           videos.push(element)
         }
       })
       return videos
     },
     nextVideo() {
-      let videos = []
-      this.videoQueue.forEach((element, index) => {
-        if (index === 1) {
-          videos.push(element)
-        }
-      })
-      return videos
+      return this.videoQueue[1]
+    },
+    imageHeight() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '3rem'
+        case 'sm':
+          return '4rem'
+        case 'md':
+          return '5rem'
+        case 'lg':
+          return '6rem'
+        case 'xl':
+          return '7rem'
+      }
     }
   }
 }
@@ -56,11 +52,17 @@ export default {
   overflow-x: scroll;
   font-size: 14px;
 }
-.videoQue > div:first-child{
+.videoQue > div:first-child {
   color: red;
 }
 .vl {
   border-left: 3px solid black;
   height: 100%;
+}
+.queCard {
+  height: 5rem;
+}
+.nextVideo{
+  border: 2px solid white;
 }
 </style>

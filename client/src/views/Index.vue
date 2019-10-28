@@ -39,11 +39,14 @@
             type="card"
             :loading="loading"
             transition="fade-transition"
+            v-if="publicRooms.length === 0"
           ></v-skeleton-loader>
         </v-col>
       </v-row>
     </section>
-    <v-btn @click="addRooms">Test</v-btn>
+    <!-- <v-btn color="secondary" dark fixed bottom right @click="createRoom">
+      Create A Room
+    </v-btn> -->
   </v-container>
 </template>
 
@@ -110,6 +113,31 @@ export default {
         }
         RoomService.register(newRoom)
       }
+    },
+    createRoom() {
+      let newRoom = {
+        name: 'Test Name 23',
+        description: 'Test Description 23',
+        nsfw: 1,
+        userID: 1,
+        roomType: 1
+      }
+      RoomService.register(newRoom)
+        .then(result => {
+          console.log(result)
+          let roomID = result.data.room
+          this.$router.push({
+            name: 'room',
+            params: { id: roomID, createdRoom: true }
+          })
+          // this.$router.push({
+          //   path: '/room/' + result.data.room,
+          //   params: { newRoom: true }
+          // })
+        })
+        .catch(error => {
+          console.error(error)
+        })
     }
   },
   mounted() {

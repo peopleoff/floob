@@ -17,6 +17,7 @@ module.exports = (app) => {
     app.post('/rooms/getAll', RoomController.getAll);
     app.post('/rooms/register', RoomController.register);
     app.post('/rooms/toggleRoom', RoomController.toggleRoom);
+    app.post('/rooms/getInfo', RoomController.getInfo);
     // app.post('/rooms/checkPassword', RoomController.checkPassword);
 
 };

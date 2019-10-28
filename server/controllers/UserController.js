@@ -1,23 +1,23 @@
-const { users } = require("../models");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { signUser } = require("../config/auth");
+const { users } = require('../models')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const { signUser } = require('../config/auth')
 const {
   passwordResetEmail,
   welcomeEmail
-} = require("../controllers/MailController");
-const jwtSecret = require("../config/config").authentication.jwtSecret;
-const salt = require("../config/config").authentication.salt;
-const sgMail = require("@sendgrid/mail");
-const Sequelize = require("sequelize");
-const Op = Sequelize.Op;
-sgMail.setApiKey(process.env.API_FLOOB_SENDGRIDAPI);
+} = require('../controllers/MailController')
+const jwtSecret = require('../config/config').authentication.jwtSecret
+const salt = require('../config/config').authentication.salt
+const sgMail = require('@sendgrid/mail')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
+sgMail.setApiKey(process.env.API_FLOOB_SENDGRIDAPI)
 
 function tokenLogin(token, res) {
   try {
-    decoded = jwt.verify(token, jwtSecret).user;
-    let username = decoded.username.toLowerCase();
-    let password = decoded.password;
+    decoded = jwt.verify(token, jwtSecret).user
+    let username = decoded.username.toLowerCase()
+    let password = decoded.password
     users
       .findOne({
         active: 1,
@@ -28,28 +28,28 @@ function tokenLogin(token, res) {
         if (!response) {
           return res.send({
             error: true,
-            type: "error",
-            message: "Username or Password is incorrect"
-          });
+            type: 'error',
+            message: 'Username or Password is incorrect'
+          })
         } else {
-          let token = signUser(response);
+          let token = signUser(response)
           let user = {
             id: response.id,
             email: response.email,
             username: response.username
-          };
+          }
           return res.send({
             token: token,
             user: user
-          });
+          })
         }
-      });
+      })
   } catch (err) {
     return res.send({
       error: true,
-      type: "error",
+      type: 'error',
       message: err
-    });
+    })
   }
 }
 
@@ -58,16 +58,16 @@ module.exports = {
     if (!req.body) {
       return res.send({
         error: true,
-        type: "error",
-        message: "No Information submitted"
-      });
+        type: 'error',
+        message: 'No Information submitted'
+      })
     }
     if (req.body.password !== req.body.confirmPassword) {
       return res.send({
         error: true,
-        type: "error",
-        message: "Passwords do not match"
-      });
+        type: 'error',
+        message: 'Passwords do not match'
+      })
     }
     users
       .findOne({
@@ -86,96 +86,92 @@ module.exports = {
         if (user) {
           return res.send({
             error: true,
-            type: "error",
-            message: "User already exsists"
-          });
+            type: 'error',
+            message: 'User already exsists'
+          })
         } else {
-          req.body.password = bcrypt.hashSync(req.body.password, salt);
+          req.body.password = bcrypt.hashSync(req.body.password, salt)
           users.create(req.body).then(response => {
-            let token = signUser(response);
+            let token = signUser(response)
             let user = {
               id: response.id,
               email: response.email,
               username: response.username
-            };
-            welcomeEmail(response.email);
+            }
+            welcomeEmail(response.email)
             return res.send({
               token: token,
               user: user
-            });
-          });
+            })
+          })
         }
       })
       .catch(err => {
-        console.log(err);
+        console.log(err)
         return res.send({
           error: true,
-          type: "error",
+          type: 'error',
           message: err
-        });
-      });
+        })
+      })
   },
   login(req, res) {
     //If no post data is sent, return error
     if (!req.body) {
       return res.send({
         error: true,
-        type: "error",
-        message: "Error"
-      });
+        type: 'error',
+        message: 'Error'
+      })
     }
     //Check for token login
     if (req.body.token) {
-      tokenLogin(req.body.token, res);
+      tokenLogin(req.body.token, res)
     } else {
       users
         .findOne({
-          status_id: 1,
-          [Op.or]: [
-            { email_lowercase: req.body.username.toLowerCase() },
-            { username_lowercase: req.body.username.toLowerCase() }
-          ]
+          where: {
+            [Op.or]: [
+              { email_lowercase: req.body.username.toLowerCase() },
+              { username_lowercase: req.body.username.toLowerCase() }
+            ]
+          }
         })
         .then(response => {
           if (!response) {
             return res.send({
               error: true,
-              type: "error",
-              message: "Username or Password is incorrect"
-            });
+              type: 'error',
+              message: 'Username or Password is incorrect'
+            })
           } else {
             let passwordMatch = bcrypt.compareSync(
               req.body.password,
               response.password
-            );
+            )
             if (passwordMatch) {
-              let token = signUser(response);
+              let token = signUser(response)
               let user = {
                 id: response.id,
                 email: response.email,
                 username: response.username
-              };
+              }
               return res.send({
                 token: token,
                 user: user
-              });
-              return res.send({
-                error: true,
-                type: "error",
-                message: "Email or Password incorrect"
-              });
+              })
             }
           }
-        });
+        })
     }
   },
   requestPasswordChange(req, res) {
     if (!req.body.username) {
       return res.send({
         error: true,
-        message: "Please fill out all fields",
-        type: "error"
-      });
+        message: 'Please fill out all fields',
+        type: 'error'
+      })
     }
     let token = jwt.sign(
       {
@@ -183,9 +179,9 @@ module.exports = {
       },
       jwtSecret,
       {
-        expiresIn: "30m"
+        expiresIn: '30m'
       }
-    );
+    )
     users
       .update(
         {
@@ -205,9 +201,9 @@ module.exports = {
         if (!user[0]) {
           return res.send({
             error: false,
-            type: "success",
-            message: "Thank you a password reset has to been sent"
-          });
+            type: 'success',
+            message: 'Thank you a password reset has to been sent'
+          })
         } else {
           users
             .findOne({
@@ -218,51 +214,51 @@ module.exports = {
                 result.email,
                 result.username,
                 result.resettoken
-              );
+              )
               return res.send({
                 error: false,
-                type: "success",
-                message: "Thank you a password reset has to been sent"
-              });
+                type: 'success',
+                message: 'Thank you a password reset has to been sent'
+              })
             })
             .catch(error => {
-              console.error(error);
-            });
+              console.error(error)
+            })
         }
       })
       .catch(error => {
         return res.send({
           error: true,
-          type: "error",
+          type: 'error',
           message: error
-        });
-      });
+        })
+      })
   },
   changePassword(req, res) {
     if (!req.body) {
       return res.send({
         error: true,
-        type: "error",
-        message: "Please try again"
-      });
+        type: 'error',
+        message: 'Please try again'
+      })
     }
     if (req.body.password !== req.body.confirmPassword) {
       return res.send({
         error: true,
-        type: "error",
-        message: "Passwords do not match"
-      });
+        type: 'error',
+        message: 'Passwords do not match'
+      })
     }
     //Decode token to get email
     jwt.verify(req.body.token, jwtSecret, function(err, decoded) {
       if (!decoded) {
         return res.send({
           error: true,
-          type: "error",
-          message: "Token has expired. Please resend password reset."
-        });
+          type: 'error',
+          message: 'Token has expired. Please resend password reset.'
+        })
       } else {
-        let newPassword = bcrypt.hashSync(req.body.password, salt);
+        let newPassword = bcrypt.hashSync(req.body.password, salt)
         users
           .update(
             {
@@ -279,21 +275,21 @@ module.exports = {
             if (!result[0]) {
               return res.send({
                 error: true,
-                type: "error",
-                message: "Error updating password. Please try to reset again."
-              });
+                type: 'error',
+                message: 'Error updating password. Please try to reset again.'
+              })
             } else {
               return res.send({
                 error: false,
-                type: "success",
-                message: "Password reset. Please login again"
-              });
+                type: 'success',
+                message: 'Password reset. Please login again'
+              })
             }
           })
           .catch(error => {
-            console.error(error);
-          });
+            console.error(error)
+          })
       }
-    });
+    })
   }
-};
+}

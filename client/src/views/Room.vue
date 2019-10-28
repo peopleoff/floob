@@ -7,7 +7,32 @@
         <div class="d-flex flex-column h100">
           <!-- Video Search -->
           <div class="ma-2">
-            <VideoSearch></VideoSearch>
+            <v-row no-gutters style="flex-wrap: nowrap;">
+              <v-col
+                cols="1"
+                class="flex-grow-0 flex-shrink-0 align-self-center text-center"
+                v-if="roomInfo"
+              >
+                <span class="subtitle">
+                  {{ roomInfo.name }}
+                </span>
+              </v-col>
+              <v-col
+                style="min-width: 100px; max-width: 100%;"
+                class="flex-grow-1 flex-shrink-0"
+              >
+                <VideoSearch></VideoSearch>
+              </v-col>
+              <v-col
+                cols="1"
+                class="flex-grow-0 flex-shrink-1 align-self-center text-center"
+                v-if="roomOwner"
+              >
+                <v-btn icon v-if="roomOwner" @click="toggleRoomSettings">
+                  <v-icon>mdi-settings</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
           </div>
           <!-- Video Player -->
           <div class="ma-2 flex-grow-1">
@@ -16,9 +41,8 @@
           <!-- Video Actions -->
           <div class="ma-2">
             <div style="width: 100%;" class="d-flex justify-space-between">
-              <span style="cursor: pointer;" @click="voteToSkip()">
-                <span style="text-decoration: underline">Vote To Skip</span>
-                (0)
+              <span>
+                Video Que
               </span>
               <v-tooltip left>
                 <template v-slot:activator="{ on }">
@@ -32,8 +56,8 @@
             </div>
           </div>
           <!-- Video Que -->
-          <div class="ma-2">
-            <videoQueue :videoQueue="videoQueue" />
+          <div class="ma-2" style="min-height: 5rem;">
+            <videoQueue v-if="videoQueue.length > 0" :videoQueue="videoQueue" />
           </div>
         </div>
       </v-col>
@@ -44,6 +68,8 @@
         </v-row>
       </v-col>
     </v-row>
+    <PublicRoomDialog v-if="this.$route.params.createdRoom" />
+    <RoomSettingsDialog :dialog="roomSettings" @close="toggleRoomSettings" />
   </v-container>
 </template>
 
@@ -51,7 +77,10 @@
 import videoQueue from '@/components/VideoQueue'
 import VideoSearch from '@/components/VideoSearch'
 import VideoPlayer from '@/components/VideoPlayer'
+import PublicRoomDialog from '@/components/Dialogs/Public-Room-Dialog'
+import RoomSettingsDialog from '@/components/Dialogs/Room-Settings-Dialog'
 import Chat from '@/components/Chat'
+import RoomService from '@/services/RoomService'
 
 import { mapMutations } from 'vuex'
 
@@ -61,18 +90,24 @@ export default {
     videoQueue,
     VideoSearch,
     VideoPlayer,
+    PublicRoomDialog,
+    RoomSettingsDialog,
     Chat
   },
   data() {
     return {
       tab: null,
+      roomSettings: false,
+      roomInfo: null,
       tabs: 2,
       videoQueue: [],
-      hideChat: false
+      hideChat: false,
+      showCreatedRoom: false
     }
   },
   mounted() {
     this.newRoom()
+    this.createdRoom()
   },
   sockets: {
     getVideos: function(payload) {
@@ -93,6 +128,19 @@ export default {
         username: this.$store.state.user
       }
       this.$socket.emit('newRoom', payload)
+      RoomService.getInfo({
+        id: this.$route.params.id,
+        user: this.$store.state.user
+      })
+        .then(result => {
+          this.roomInfo = result.data.room
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
+    toggleRoomSettings(){
+      this.roomSettings = !this.roomSettings;
     },
     voteToSkip() {
       let payload = {
@@ -102,6 +150,12 @@ export default {
       }
       if (payload.video) {
         this.$socket.emit('voteToSkip', payload)
+      }
+    },
+    createdRoom() {
+      let createdRoom = this.$route.params.createdRoom
+      if (createdRoom) {
+        this.showCreatedRoom = true
       }
     }
   },
@@ -125,6 +179,19 @@ export default {
         return 'Show Chat'
       } else {
         return 'Hide Chat'
+      }
+    },
+    loggedIn() {
+      this.$store.getters.loggedIn
+    },
+    roomOwner() {
+      if(!this.roomInfo){
+        return false
+      }
+      if (this.$store.getters.loggedIn && this.roomInfo.roomOwner) {
+        return true
+      } else {
+        return false
       }
     }
   }
