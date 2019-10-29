@@ -84,6 +84,6 @@ export default {
 
 <style>
 .v-icon.v-icon.v-icon--link{
-  color: #7e57c2 !important
+  color: #00bcd4 !important
 }
 </style>

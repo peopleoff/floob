@@ -10,7 +10,7 @@
             <v-row no-gutters style="flex-wrap: nowrap;">
               <v-col
                 cols="2"
-                class="flex-grow-0 flex-shrink-0 align-self-center text-left"
+                class="flex-grow-0 flex-shrink-0 align-self-center text-left px-4"
                 v-if="roomInfo"
               >
                 <div class="subtitle-1">Room</div>
@@ -37,7 +37,7 @@
           <!-- Video Actions -->
           <div class="ma-2">
             <div style="width: 100%;" class="d-flex justify-space-between">
-              <span>Video Que</span>
+              <span>Video Queue ({{videoQueue.length}})</span>
               <v-tooltip left>
                 <template v-slot:activator="{ on }">
                   <span @click="hideChat = !hideChat" v-on="on" class="pointer">

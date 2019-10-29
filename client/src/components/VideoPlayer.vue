@@ -1,5 +1,5 @@
 <template>
-  <div id="aee" style="height: 100%; width: 100%;">
+  <div id="playerContainer">
     <div id="player"></div>
   </div>
 </template>
@@ -15,8 +15,8 @@ export default {
   methods: {
     onYouTubeIframeAPIReady: function(video) {
       //First remove video player if present
-      if(!video){
-        return;
+      if (!video) {
+        return
       }
       if (document.getElementById('player')) {
         document.getElementById('player').remove()
@@ -31,7 +31,7 @@ export default {
       }
       //Get video card parent
 
-      let playerCard = document.getElementById('aee')
+      let playerCard = document.getElementById('playerContainer')
       //Create video div for API to inject Iframe
       let videoPlayer = document.createElement('div')
       videoPlayer.setAttribute('id', 'player')
@@ -64,14 +64,12 @@ export default {
       })
     },
     onPlayerReady: function(event) {
-      console.log(event)
       event.target.playVideo()
     },
     onApiChange: function(event) {
       event.target.playVideo()
     },
     onPlayerStateChange: function(event) {
-      console.log(event)
       if (event.data === 0) {
         this.$socket.emit('removeVideo', this.videoQueue[0])
         this.videoQueue.shift()
@@ -106,16 +104,4 @@ export default {
 </script>
 
 <style>
-#player {
-  height: 100%;
-  width: 100%;
-}
-
-#noVideo {
-  position: absolute;
-  top: 30%;
-  right: 25%;
-  width: 50%;
-  height: 50%;
-}
 </style>

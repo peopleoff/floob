@@ -34,12 +34,13 @@ module.exports = {
       getVideoInfo(videoID)
         .then(result => {
           let videoInfo = result.data.items[0].snippet;
+          console.log(videoInfo.thumbnails);
           let newVideo = {
             videoID: videoID,
             roomID: roomID,
             title: videoInfo.title,
             channel: videoInfo.channelTitle,
-            image: videoInfo.thumbnails.default.url,
+            image: videoInfo.thumbnails.high.url,
             user: user.id,
           };
           videos.create(newVideo)

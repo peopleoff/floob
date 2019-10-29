@@ -54,6 +54,7 @@ module.exports = function(sequelize, DataTypes) {
           return JSON.parse(this.getDataValue("currentUsers"));
         },
         set: function(val) {
+          console.log(val);
           return this.setDataValue("currentUsers", JSON.stringify(val));
         }
       }
