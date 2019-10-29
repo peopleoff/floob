@@ -1,14 +1,11 @@
 <template>
   <v-app>
-    <Sidebar v-if="right" />
-    <Topbar v-else />
+    <Topbar />
     <v-content>
       <router-view />
       <Snackbar :snackbar="snackbar" />
       <LoginDialog :dialog="showLoginForm" />
-      <v-btn fixed dark fab bottom right color="secondary" @click="right = !right">
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
+      <Loader :isVisible="loading" />    
     </v-content>
   </v-app>
 </template>
@@ -17,6 +14,7 @@
 import Sidebar from './components/includes/Sidebar'
 import Topbar from './components/includes/Topbar'
 import Snackbar from './components/includes/Snackbar'
+import Loader from './components/Loader'
 import LoginDialog from './components/Dialogs/Signup-Dialog'
 
 import { mapMutations } from 'vuex'
@@ -26,6 +24,7 @@ export default {
     Sidebar,
     Topbar,
     LoginDialog,
+    Loader,
     Snackbar
   },
   sockets: {
@@ -50,13 +49,16 @@ export default {
     },
     showLoginForm() {
       return this.$store.state.loginForm
+    },
+    loading(){
+      return this.$store.getters.loading
     }
   }
 }
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap');
 * {
   font-family: 'Poppins', sans-serif;
 }

@@ -44,7 +44,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false">
+          <v-btn color="secondary" outlined @click="dialog = false">
             Thank You
           </v-btn>
         </v-card-actions>
@@ -82,4 +82,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.v-icon.v-icon.v-icon--link{
+  color: #7e57c2 !important
+}
+</style>

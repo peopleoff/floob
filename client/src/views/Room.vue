@@ -9,18 +9,14 @@
           <div class="ma-2">
             <v-row no-gutters style="flex-wrap: nowrap;">
               <v-col
-                cols="1"
-                class="flex-grow-0 flex-shrink-0 align-self-center text-center"
+                cols="2"
+                class="flex-grow-0 flex-shrink-0 align-self-center text-left"
                 v-if="roomInfo"
               >
-                <span class="subtitle">
-                  {{ roomInfo.name }}
-                </span>
+                <div class="subtitle-1">Room</div>
+                <div class="caption font-weight-thin">{{ roomInfo.name }}</div>
               </v-col>
-              <v-col
-                style="min-width: 100px; max-width: 100%;"
-                class="flex-grow-1 flex-shrink-0"
-              >
+              <v-col style="min-width: 100px; max-width: 100%;" class="flex-grow-1 flex-shrink-0">
                 <VideoSearch></VideoSearch>
               </v-col>
               <v-col
@@ -41,9 +37,7 @@
           <!-- Video Actions -->
           <div class="ma-2">
             <div style="width: 100%;" class="d-flex justify-space-between">
-              <span>
-                Video Que
-              </span>
+              <span>Video Que</span>
               <v-tooltip left>
                 <template v-slot:activator="{ on }">
                   <span @click="hideChat = !hideChat" v-on="on" class="pointer">
@@ -69,23 +63,23 @@
       </v-col>
     </v-row>
     <PublicRoomDialog v-if="this.$route.params.createdRoom" />
-    <RoomSettingsDialog :dialog="roomSettings" @close="toggleRoomSettings" />
+    <RoomSettingsDialog :dialog="roomSettings" :room="roomInfo" @close="toggleRoomSettings" />
   </v-container>
 </template>
 
 <script>
-import videoQueue from '@/components/VideoQueue'
-import VideoSearch from '@/components/VideoSearch'
-import VideoPlayer from '@/components/VideoPlayer'
-import PublicRoomDialog from '@/components/Dialogs/Public-Room-Dialog'
-import RoomSettingsDialog from '@/components/Dialogs/Room-Settings-Dialog'
-import Chat from '@/components/Chat'
-import RoomService from '@/services/RoomService'
+import videoQueue from "@/components/VideoQueue";
+import VideoSearch from "@/components/VideoSearch";
+import VideoPlayer from "@/components/VideoPlayer";
+import PublicRoomDialog from "@/components/Dialogs/Public-Room-Dialog";
+import RoomSettingsDialog from "@/components/Dialogs/Room-Settings-Dialog";
+import Chat from "@/components/Chat";
+import RoomService from "@/services/RoomService";
 
-import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
 
 export default {
-  name: 'Room',
+  name: "Room",
   components: {
     videoQueue,
     VideoSearch,
@@ -103,22 +97,22 @@ export default {
       videoQueue: [],
       hideChat: false,
       showCreatedRoom: false
-    }
+    };
   },
   mounted() {
-    this.newRoom()
-    this.createdRoom()
+    this.newRoom();
+    this.createdRoom();
   },
   sockets: {
     getVideos: function(payload) {
-      this.videoQueue = payload
+      this.videoQueue = payload;
     },
     voteAdded: function(payload) {
       this.videoQueue.map(element => {
         if (element._id === payload._id) {
-          element.skipCounter = payload.skipCounter
+          element.skipCounter = payload.skipCounter;
         }
-      })
+      });
     }
   },
   methods: {
@@ -126,20 +120,20 @@ export default {
       let payload = {
         roomID: this.$route.params.id,
         username: this.$store.state.user
-      }
-      this.$socket.emit('newRoom', payload)
+      };
+      this.$socket.emit("newRoom", payload);
       RoomService.getInfo({
         id: this.$route.params.id,
         user: this.$store.state.user
       })
         .then(result => {
-          this.roomInfo = result.data.room
+          this.roomInfo = result.data.room;
         })
         .catch(error => {
-          console.error(error)
-        })
+          console.error(error);
+        });
     },
-    toggleRoomSettings(){
+    toggleRoomSettings() {
       this.roomSettings = !this.roomSettings;
     },
     voteToSkip() {
@@ -147,55 +141,55 @@ export default {
         roomID: this.$route.params.id,
         video: this.videoQueue[0],
         username: this.$store.state.user
-      }
+      };
       if (payload.video) {
-        this.$socket.emit('voteToSkip', payload)
+        this.$socket.emit("voteToSkip", payload);
       }
     },
     createdRoom() {
-      let createdRoom = this.$route.params.createdRoom
+      let createdRoom = this.$route.params.createdRoom;
       if (createdRoom) {
-        this.showCreatedRoom = true
+        this.showCreatedRoom = true;
       }
     }
   },
   computed: {
     videoSize: function() {
       if (this.hideChat) {
-        return 'col-12 pa-0'
+        return "col-12 pa-0";
       } else {
-        return 'col-12 col-md-9 pa-0'
+        return "col-12 col-md-9 pa-0";
       }
     },
     chatSize: function() {
       if (this.hideChat) {
-        return 'd-none pa-0'
+        return "d-none pa-0";
       } else {
-        return 'col-lg-3 pa-0'
+        return "col-lg-3 pa-0";
       }
     },
     chatTooltip() {
       if (this.hideChat) {
-        return 'Show Chat'
+        return "Show Chat";
       } else {
-        return 'Hide Chat'
+        return "Hide Chat";
       }
     },
     loggedIn() {
-      this.$store.getters.loggedIn
+      this.$store.getters.loggedIn;
     },
     roomOwner() {
-      if(!this.roomInfo){
-        return false
+      if (!this.roomInfo) {
+        return false;
       }
       if (this.$store.getters.loggedIn && this.roomInfo.roomOwner) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
