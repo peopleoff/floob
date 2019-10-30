@@ -2,7 +2,6 @@
   <v-container fluid class="h100">
     <v-row class="h100">
       <!-- Main Layout -->
-      <!-- <v-col class="col-12 col-sm-6 col-md-4 col-lg-9 pa-0"> -->
       <v-col :class="videoSize">
         <div class="d-flex flex-column h100">
           <!-- Video Search -->
