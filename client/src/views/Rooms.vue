@@ -1,16 +1,5 @@
 <template>
   <v-container fluid>
-    <section v-if="favoriteRooms.length > 0">
-      <h1>My Rooms</h1>
-      <h3>View the most engaged public rooms.</h3>
-      <v-row>
-        <v-col v-for="room in favoriteRooms" :key="room.id" sm="6" md="4" lg="3">
-          <v-skeleton-loader type="card" :loading="loading" transition="fade-transition">
-            <RoomCard :room="room" @toggledRoom="getRooms" />
-          </v-skeleton-loader>
-        </v-col>
-      </v-row>
-    </section>
     <section>
       <h1>Rooms</h1>
       <h3>View the most engaged public rooms.</h3>

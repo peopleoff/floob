@@ -13,82 +13,80 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn icon v-on:click.prevent="toggleRoom(room.id)" color="secondary">
-        <v-icon v-if="room.favoriteRoom">mdi-heart</v-icon>
-        <v-icon v-else>mdi-heart-outline</v-icon>
-      </v-btn>
+      <v-icon class="mr-1">mdi-account</v-icon>
+      <span class="subheading">{{ room.current_viewers.length }}</span>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import _ from "lodash";
-import RoomService from "@/services/RoomService.js";
-import VideoService from "@/services/VideoService.js";
-import { mapMutations } from "vuex";
+import _ from 'lodash'
+import RoomService from '@/services/RoomService.js'
+import VideoService from '@/services/VideoService.js'
+import { mapMutations } from 'vuex'
 
 export default {
-  name: "Room",
-  props: ["room"],
+  name: 'Room',
+  props: ['room'],
   data() {
     return {
       dialog: false,
       selectedRoom: null,
       password: null,
       loading: false
-    };
+    }
   },
   methods: {
-    ...mapMutations(["UPDATE_SNACKBAR"]),
+    ...mapMutations(['UPDATE_SNACKBAR']),
     enterRoom(room) {
       if (room.password) {
-        this.selectedRoom = room;
-        this.dialog = true;
+        this.selectedRoom = room
+        this.dialog = true
       } else {
         this.$router.push({
-          path: "/room/" + room._id
-        });
+          path: '/room/' + room._id
+        })
       }
     },
     toggleRoom: _.debounce(function(roomID) {
       if (!this.loggedIn) {
         this.UPDATE_SNACKBAR({
-          type: "info",
-          message: "Please Login First!"
-        });
-        return;
+          type: 'info',
+          message: 'Please Login First!'
+        })
+        return
       }
       let room = {
         user: this.$store.state.user.id,
         room: roomID
-      };
+      }
       RoomService.toggleRoom(room)
         .then(result => {
-          this.UPDATE_SNACKBAR(result.data);
-          this.$emit("toggledRoom", "carrier");
+          this.UPDATE_SNACKBAR(result.data)
+          this.$emit('toggledRoom', 'carrier')
         })
         .catch(error => {
-          console.error(error);
-        });
+          console.error(error)
+        })
     }, 500),
     removeThumbnail(room) {
-      let card = document.getElementById(room._id);
-      card.style.backgroundImage = "";
+      let card = document.getElementById(room._id)
+      card.style.backgroundImage = ''
     },
     getThumbnail(room) {
-      let card = document.getElementById(room._id);
+      let card = document.getElementById(room._id)
       VideoService.getThumbnail({ roomID: room._id }).then(result => {
-        console.log(result.data);
-        card.style.backgroundImage = "url(" + result.data.image + ")";
-      });
+        console.log(result.data)
+        card.style.backgroundImage = 'url(' + result.data.image + ')'
+      })
     }
   },
   computed: {
     loggedIn() {
-      return this.$store.getters.loggedIn;
+      return this.$store.getters.loggedIn
     }
   }
-};
+}
 </script>
 
 <style scoped>
