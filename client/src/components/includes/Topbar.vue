@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="topBar" color="purple">
+  <v-app-bar class="topBar" color="purple" fixed flat>
     <router-link
       to="/"
       tag="img"

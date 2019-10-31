@@ -104,4 +104,14 @@ export default {
 </script>
 
 <style>
+#playerContainer{
+  height: 100%;
+  width: 100%;
+  min-height: 60vh;
+}
+#player{
+  height: 100%;
+  width: 100%;
+  min-height: 60vh;
+} 
 </style>

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from './views/Index.vue'
+import Rooms from './views/Rooms.vue'
 import Room from './views/Room.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
@@ -36,11 +37,16 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'index',
+      name: 'Index',
       component: Index
     },
     {
-      path: '/room/:id',
+      path: '/Rooms',
+      name: 'Rooms',
+      component: Rooms
+    },
+    {
+      path: '/Room/:id',
       name: 'room',
       component: Room
     },

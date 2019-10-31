@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Topbar />
-    <v-content>
+    <v-content id="content">
       <router-view />
       <Snackbar :snackbar="snackbar" />
       <LoginDialog :dialog="showLoginForm" />
@@ -82,5 +82,8 @@ body {
 
 .pointer {
   cursor: pointer;
+}
+#content{
+  margin-top: 64px;
 }
 </style>

@@ -5,7 +5,7 @@
       hide-details
       outlined
       prepend-inner-icon="mdi-magnify"
-      label="Search"
+      label="Search Videos"
       full-width
       id="videoBar"
       @input="searchVideos"
