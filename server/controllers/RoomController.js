@@ -1,9 +1,12 @@
-const { rooms, users_rooms, users } = require("../models");
+const { rooms, users_rooms, users, current_viewers } = require("../models");
 const Sequelize = require("sequelize");
 const fs = require("fs");
 
 users_rooms.belongsTo(users, { as: "roomUser", foreignKey: "user" });
 users_rooms.belongsTo(rooms, { as: "roomInfo", foreignKey: "room" });
+
+rooms.hasMany(current_viewers, { foreignKey: 'room'});
+current_viewers.belongsTo(rooms, {as: 'viewerInfos', foreignKey: 'room'});
 
 fs.readFile("./wordLists/commonWords.json", handleFile);
 let wordList;
@@ -21,13 +24,16 @@ module.exports = {
   getAll(req, res) {
     let publicRooms = [];
     let favoriteRooms = [];
-    console.log(req.body.user);
+    console.log(req.body);
     //First find all public rooms
     rooms
       .findAll({
         where: Sequelize.literal(
-          `id NOT IN (SELECT room from users_rooms where user = ${req.body.user} AND deletedAt IS NULL)`
-        )
+          'rooms.id NOT IN (SELECT room from `users_rooms` where user = ' + req.body.user +' AND deletedAt IS NULL)'
+        ),
+        include: [{
+          model: current_viewers
+        }]
       })
       .then(result => {
         //Set result to global var
@@ -100,24 +106,32 @@ module.exports = {
       });
   },
   addToRoom(payload, socketID) {
-    const { roomID, username } = payload;
-    rooms
-      .update(
-        {
-          currentUsers: username
-        },
-        {
-          where: {
-            id: roomID
-          }
-        }
-      )
-      .then(result => {
-        console.log(result);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    let userID = null;
+    if(payload.user){
+      userID = payload.user.id;
+    }
+
+    let newUser = {
+      user: userID,
+      room: payload.roomID,
+      socketID: socketID
+    };
+
+    current_viewers.create(newUser)
+    .then(result => {
+      console.log('User Added')
+    })
+    .catch(error => {
+      console.error(error);
+    })
+  },
+  removeFromRoom(payload, socketID){
+    current_viewers.destroy({
+      where: {
+        socketID: socketID,
+        room: payload.roomID
+      }
+    })
   },
   updateRoom(req, res) {
     if (!req.body) {

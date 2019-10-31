@@ -68,9 +68,6 @@ export default {
           console.error(error)
         })
     }
-  },
-  mounted() {
-    this.getRooms()
   }
 }
 </script>

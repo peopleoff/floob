@@ -17,7 +17,6 @@ export default new Vuex.Store({
     ADD_USER: (state, payload) => {
       state.user = payload.user;
       state.token = payload.token;
-      console.log(router);
     },
     ADD_ROOM: (state, payload) => {
       state.room = payload;

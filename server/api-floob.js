@@ -63,6 +63,10 @@ function newUser(socket, payload) {
   RoomController.addToRoom(payload, socket.id);
 }
 
+function removeFromRoom(socket, payload) {
+  RoomController.removeFromRoom(payload, socket.id);
+}
+
 function addVideo(payload) {
   VideoController.add(payload)
     .then(result => {
@@ -150,6 +154,9 @@ io.on("connection", socket => {
   });
   socket.on("voteToSkip", payload => {
     voteToSkip(payload);
+  });
+  socket.on("removeFromRoom", payload => {
+    removeFromRoom(socket, payload);
   });
   socket.on("removeVideo", payload => {
     removeVideo(payload);
