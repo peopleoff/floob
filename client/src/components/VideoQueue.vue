@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-row class="flex-nowrap videoQue" dense v-if="nextVideo">
+    <h4>Video Queue({{queue.length}})</h4>
+    <v-row class="flex-nowrap videoQue" dense>
       <v-col
         v-for="(video, index) in queue"
         :key="index"
@@ -39,7 +40,7 @@ export default {
     queue() {
       let videos = []
       this.videoQueue.forEach((element, index) => {
-        if (index !== 0 && index !== 1) {
+        if (index !== 0) {
           videos.push(element)
         }
       })
@@ -75,6 +76,8 @@ export default {
   overflow-x: scroll;
   scroll-behavior: smooth;
   font-size: 14px;
+  min-height: 5rem;
+  border: 1px solid white;
 }
 .videoTitle {
   position: fixed;

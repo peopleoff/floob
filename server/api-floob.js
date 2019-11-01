@@ -108,32 +108,42 @@ function removeVideo(payload) {
 }
 
 function voteToSkip(payload) {
+  let user = payload.user;
+  let room = parseInt(payload.roomID);
+  let video = parseInt(payload.video.id);
+  let skipObject = {
+    user: user,
+    room: room,
+    video: video
+  };
   let roomCount = io.nsps["/"].adapter.rooms[payload.roomID];
-  let votesNeeded = 0;
-  // Check if roomcount is defined
-  if (roomCount) {
-    votesNeeded = roomCount.length / 2;
-  }
-  VideoController.voteToSkip(payload, votesNeeded)
-    .then(result => {
-      switch (result) {
-        case "Already Voted":
-          break;
-        // If deleted, get videos again and send to room.
-        case "Video Deleted":
-          VideoController.getAll(payload.roomID).then(videoResult => {
-            io.sockets.in(payload.roomID).emit("getVideos", videoResult);
-          });
-          break;
-        // Default vote added, send back video with updated skipCounter
-        default:
-          io.sockets.in(payload.roomID).emit("voteAdded", result);
-          break;
-      }
-    })
-    .catch(error => {
-      catchError(error);
-    });
+  let votesNeeded = roomCount.length / 2;
+  VideoController.voteToSkip(skipObject, votesNeeded);
+  // let votesNeeded = 0;
+  // // Check if roomcount is defined
+  // if (roomCount) {
+  //   votesNeeded = roomCount.length / 2;
+  // }
+  // VideoController.voteToSkip(payload, votesNeeded)
+  //   .then(result => {
+  //     switch (result) {
+  //       case "Already Voted":
+  //         break;
+  //       // If deleted, get videos again and send to room.
+  //       case "Video Deleted":
+  //         VideoController.getAll(payload.roomID).then(videoResult => {
+  //           io.sockets.in(payload.roomID).emit("getVideos", videoResult);
+  //         });
+  //         break;
+  //       // Default vote added, send back video with updated skipCounter
+  //       default:
+  //         io.sockets.in(payload.roomID).emit("voteAdded", result);
+  //         break;
+  //     }
+  //   })
+  //   .catch(error => {
+  //     catchError(error);
+  //   });
 }
 // <----------------------------Socket Functions----------------------------> //
 

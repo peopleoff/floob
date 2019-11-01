@@ -26,12 +26,13 @@
         flat
         hide-details
         outlined
-        prepend-inner-icon="mdi-message-outline"
+        append-icon="mdi-emoticon"
         label="Say Something..."
         full-width
         v-model="message"
         @keydown.enter="addMessage"
       ></v-text-field>
+      <v-icon style="float: right;">mdi-settings</v-icon>
     </div>
   </div>
 </template>
@@ -54,7 +55,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['UPDATE_SNACKBAR']),
+    ...mapMutations(['UPDATE_SNACKBAR', 'TOGGLE_FORM']),
     getVideoID(name, url) {
       if (url.includes('youtu.be')) {
         let index = 0
@@ -78,12 +79,7 @@ export default {
     },
     addMessage() {
       if (!this.loggedIn) {
-        this.UPDATE_SNACKBAR({
-          type: 'info',
-          message: 'Please Login first',
-          x: 'right',
-          y: 'bottom'
-        })
+        this.TOGGLE_FORM()
         return
       }
       if (this.message) {
@@ -135,5 +131,6 @@ export default {
 #messages {
   max-height: 80vh;
   overflow-y: scroll;
+  font-size: 14px;
 }
 </style>

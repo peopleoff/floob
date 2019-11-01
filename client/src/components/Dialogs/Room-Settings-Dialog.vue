@@ -1,11 +1,16 @@
 <template>
-  <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+  <v-dialog
+    v-model="dialog"
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition"
+  >
     <v-card v-if="room">
       <v-toolbar dark color="primary">
         <v-btn icon dark @click="close">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>{{room.name}} Settings</v-toolbar-title>
+        <v-toolbar-title>{{ room.name }} Settings</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn dark text @click="updateRoom">Save</v-btn>
@@ -55,41 +60,39 @@
 </template>
 
 <script>
-import RoomService from "@/services/RoomService";
-import { mapMutations } from "vuex";
+import RoomService from '@/services/RoomService'
+import { mapMutations } from 'vuex'
 export default {
-  props: ["dialog", "room"],
+  props: ['dialog', 'room'],
   data() {
     return {
       notifications: false,
       sound: true,
       widgets: false,
-      nameRules: [v => v.length <= 50 || "Max 50 characters"],
-      descRules: [x => x.length <= 250 || "Max 250 characters"]
-    };
+      nameRules: [v => v.length <= 50 || 'Max 50 characters'],
+      descRules: [x => x.length <= 250 || 'Max 250 characters']
+    }
   },
   methods: {
-    ...mapMutations(["UPDATE_SNACKBAR"]),
+    ...mapMutations(['UPDATE_SNACKBAR']),
     close() {
-      this.$emit("close");
+      this.$emit('close')
     },
     updateRoom() {
-      if(this.room.name.length >= 50 || this.room.description.length >= 250 || !this.room.name){
-        return;
-      }
       RoomService.updateRoom({
         room: this.room,
         user: this.$store.state.user
       })
         .then(result => {
-          this.UPDATE_SNACKBAR(result.data);
+          console.log(result)
+          this.UPDATE_SNACKBAR(result.data)
         })
         .catch(error => {
-          console.error(error);
-        });
-      this.$emit("close");
+          console.error(error)
+        })
+      this.$emit('close')
     }
   }
-};
+}
 </script>
 <style></style>

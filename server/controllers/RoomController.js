@@ -41,7 +41,7 @@ module.exports = {
           //   0 when elements are the same
           //  >0 when a > b
           //  <0 when a < b
-          return one.current_viewers.length - other.current_viewers.length;
+          return  other.current_viewers.length - one.current_viewers.length;
        });
         return res.send({
           publicRooms: publicRooms,

@@ -108,6 +108,7 @@ export default {
   height: 100%;
   width: 100%;
   min-height: 60vh;
+  border: 1px solid #00bcd4;
 }
 #player{
   height: 100%;

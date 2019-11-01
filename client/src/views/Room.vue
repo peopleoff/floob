@@ -5,18 +5,23 @@
       <v-col :class="videoSize">
         <div class="d-flex flex-column h100">
           <!-- Video Search -->
-          <div class="ma-2">
+          <div class="ma-2 pl-4">
             <v-row no-gutters style="flex-wrap: nowrap;">
               <v-col
-                cols="2"
-                class="flex-grow-0 flex-shrink-0 align-self-center text-left px-4"
+                align-self="center"
                 v-if="roomInfo"
+                class="flex-grow-0 flex-shrink-1"
               >
-                <div class="subtitle-1">Room</div>
-                <div class="caption font-weight-thin">{{ roomInfo.name }}</div>
+                {{ roomInfo.name }}
               </v-col>
-              <v-col style="min-width: 100px; max-width: 100%;" class="flex-grow-1 flex-shrink-0">
+              <v-col
+                style="min-width: 100px; max-width: 100%;"
+                class="flex-grow-1 flex-shrink-0"
+              >
                 <VideoSearch></VideoSearch>
+              </v-col>
+              <v-col align-self="center" class="flex-grow-0 flex-shrink-1">
+                <v-btn text @click="voteToSkip">Vote To Skip(0)</v-btn>
               </v-col>
               <v-col
                 cols="1"
@@ -34,22 +39,34 @@
             <VideoPlayer :videoQueue="videoQueue" />
           </div>
           <!-- Video Actions -->
-          <!-- <div class="ma-2">
+          <div class="ma-2 pl-4">
             <div style="width: 100%;" class="d-flex justify-space-between">
-              <span>Video Queue ({{ videoQueue.length }})</span>
-              <v-tooltip left>
-                <template v-slot:activator="{ on }">
-                  <span @click="hideChat = !hideChat" v-on="on" class="pointer">
-                    <v-icon v-if="hideChat">mdi-chevron-left</v-icon>
-                    <v-icon v-else>mdi-chevron-right</v-icon>
-                  </span>
-                </template>
-                <span>{{ chatTooltip }}</span>
-              </v-tooltip>
+              <div class="roomName" v-if="roomInfo">
+                {{ roomInfo.name }}
+              </div>
+              <div>
+                <v-icon class="mr-1">mdi-account</v-icon>
+                <span class="subheading">
+                  2
+                </span>
+                <v-tooltip left>
+                  <template v-slot:activator="{ on }">
+                    <span
+                      @click="hideChat = !hideChat"
+                      v-on="on"
+                      class="pointer"
+                    >
+                      <v-icon v-if="hideChat">mdi-chevron-left</v-icon>
+                      <v-icon v-else>mdi-chevron-right</v-icon>
+                    </span>
+                  </template>
+                  <span>{{ chatTooltip }}</span>
+                </v-tooltip>
+              </div>
             </div>
-          </div>-->
+          </div>
           <!-- Video Que -->
-          <div class="ma-2 px-4" v-if="videoQueue.length > 0">
+          <div class="ma-2 pl-4">
             <videoQueue :videoQueue="videoQueue" />
           </div>
         </div>
@@ -62,24 +79,28 @@
       </v-col>
     </v-row>
     <PublicRoomDialog v-if="this.$route.params.createdRoom" />
-    <RoomSettingsDialog :dialog="roomSettings" :room="roomInfo" @close="toggleRoomSettings" />
+    <RoomSettingsDialog
+      :dialog="roomSettings"
+      :room="roomInfo"
+      @close="toggleRoomSettings"
+    />
   </v-container>
 </template>
 
 <script>
-import videoQueue from "@/components/VideoQueue";
-import VideoSearch from "@/components/VideoSearch";
-import VideoPlayer from "@/components/VideoPlayer";
-import NewVideoPlayer from "@/components/NewVideoPlayer";
-import PublicRoomDialog from "@/components/Dialogs/Public-Room-Dialog";
-import RoomSettingsDialog from "@/components/Dialogs/Room-Settings-Dialog";
-import Chat from "@/components/Chat";
-import RoomService from "@/services/RoomService";
+import videoQueue from '@/components/VideoQueue'
+import VideoSearch from '@/components/VideoSearch'
+import VideoPlayer from '@/components/VideoPlayer'
+import NewVideoPlayer from '@/components/NewVideoPlayer'
+import PublicRoomDialog from '@/components/Dialogs/Public-Room-Dialog'
+import RoomSettingsDialog from '@/components/Dialogs/Room-Settings-Dialog'
+import Chat from '@/components/Chat'
+import RoomService from '@/services/RoomService'
 
-import { mapMutations } from "vuex";
+import { mapMutations } from 'vuex'
 
 export default {
-  name: "Room",
+  name: 'Room',
   components: {
     videoQueue,
     VideoSearch,
@@ -98,22 +119,22 @@ export default {
       videoQueue: [],
       hideChat: false,
       showCreatedRoom: false
-    };
+    }
   },
   mounted() {
-    this.newRoom();
-    this.createdRoom();
+    this.newRoom()
+    this.createdRoom()
   },
   sockets: {
     getVideos: function(payload) {
-      this.videoQueue = payload;
+      this.videoQueue = payload
     },
     voteAdded: function(payload) {
       this.videoQueue.map(element => {
         if (element._id === payload._id) {
-          element.skipCounter = payload.skipCounter;
+          element.skipCounter = payload.skipCounter
         }
-      });
+      })
     }
   },
   methods: {
@@ -121,36 +142,36 @@ export default {
       let payload = {
         roomID: this.$route.params.id,
         user: this.$store.state.user
-      };
-      this.$socket.emit("newRoom", payload);
+      }
+      this.$socket.emit('newRoom', payload)
       RoomService.getInfo({
         id: this.$route.params.id,
         user: this.$store.state.user
       })
         .then(result => {
-          this.roomInfo = result.data.room;
+          this.roomInfo = result.data.room
         })
         .catch(error => {
-          console.error(error);
-        });
+          console.error(error)
+        })
     },
     toggleRoomSettings() {
-      this.roomSettings = !this.roomSettings;
+      this.roomSettings = !this.roomSettings
     },
     voteToSkip() {
       let payload = {
         roomID: this.$route.params.id,
         video: this.videoQueue[0],
-        user: this.$store.state.user
-      };
+        user: this.$store.state.user.id
+      }
       if (payload.video) {
-        this.$socket.emit("voteToSkip", payload);
+        this.$socket.emit('voteToSkip', payload)
       }
     },
     createdRoom() {
-      let createdRoom = this.$route.params.createdRoom;
+      let createdRoom = this.$route.params.createdRoom
       if (createdRoom) {
-        this.showCreatedRoom = true;
+        this.showCreatedRoom = true
       }
     }
   },
@@ -158,46 +179,46 @@ export default {
     let payload = {
       roomID: this.roomInfo.id,
       user: this.$store.state.user
-    };
-    this.$socket.emit("removeFromRoom", payload);
+    }
+    this.$socket.emit('removeFromRoom', payload)
   },
   computed: {
     videoSize: function() {
       if (this.hideChat) {
-        return "col-12 pa-0";
+        return 'col-12 pa-0'
       } else {
-        return "col-12 col-md-9 pa-0";
+        return 'col-12 col-md-10 pa-0'
       }
     },
     chatSize: function() {
       if (this.hideChat) {
-        return "d-none pa-0";
+        return 'd-none pa-0'
       } else {
-        return "col-lg-3 pa-0";
+        return 'col-lg-2 pa-0'
       }
     },
     chatTooltip() {
       if (this.hideChat) {
-        return "Show Chat";
+        return 'Show Chat'
       } else {
-        return "Hide Chat";
+        return 'Hide Chat'
       }
     },
     loggedIn() {
-      this.$store.getters.loggedIn;
+      this.$store.getters.loggedIn
     },
     roomOwner() {
       if (!this.roomInfo) {
-        return false;
+        return false
       }
       if (this.$store.getters.loggedIn && this.roomInfo.roomOwner) {
-        return true;
+        return true
       } else {
-        return false;
+        return false
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>

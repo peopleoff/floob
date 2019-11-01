@@ -1,4 +1,4 @@
-const {videos} = require("../models");
+const {videos, vote_to_skip} = require("../models");
 const { getVideoID, getVideoInfo } = require("../functions");
 
 module.exports = {
@@ -58,51 +58,61 @@ module.exports = {
   },
   async voteToSkip(payload, votesNeeded) {
     // Get video first to check current skip counter
-    let video = await Video.findById(payload.video._id);
-
-    return new Promise((resolve, reject) => {
-      // Function to check if user already skipped
-      function alreadySkipped() {
-        return video.skipCounter.includes(payload.username);
-      }
-      // If user already skipped, return and do nothing.
-      if (alreadySkipped()) {
-        return resolve("Already Voted");
-      }
-
-      // If user hasn't voted on video yet, add one to video's skip counter for current action.
-      // If skip counter is higher then votes needed, skip video.
-      if (video.skipCounter.length + 1 >= votesNeeded) {
-        Video.deleteOne(
-          {
-            _id: payload.video._id
-          },
-          (error, video) => {
-            if (error) return reject(error);
-            if (video) return resolve("Video Deleted");
-          }
-        );
-      } else {
-        // Default, add user to skip counter.
-        Video.findOneAndUpdate(
-          {
-            _id: payload.video._id
-          },
-          {
-            $push: {
-              skipCounter: payload.username
-            }
-          },
-          {
-            new: true
-          },
-          (error, result) => {
-            if (error) return reject(error);
-            return resolve(result);
-          }
-        );
+    let currentVotes = await vote_to_skip.findAndCountAll({
+      where: {
+        video: payload.video,
+        room: payload.room
       }
     });
+    console.log(currentVotes.count);
+
+    return new Promise((resolve, reject) => {
+      
+    });
+
+    // return new Promise((resolve, reject) => {
+    //   // Function to check if user already skipped
+    //   function alreadySkipped() {
+    //     return video.skipCounter.includes(payload.username);
+    //   }
+    //   // If user already skipped, return and do nothing.
+    //   if (alreadySkipped()) {
+    //     return resolve("Already Voted");
+    //   }
+
+    //   // If user hasn't voted on video yet, add one to video's skip counter for current action.
+    //   // If skip counter is higher then votes needed, skip video.
+    //   if (video.skipCounter.length + 1 >= votesNeeded) {
+    //     Video.deleteOne(
+    //       {
+    //         _id: payload.video._id
+    //       },
+    //       (error, video) => {
+    //         if (error) return reject(error);
+    //         if (video) return resolve("Video Deleted");
+    //       }
+    //     );
+    //   } else {
+    //     // Default, add user to skip counter.
+    //     Video.findOneAndUpdate(
+    //       {
+    //         _id: payload.video._id
+    //       },
+    //       {
+    //         $push: {
+    //           skipCounter: payload.username
+    //         }
+    //       },
+    //       {
+    //         new: true
+    //       },
+    //       (error, result) => {
+    //         if (error) return reject(error);
+    //         return resolve(result);
+    //       }
+    //     );
+    //   }
+    // });
   },
   searchVideos(payload) {},
   removeVideo(payload) {
