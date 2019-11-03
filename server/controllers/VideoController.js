@@ -1,4 +1,4 @@
-const {videos, vote_to_skip} = require("../models");
+const { videos, vote_to_skip } = require("../models");
 const { getVideoID, getVideoInfo } = require("../functions");
 
 module.exports = {
@@ -9,9 +9,7 @@ module.exports = {
           where: {
             roomID: id
           },
-          order: [
-            ['createdAt', 'ASC'],
-          ]
+          order: [["createdAt", "ASC"]]
         })
         .then(result => {
           resolve(result);
@@ -41,15 +39,16 @@ module.exports = {
             title: videoInfo.title,
             channel: videoInfo.channelTitle,
             image: videoInfo.thumbnails.high.url,
-            user: user.id,
+            user: user.id
           };
-          videos.create(newVideo)
-          .then(result => {
-            resolve(result)
-          })
-          .catch(error => {
-            reject(error)
-          })
+          videos
+            .create(newVideo)
+            .then(result => {
+              resolve(result);
+            })
+            .catch(error => {
+              reject(error);
+            });
         })
         .catch(error => {
           reject(error);
@@ -57,17 +56,40 @@ module.exports = {
     });
   },
   async voteToSkip(payload, votesNeeded) {
-    // Get video first to check current skip counter
+    //Check if user has already skipped video
+    let userVoted = await vote_to_skip.findOrCreate({
+      defaults: payload,
+      where: {
+        video: payload.video,
+        room: payload.room,
+        user: payload.user
+      }
+    });
     let currentVotes = await vote_to_skip.findAndCountAll({
       where: {
         video: payload.video,
         room: payload.room
       }
     });
-    console.log(currentVotes.count);
-
     return new Promise((resolve, reject) => {
-      
+      // userVoted[1] returns if a new record is created
+      //If no new record is created User already votted
+      if (!userVoted[1]) {
+        reject({
+          error: true,
+          type: "error",
+          message: "You've Already Voted!"
+        });
+      };
+      if (currentVotes.count > votesNeeded) {
+        removeVideo(payload.video)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+      }
     });
 
     // return new Promise((resolve, reject) => {
@@ -117,17 +139,18 @@ module.exports = {
   searchVideos(payload) {},
   removeVideo(payload) {
     return new Promise((resolve, reject) => {
-      videos.destroy({
-        where: {
-          id: payload.id
-        }
-      })
-      .then(result => {
-        resolve(result)
-      })
-      .catch(error => {
-        reject(error);
-      })
+      videos
+        .destroy({
+          where: {
+            id: payload.id
+          }
+        })
+        .then(result => {
+          resolve(result);
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   },
   getThumbnail(req, res) {

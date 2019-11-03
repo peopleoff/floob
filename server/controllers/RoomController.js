@@ -1,30 +1,31 @@
-const { rooms, users_rooms, users, current_viewers } = require('../models')
+const { rooms, users_rooms, users, current_viewers } = require("../models");
+const fs = require("fs");
 const Sequelize = require('sequelize')
-const fs = require('fs')
+const Op = Sequelize.Op
 
-users_rooms.belongsTo(users, { as: 'roomUser', foreignKey: 'user' })
-users_rooms.belongsTo(rooms, { as: 'roomInfo', foreignKey: 'room' })
+users_rooms.belongsTo(users, { as: "roomUser", foreignKey: "user" });
+users_rooms.belongsTo(rooms, { as: "roomInfo", foreignKey: "room" });
 
-rooms.hasMany(current_viewers, { foreignKey: 'room' })
-current_viewers.belongsTo(rooms, { as: 'viewerInfos', foreignKey: 'room' })
+rooms.hasMany(current_viewers, { foreignKey: "room" });
+current_viewers.belongsTo(rooms, { as: "viewerInfos", foreignKey: "room" });
 
-fs.readFile('./wordLists/commonWords.json', handleFile)
-let wordList
+fs.readFile("./wordLists/commonWords.json", handleFile);
+let wordList;
 // Write the callback function
 function handleFile(err, data) {
-  if (err) throw err
-  wordList = JSON.parse(data)
+  if (err) throw err;
+  wordList = JSON.parse(data);
 }
 function randomName() {
-  let random = Math.floor(Math.random() * Math.floor(1000))
-  let random2 = Math.floor(Math.random() * Math.floor(1000))
-  return wordList[random] + ' ' + wordList[random2]
+  let random = Math.floor(Math.random() * Math.floor(1000));
+  let random2 = Math.floor(Math.random() * Math.floor(1000));
+  return wordList[random] + " " + wordList[random2];
 }
 module.exports = {
   getAll(req, res) {
-    let publicRooms = []
-    let favoriteRooms = []
-    console.log(req.body)
+    let publicRooms = [];
+    let favoriteRooms = [];
+    console.log(req.body);
     //First find all public rooms
     rooms
       .findAll({
@@ -36,17 +37,17 @@ module.exports = {
       })
       .then(result => {
         //Set result to global var
-        publicRooms = result.sort(function (one, other) {
-          //a - b is 
+        publicRooms = result.sort((one, other) => {
+          //a - b is
           //   0 when elements are the same
           //  >0 when a > b
           //  <0 when a < b
-          return  other.current_viewers.length - one.current_viewers.length;
-       });
+          return other.current_viewers.length - one.current_viewers.length;
+        });
         return res.send({
           publicRooms: publicRooms,
           favoriteRooms: favoriteRooms
-        })
+        });
         // if (!req.body.user) {
         // }
         //Next find all rooms for user if logged in.
@@ -79,10 +80,10 @@ module.exports = {
       .catch(error => {
         return res.send({
           error: true,
-          type: 'error',
+          type: "error",
           message: error
-        })
-      })
+        });
+      });
   },
   getInfo(req, res) {
     rooms
@@ -95,57 +96,70 @@ module.exports = {
       .then(result => {
         if (req.body.user) {
           if (result.user === req.body.user.id) {
-            result.roomOwner = true
+            result.roomOwner = true;
           }
         }
         return res.send({
           room: result
-        })
+        });
       })
       .catch(error => {
         return res.send({
           error: true,
-          type: 'error',
+          type: "error",
           message: error
-        })
-      })
+        });
+      });
   },
   addToRoom(payload, socketID) {
-    let userID = null
+    let userID = null;
     if (payload.user) {
-      userID = payload.user.id
+      userID = payload.user.id;
     }
 
     let newUser = {
       user: userID,
       room: payload.roomID,
       socketID: socketID
-    }
+    };
 
     current_viewers
       .create(newUser)
       .then(result => {
-        console.log('User Added')
+        console.log("User Added");
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   },
   removeFromRoom(payload, socketID) {
+    let roomID;
+    if(!payload){
+      roomID = '';
+    }else{
+      roomID = payload.roomID;
+    }
     current_viewers.destroy({
       where: {
-        socketID: socketID,
-        room: payload.roomID
+        [Op.or]: [
+          {
+            socketID: socketID.id,
+            room: roomID
+          },
+          {
+            socketID: socketID.id
+          }
+        ]
       }
-    })
+    });
   },
   updateRoom(req, res) {
     if (!req.body) {
       return res.send({
         error: true,
-        type: 'error',
-        message: 'Error'
-      })
+        type: "error",
+        message: "Error"
+      });
     }
     rooms
       .update(req.body.room, {
@@ -157,31 +171,31 @@ module.exports = {
         if (result) {
           return res.send({
             error: false,
-            type: 'success',
-            message: 'Room Updated!'
-          })
+            type: "success",
+            message: "Room Updated!"
+          });
         }
       })
       .catch(error => {
         return res.send({
           error: true,
-          type: 'error',
+          type: "error",
           message: error
-        })
-      })
+        });
+      });
   },
   register(req, res) {
     if (!req.body) {
       return res.send({
         error: true,
-        type: 'error',
-        message: 'Error'
-      })
+        type: "error",
+        message: "Error"
+      });
     }
     let newRoom = {
       name: randomName(),
       user: req.body.userID
-    }
+    };
     rooms
       .create(newRoom)
       .then(response => {
@@ -194,23 +208,23 @@ module.exports = {
             return res.send({
               error: false,
               room: response.id
-            })
+            });
           })
           .catch(createdError => {
-            console.error(createdError)
-          })
+            console.error(createdError);
+          });
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   },
   toggleRoom(req, res) {
     if (!req.body) {
       return res.send({
         error: true,
-        type: 'error',
-        message: 'Error'
-      })
+        type: "error",
+        message: "Error"
+      });
     }
     users_rooms
       .findOne({
@@ -233,14 +247,14 @@ module.exports = {
               if (deletedResponse) {
                 return res.send({
                   error: false,
-                  type: 'success',
-                  message: 'Room Removed!'
-                })
+                  type: "success",
+                  message: "Room Removed!"
+                });
               }
             })
             .catch(deletedError => {
-              console.error(deletedError)
-            })
+              console.error(deletedError);
+            });
         } else {
           users_rooms
             .create(req.body)
@@ -248,18 +262,18 @@ module.exports = {
               if (createdResponse) {
                 return res.send({
                   error: false,
-                  type: 'success',
-                  message: 'Room Added!'
-                })
+                  type: "success",
+                  message: "Room Added!"
+                });
               }
             })
             .catch(createdError => {
-              console.error(createdError)
-            })
+              console.error(createdError);
+            });
         }
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   }
-}
+};
