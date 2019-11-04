@@ -32,7 +32,6 @@ module.exports = {
       getVideoInfo(videoID)
         .then(result => {
           let videoInfo = result.data.items[0].snippet;
-          console.log(videoInfo.thumbnails);
           let newVideo = {
             videoID: videoID,
             roomID: roomID,
@@ -139,6 +138,7 @@ module.exports = {
   searchVideos(payload) {},
   removeVideo(payload) {
     return new Promise((resolve, reject) => {
+      console.log(payload);
       videos
         .destroy({
           where: {

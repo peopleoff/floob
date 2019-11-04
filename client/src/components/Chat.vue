@@ -1,20 +1,22 @@
 <template>
   <div class="d-flex flex-column h100 w100">
     <!-- Video Search -->
-    <div class="ma-2">
-      <v-text-field
-        flat
-        hide-details
-        outlined
-        prepend-inner-icon="mdi-youtube"
-        label="Video Link"
-        full-width
-        v-model="video"
-        @keydown.enter="addVideo"
-      ></v-text-field>
+    <div class="ma-2 d-flex flex-row justify-space-between align-center">
+      <v-btn icon tile @click="toggleChat">
+        <v-icon>mdi-arrow-collapse-right</v-icon>
+      </v-btn>
+      <div>
+        Chat
+      </div>
+      <v-btn icon tile>
+        <v-icon>mdi-account-group</v-icon>
+      </v-btn>
     </div>
     <!-- Video Player -->
     <div class="ma-2 flex-grow-1" id="messages">
+      <div class="font-weight-thin" style="color: #9e9e9e">
+        Welcome To Chat!
+      </div>
       <div v-for="message in messages" :key="message.id">
         <span class="primary--text">{{ message.username }}</span>
         <span>: {{ message.message }}</span>
@@ -32,7 +34,6 @@
         v-model="message"
         @keydown.enter="addMessage"
       ></v-text-field>
-      <v-icon style="float: right;">mdi-settings</v-icon>
     </div>
   </div>
 </template>
@@ -46,7 +47,8 @@ export default {
     return {
       message: '',
       messages: [],
-      video: ''
+      video: '',
+      hideChat: false
     }
   },
   sockets: {
@@ -94,6 +96,9 @@ export default {
         container.scrollTop = container.scrollHeight
       }
     },
+    toggleChat() {
+      this.$emit('toggleChat')
+    },
     addVideo() {
       if (!this.loggedIn) {
         this.UPDATE_SNACKBAR({
@@ -119,6 +124,20 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.getters.loggedIn
+    },
+    chatSize: function() {
+      if (this.hideChat) {
+        return 'd-none pa-0'
+      } else {
+        return 'col-lg-2 pa-0'
+      }
+    },
+    chatTooltip() {
+      if (this.hideChat) {
+        return 'Show Chat'
+      } else {
+        return 'Hide Chat'
+      }
     }
   }
 }

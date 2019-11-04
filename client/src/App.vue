@@ -66,7 +66,9 @@ html,
 body {
   overscroll-behavior: none;
 }
-
+.theme--dark.v-application{
+  background: #101010 !important;
+}
 .h100 {
   height: 100% !important;
 }

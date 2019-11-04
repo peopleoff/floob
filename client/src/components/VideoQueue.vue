@@ -77,7 +77,7 @@ export default {
   scroll-behavior: smooth;
   font-size: 14px;
   min-height: 5rem;
-  border: 1px solid white;
+  border-top: 1px solid white;
 }
 .videoTitle {
   position: fixed;
@@ -95,6 +95,6 @@ export default {
   height: 5rem;
 }
 .nextVideo {
-  border: 2px solid white;
+  border-top: 2px solid white;
 }
 </style>

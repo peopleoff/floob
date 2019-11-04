@@ -1,12 +1,13 @@
 <template>
   <v-app-bar class="topBar" color="purple" fixed flat>
     <router-link
-      to="/"
+      to="/rooms"
       tag="img"
       :src="require('@/assets/images/logo-text.svg')"
       class="logo pointer"
     ></router-link>
-
+    <v-spacer></v-spacer>
+    <VideoSearch v-if="this.$router.currentRoute.name === 'room'"></VideoSearch>
     <v-spacer></v-spacer>
     <div v-if="loggedIn">
       <v-btn class="ma-2" color="secondary" @click="createRoom">
@@ -27,8 +28,12 @@
 
 <script>
 import RoomService from '@/services/RoomService.js'
+import VideoSearch from '@/components/VideoSearch'
 import { mapMutations } from 'vuex'
 export default {
+  components: {
+    VideoSearch
+  },
   data() {
     return {
       mini: true,
@@ -63,7 +68,6 @@ export default {
       }
       RoomService.register(newRoom)
         .then(result => {
-          console.log(result)
           let roomID = result.data.room
           this.$router.push({
             name: 'room',
@@ -82,6 +86,9 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.getters.loggedIn
+    },
+    isRoom() {
+      return this.$router.currentRoute.name
     }
   }
 }

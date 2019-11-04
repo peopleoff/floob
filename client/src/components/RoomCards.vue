@@ -9,7 +9,6 @@
   >
     <v-card-text>
       <p class="display-1 font-weight-black">{{ room.name }}</p>
-      <p class="black--text room-description">{{ room.description }}</p>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -94,11 +93,17 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  height: 20vh;
 }
 .room-description {
   height: 2rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.v-card__actions{
+  position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 </style>

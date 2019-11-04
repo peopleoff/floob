@@ -111,7 +111,7 @@ export default {
 </script>
 
 <style scoped>
-#searchbar {
+#videoSearch {
   width: 50%;
 }
 
@@ -119,7 +119,6 @@ export default {
   overflow: auto;
   max-height: 85vh;
   position: absolute;
-  background: #303030;
   width: 50%;
   z-index: 10000;
 }

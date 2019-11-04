@@ -62,6 +62,17 @@ function newUser(payload, socket) {
   RoomController.addToRoom(payload, socket.id);
 }
 
+function getCurrentViewers(payload, socket) {
+  const { room } = payload;
+  RoomController.getCurrentViewers(room)
+    .then(result => {
+      socket.emit("getCurrentViewers", result);
+    })
+    .catch(error => {
+      catchError(error);
+    });
+}
+
 function removeFromRoom(payload, socket) {
   RoomController.removeFromRoom(payload, socket.id);
 }
@@ -162,6 +173,9 @@ io.on("connection", socket => {
   socket.on("addVideo", payload => {
     addVideo(payload, socket);
   });
+  socket.on("getCurrentViewers", payload => {
+    getCurrentViewers(payload, socket);
+  });
   socket.on("addMessage", payload => {
     addMessage(payload, socket);
   });
@@ -181,7 +195,7 @@ io.on("connection", socket => {
     // RoomController.removeFromRoom(socketID);
   });
   socket.on("disconnect", () => {
-    RoomController.removeFromRoom(null, socket);
+    RoomController.removeFromRoom(null, socket.id);
   });
 });
 // <----------------------------Socket.io Listeners----------------------------> //
