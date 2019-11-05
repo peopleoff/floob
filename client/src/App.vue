@@ -4,14 +4,13 @@
     <v-content id="content">
       <router-view />
       <Snackbar :snackbar="snackbar" />
-      <LoginDialog :dialog="showLoginForm" />
+      <LoginDialog />
       <Loader :isVisible="loading" />    
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Sidebar from './components/includes/Sidebar'
 import Topbar from './components/includes/Topbar'
 import Snackbar from './components/includes/Snackbar'
 import Loader from './components/Loader'
@@ -21,7 +20,6 @@ import { mapMutations } from 'vuex'
 
 export default {
   components: {
-    Sidebar,
     Topbar,
     LoginDialog,
     Loader,
@@ -46,9 +44,6 @@ export default {
   computed: {
     snackbar() {
       return this.$store.state.snackbar
-    },
-    showLoginForm() {
-      return this.$store.state.loginForm
     },
     loading(){
       return this.$store.getters.loading

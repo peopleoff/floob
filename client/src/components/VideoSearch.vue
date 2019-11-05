@@ -1,5 +1,5 @@
 <template>
-  <div id="videoSearch">
+  <div id="videoSearch" v-if="this.$router.currentRoute.name === 'room'">
     <v-text-field
       flat
       hide-details

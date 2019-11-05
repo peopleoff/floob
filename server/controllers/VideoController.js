@@ -1,5 +1,5 @@
-const { videos, vote_to_skip } = require("../models");
-const { getVideoID, getVideoInfo } = require("../functions");
+const { videos, vote_to_skip } = require('../models')
+const { getVideoID, getVideoInfo } = require('../functions')
 
 module.exports = {
   getAll(id) {
@@ -9,29 +9,29 @@ module.exports = {
           where: {
             roomID: id
           },
-          order: [["createdAt", "ASC"]]
+          order: [['createdAt', 'ASC']]
         })
         .then(result => {
-          resolve(result);
+          resolve(result)
         })
         .catch(error => {
-          reject(error);
-        });
-    });
+          reject(error)
+        })
+    })
   },
   add(payload) {
     return new Promise((resolve, reject) => {
-      const { videoLink, roomID, pure, user } = payload;
-      videoID = "";
+      const { videoLink, roomID, pure, user } = payload
+      videoID = ''
       //Pure means Pure video ID was passed
       if (pure) {
-        videoID = videoLink;
+        videoID = videoLink
       } else {
-        videoID = getVideoID("v", videoLink);
+        videoID = getVideoID('v', videoLink)
       }
       getVideoInfo(videoID)
         .then(result => {
-          let videoInfo = result.data.items[0].snippet;
+          let videoInfo = result.data.items[0].snippet
           let newVideo = {
             videoID: videoID,
             roomID: roomID,
@@ -39,20 +39,20 @@ module.exports = {
             channel: videoInfo.channelTitle,
             image: videoInfo.thumbnails.high.url,
             user: user.id
-          };
+          }
           videos
             .create(newVideo)
             .then(result => {
-              resolve(result);
+              resolve(result)
             })
             .catch(error => {
-              reject(error);
-            });
+              reject(error)
+            })
         })
         .catch(error => {
-          reject(error);
-        });
-    });
+          reject(error)
+        })
+    })
   },
   async voteToSkip(payload, votesNeeded) {
     //Check if user has already skipped video
@@ -63,33 +63,33 @@ module.exports = {
         room: payload.room,
         user: payload.user
       }
-    });
+    })
     let currentVotes = await vote_to_skip.findAndCountAll({
       where: {
         video: payload.video,
         room: payload.room
       }
-    });
+    })
     return new Promise((resolve, reject) => {
       // userVoted[1] returns if a new record is created
       //If no new record is created User already votted
+      if (currentVotes.count > votesNeeded) {
+        this.removeVideo(payload.video)
+          .then(result => {
+            resolve(result)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      }
       if (!userVoted[1]) {
         reject({
           error: true,
-          type: "error",
+          type: 'error',
           message: "You've Already Voted!"
-        });
-      };
-      if (currentVotes.count > votesNeeded) {
-        removeVideo(payload.video)
-        .then(result => {
-          console.log(result);
-        })
-        .catch(error => {
-          console.log(error);
         })
       }
-    });
+    })
 
     // return new Promise((resolve, reject) => {
     //   // Function to check if user already skipped
@@ -136,22 +136,21 @@ module.exports = {
     // });
   },
   searchVideos(payload) {},
-  removeVideo(payload) {
+  removeVideo(videoID) {
     return new Promise((resolve, reject) => {
-      console.log(payload);
       videos
         .destroy({
           where: {
-            id: payload.id
+            id: videoID
           }
         })
         .then(result => {
-          resolve(result);
+          resolve(result)
         })
         .catch(error => {
-          reject(error);
-        });
-    });
+          reject(error)
+        })
+    })
   },
   getThumbnail(req, res) {
     Video.findOne({
@@ -162,19 +161,19 @@ module.exports = {
           return res.send({
             error: false,
             image: result.image
-          });
+          })
         } else {
           return res.send({
             error: false,
             image: null
-          });
+          })
         }
       })
       .catch(error => {
         return res.send({
           error: true,
           message: error
-        });
-      });
+        })
+      })
   }
-};
+}

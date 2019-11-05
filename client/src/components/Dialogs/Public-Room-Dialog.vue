@@ -74,11 +74,6 @@ export default {
       })
     }
   },
-  computed: {
-    showLoginForm() {
-      return this.$store.state.loginForm
-    }
-  }
 }
 </script>
 

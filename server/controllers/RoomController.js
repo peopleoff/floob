@@ -25,7 +25,6 @@ module.exports = {
   getAll(req, res) {
     let publicRooms = []
     let favoriteRooms = []
-    console.log(req.body)
     //First find all public rooms
     rooms
       .findAll({
@@ -121,7 +120,7 @@ module.exports = {
       current_viewers
         .findAndCountAll({
           where: {
-            room: payload.room
+            room: payload.roomID
           }
         })
         .then(result => {
@@ -143,7 +142,7 @@ module.exports = {
       room: payload.roomID,
       socketID: socketID
     }
-
+    console.log(newUser);
     current_viewers
       .create(newUser)
       .then(result => {
@@ -160,7 +159,6 @@ module.exports = {
     } else {
       roomID = payload.roomID
     }
-    console.log(socketID)
     current_viewers.destroy({
       where: {
         [Op.or]: [

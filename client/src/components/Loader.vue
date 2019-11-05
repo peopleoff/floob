@@ -194,8 +194,7 @@
 export default {
   name: "Loader",
   props: {
-    isVisible: { type: Boolean, required: true },
-    text: { type: String, required: false, default: "" }
+    isVisible: { type: Boolean, required: true }
   }
 };
 </script>

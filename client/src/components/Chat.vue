@@ -28,7 +28,6 @@
         flat
         hide-details
         outlined
-        append-icon="mdi-emoticon"
         label="Say Something..."
         full-width
         v-model="message"
@@ -40,7 +39,6 @@
 
 <script>
 import { mapMutations } from 'vuex'
-
 export default {
   name: 'Chat',
   data() {
@@ -48,7 +46,7 @@ export default {
       message: '',
       messages: [],
       video: '',
-      hideChat: false
+      hideChat: false,
     }
   },
   sockets: {
@@ -146,6 +144,9 @@ export default {
 <style scoped>
 .w100 {
   width: 100% !important;
+}
+.emoji-mart-bar{
+  display: none;
 }
 #messages {
   max-height: 80vh;

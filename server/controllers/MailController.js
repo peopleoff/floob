@@ -4,7 +4,6 @@ sgMail.setApiKey(process.env.API_FLOOB_SENDGRIDAPI)
 
 module.exports = {
   passwordResetEmail(recipient, username, token) {
-    console.log(recipient);
     const msg = {
       to: {
         email: recipient
@@ -23,7 +22,7 @@ module.exports = {
     sgMail
       .send(msg)
       .then(result => {
-        console.log(result[0].complete)
+        g(result[0].complete)
       })
       .catch(error => {
         console.error(error)

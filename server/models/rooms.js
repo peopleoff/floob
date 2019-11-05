@@ -47,16 +47,6 @@ module.exports = function(sequelize, DataTypes) {
           model: "room_types",
           key: "id"
         }
-      },
-      currentUsers: {
-        type: DataTypes.STRING(3000),
-        get: function() {
-          return JSON.parse(this.getDataValue("currentUsers"));
-        },
-        set: function(val) {
-          console.log(val);
-          return this.setDataValue("currentUsers", JSON.stringify(val));
-        }
       }
     },
     {

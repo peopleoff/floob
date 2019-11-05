@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="showLoginForm" max-width="50%" @input="close">
+  <v-dialog v-model="dialog" max-width="50%" @input="close" @in>
     <v-card color="basil">
       <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
         <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
@@ -27,6 +27,7 @@ export default {
     Signup,
     Login
   },
+  props: ['dialog'],
   data: () => ({
     tab: null,
     items: ['Login', 'Sign Up'],
@@ -35,12 +36,13 @@ export default {
   methods: {
      ...mapMutations(['TOGGLE_FORM']),
     close: function(event) {
+      console.log(event);
       this.$emit('closeDialog')
     }
   },
   computed: {
-    showLoginForm() {
-      return this.$store.state.loginForm;
+    loginForm() {
+      return this.$store.getters.loginForm;
     }
   }
 }

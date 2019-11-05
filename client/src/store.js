@@ -51,6 +51,9 @@ export default new Vuex.Store({
     loggedIn(state) {
       return state.token ? true : false;
     },
+    loginForm(state) {
+      return state.loginForm ? false : true;
+    },
     loading(state) {
       return state.loading ? true : false;
     },

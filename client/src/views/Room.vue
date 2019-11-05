@@ -49,7 +49,7 @@
               <div>
                 <v-icon class="mr-1" color="red">mdi-account</v-icon>
                 <span class="subheading">
-                  2
+                  {{userCount}}
                 </span>
                 <!-- <v-tooltip left>
                   <template v-slot:activator="{ on }">
@@ -118,7 +118,8 @@ export default {
       tabs: 2,
       videoQueue: [],
       hideChat: false,
-      showCreatedRoom: false
+      showCreatedRoom: false,
+      userCount: 0
     }
   },
   mounted() {
@@ -128,6 +129,9 @@ export default {
   sockets: {
     getVideos: function(payload) {
       this.videoQueue = payload
+    },
+    userCount: function(payload) {
+      this.userCount = payload
     },
     voteAdded: function(payload) {
       this.videoQueue.map(element => {
@@ -218,7 +222,7 @@ export default {
       }
     },
     loggedIn() {
-      this.$store.getters.loggedIn
+      return this.$store.getters.loggedIn
     },
     roomOwner() {
       if (!this.roomInfo) {

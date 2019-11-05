@@ -7,7 +7,7 @@
       class="logo pointer"
     ></router-link>
     <v-spacer></v-spacer>
-    <VideoSearch v-if="this.$router.currentRoute.name === 'room'"></VideoSearch>
+    <VideoSearch></VideoSearch>
     <v-spacer></v-spacer>
     <div v-if="loggedIn">
       <v-btn class="ma-2" color="secondary" @click="createRoom">
