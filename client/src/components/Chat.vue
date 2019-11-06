@@ -5,24 +5,24 @@
       <v-btn icon tile @click="toggleChat">
         <v-icon>mdi-arrow-collapse-right</v-icon>
       </v-btn>
-      <div>
-        Chat
-      </div>
-      <v-btn icon tile>
+      <div>Chat</div>
+      <v-btn icon tile @click="getUsers">
         <v-icon>mdi-account-group</v-icon>
       </v-btn>
     </div>
-    <!-- Video Player -->
-    <div class="ma-2 flex-grow-1" id="messages">
-      <div class="font-weight-thin" style="color: #9e9e9e">
-        Welcome To Chat!
-      </div>
+    <div class="ma-2 h100" id="messages" v-if="!showUsers">
+      <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
       <div v-for="message in messages" :key="message.id">
         <span class="primary--text">{{ message.username }}</span>
         <span>: {{ message.message }}</span>
       </div>
     </div>
-    <!-- Video Actions -->
+    <div class="ma-2 h100" id="users" v-if="showUsers">
+      <div class="font-weight-thin" style="color: #9e9e9e">Current Users</div>
+      <div v-for="user in currentViewers" :key="user.id">
+        <span class="primary--text">{{user.currentViewers.username}}</span>
+      </div>
+    </div>
     <div class="ma-2">
       <v-text-field
         flat
@@ -38,118 +38,136 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
+import UserService from "@/services/UserService";
 export default {
-  name: 'Chat',
+  name: "Chat",
   data() {
     return {
-      message: '',
+      message: "",
       messages: [],
-      video: '',
+      currentViewers: [],
+      video: "",
       hideChat: false,
-    }
+      showUsers: false
+    };
   },
   sockets: {
     newMessage: function(payload) {
-      this.messages.push(payload)
+      this.messages.push(payload);
     }
   },
   methods: {
-    ...mapMutations(['UPDATE_SNACKBAR', 'TOGGLE_FORM']),
+    ...mapMutations(["UPDATE_SNACKBAR", "TOGGLE_FORM"]),
     getVideoID(name, url) {
-      if (url.includes('youtu.be')) {
-        let index = 0
+      if (url.includes("youtu.be")) {
+        let index = 0;
         //Mobile Link
-        let firstCheck = url.split('/')[url.split('/').length - 1]
+        let firstCheck = url.split("/")[url.split("/").length - 1];
         if (firstCheck.length > 0) {
-          index = url.split('/').length - 1
+          index = url.split("/").length - 1;
         } else {
-          index = url.split('/').length - 2
+          index = url.split("/").length - 2;
         }
-        let videoID = url.split('/')[index]
-        return videoID
+        let videoID = url.split("/")[index];
+        return videoID;
       }
-      if (!url) url = window.location.href
-      name = name.replace(/[\[\]]/g, '\\$&')
-      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url)
-      if (!results) return null
-      if (!results[2]) return ''
-      return decodeURIComponent(results[2].replace(/\+/g, ' '))
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return "";
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
     },
     addMessage() {
       if (!this.loggedIn) {
-        this.TOGGLE_FORM()
-        return
+        this.TOGGLE_FORM();
+        return;
       }
       if (this.message) {
         let newMessage = {
           message: this.message,
           roomID: this.$route.params.id,
           user: this.$store.state.user
-        }
-        this.$socket.emit('addMessage', newMessage)
-        this.message = ''
-        let container = document.querySelector('#messages')
-        container.scrollTop = container.scrollHeight
+        };
+        this.$socket.emit("addMessage", newMessage);
+        this.message = "";
+        let container = document.querySelector("#messages");
+        container.scrollTop = container.scrollHeight;
       }
     },
     toggleChat() {
-      this.$emit('toggleChat')
+      this.$emit("toggleChat");
+    },
+    getUsers() {
+      if (this.showUsers) {
+        this.showUsers = false;
+      } else {
+        UserService.getUsers({ room: this.$route.params.id }).then(result => {
+          this.currentViewers = result.data;
+        });
+        this.showUsers = true;
+      }
     },
     addVideo() {
       if (!this.loggedIn) {
         this.UPDATE_SNACKBAR({
-          type: 'info',
-          message: 'Please Login first',
-          x: 'right',
-          y: 'top'
-        })
-        return
+          type: "info",
+          message: "Please Login first",
+          x: "right",
+          y: "top"
+        });
+        return;
       }
-      let user = this.$store.state.user
-      let videoID = this.getVideoID('v', this.video)
+      let user = this.$store.state.user;
+      let videoID = this.getVideoID("v", this.video);
       let newVideo = {
         videoLink: videoID,
         pure: true,
         roomID: this.$route.params.id,
         user: this.$store.state.user
-      }
-      this.$socket.emit('addVideo', newVideo)
-      this.video = ''
+      };
+      this.$socket.emit("addVideo", newVideo);
+      this.video = "";
     }
   },
   computed: {
     loggedIn() {
-      return this.$store.getters.loggedIn
+      return this.$store.getters.loggedIn;
     },
     chatSize: function() {
       if (this.hideChat) {
-        return 'd-none pa-0'
+        return "d-none pa-0";
       } else {
-        return 'col-lg-2 pa-0'
+        return "col-lg-2 pa-0";
       }
     },
     chatTooltip() {
       if (this.hideChat) {
-        return 'Show Chat'
+        return "Show Chat";
       } else {
-        return 'Hide Chat'
+        return "Hide Chat";
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
 .w100 {
   width: 100% !important;
 }
-.emoji-mart-bar{
+.emoji-mart-bar {
   display: none;
 }
 #messages {
-  max-height: 80vh;
+  max-height: 75.5vh;
+  overflow-y: scroll;
+  font-size: 14px;
+}
+#users {
+  max-height: 75.5vh;
   overflow-y: scroll;
   font-size: 14px;
 }

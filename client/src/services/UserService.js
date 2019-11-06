@@ -14,7 +14,7 @@ export default {
     return Api().post("isAuth", data);
   },
   getUsers(data) {
-    return Api().post("getUsers", data);
+    return Api().post("users/getUsers", data);
   },
   getUser(data) {
     return Api().post("getUser", data);

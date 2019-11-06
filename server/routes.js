@@ -13,6 +13,7 @@ module.exports = (app) => {
     app.post('/users/login', UserController.login);
     app.post('/users/requestPasswordChange', UserController.requestPasswordChange);
     app.post('/users/changePassword', UserController.changePassword);
+    app.post('/users/getUsers', UserController.getUsers);
     //Rooms Requests
     app.post('/rooms/getAll', RoomController.getAll);
     app.post('/rooms/register', RoomController.register);

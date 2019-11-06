@@ -7,7 +7,7 @@
       class="logo pointer"
     ></router-link>
     <v-spacer></v-spacer>
-    <VideoSearch></VideoSearch>
+    <VideoSearch v-show="isRoom"></VideoSearch>
     <v-spacer></v-spacer>
     <div v-if="loggedIn">
       <v-btn class="ma-2" color="secondary" @click="createRoom">
@@ -88,7 +88,7 @@ export default {
       return this.$store.getters.loggedIn
     },
     isRoom() {
-      return this.$router.currentRoute.name
+      return this.$route.name == 'room'
     }
   }
 }
