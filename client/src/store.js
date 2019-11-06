@@ -11,7 +11,7 @@ export default new Vuex.Store({
     room: null,
     token: localStorage.getItem("token") || "",
     snackbar: null,
-    loginForm: false
+    showLoginForm: false
   },
   mutations: {
     ADD_USER: (state, payload) => {
@@ -24,13 +24,16 @@ export default new Vuex.Store({
     UPDATE_SNACKBAR: (state, payload) => {
       state.snackbar = payload;
     },
-    TOGGLE_FORM: (state, payload) => {
-      state.loginForm = !state.loginForm;
+    SHOW_LOGIN_FORM: (state) => {
+      state.showLoginForm = true;
     },
-    START_LOADING: (state, payload) => {
+    HIDE_LOGIN_FORM: (state) => {
+      state.showLoginForm = false;
+    },
+    START_LOADING: (state) => {
       state.loading = true;
     },
-    STOP_LOADING: (state, payload) => {
+    STOP_LOADING: (state) => {
       state.loading = false;
     },
     LOGOUT_USER(state) {
@@ -51,8 +54,8 @@ export default new Vuex.Store({
     loggedIn(state) {
       return state.token ? true : false;
     },
-    loginForm(state) {
-      return state.loginForm ? false : true;
+    showLoginForm(state) {
+      return state.showLoginForm;
     },
     loading(state) {
       return state.loading ? true : false;

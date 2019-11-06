@@ -6,11 +6,8 @@ import Room from './views/Room.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
 import PasswordReset from './views/PasswordReset.vue'
-
 //Import Store
 import store from './store';
-
-
 //Import UserService to login user from router
 import UserService from '@/services/UserService'
 

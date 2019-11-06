@@ -6,7 +6,7 @@
         <v-icon>mdi-arrow-collapse-right</v-icon>
       </v-btn>
       <div>Chat</div>
-      <v-btn icon tile @click="getUsers">
+      <v-btn icon tile>
         <v-icon>mdi-account-group</v-icon>
       </v-btn>
     </div>
@@ -58,7 +58,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["UPDATE_SNACKBAR", "TOGGLE_FORM"]),
+    ...mapMutations(["UPDATE_SNACKBAR", "SHOW_LOGIN_FORM"]),
     getVideoID(name, url) {
       if (url.includes("youtu.be")) {
         let index = 0;
@@ -82,7 +82,7 @@ export default {
     },
     addMessage() {
       if (!this.loggedIn) {
-        this.TOGGLE_FORM();
+        this.SHOW_LOGIN_FORM();
         return;
       }
       if (this.message) {
@@ -105,6 +105,7 @@ export default {
         this.showUsers = false;
       } else {
         UserService.getUsers({ room: this.$route.params.id }).then(result => {
+          console.log(result.data);
           this.currentViewers = result.data;
         });
         this.showUsers = true;

@@ -53,7 +53,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["ADD_USER", "UPDATE_SNACKBAR"]),
+    ...mapMutations(["ADD_USER", "UPDATE_SNACKBAR", "HIDE_LOGIN_FORM"]),
     signIn: function() {
       this.$v.$touch();
       this.loading = true;
@@ -93,7 +93,11 @@ export default {
               type: "success",
               message: "Signed In!"
             });
-            this.$router.go(-1);
+            if(this.$route.name == 'Login'){
+              this.$router.go(-1);
+            }else{
+              this.HIDE_LOGIN_FORM();
+            }
           }
         });
       }

@@ -1,5 +1,11 @@
 <template>
-  <v-dialog v-model="dialog" max-width="50%" @input="close" @in>
+  <v-dialog
+    v-model="loginForm"
+    :click:outside="close"
+    max-width="50%"
+    height="50%"
+    @input="close"
+  >
     <v-card color="basil">
       <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
         <v-tab v-for="item in items" :key="item">{{ item }}</v-tab>
@@ -34,16 +40,20 @@ export default {
     forms: ['Login', 'Signup']
   }),
   methods: {
-     ...mapMutations(['TOGGLE_FORM']),
+     ...mapMutations(['SHOW_LOGIN_FORM', 'HIDE_LOGIN_FORM']),
     close: function(event) {
-      console.log(event);
-      this.$emit('closeDialog')
+      this.HIDE_LOGIN_FORM();
     }
   },
   computed: {
-    loginForm() {
-      return this.$store.getters.loginForm;
+  loginForm : {
+    get () {
+      return this.$store.state.showLoginForm
+    },
+    set (value) {
+      this.HIDE_LOGIN_FORM()
     }
+  },
   }
 }
 </script>
