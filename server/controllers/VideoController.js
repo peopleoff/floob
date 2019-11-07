@@ -56,6 +56,14 @@ module.exports = {
   },
   async voteToSkip(payload, votesNeeded) {
     //Check if user has already skipped video
+    console.log(payload)
+    console.log(votesNeeded)
+    let videoOwner = await videos.findOne({
+      where: {
+        id: payload.video,
+        user: payload.user
+      }
+    })
     let userVoted = await vote_to_skip.findOrCreate({
       defaults: payload,
       where: {
@@ -73,6 +81,15 @@ module.exports = {
     return new Promise((resolve, reject) => {
       // userVoted[1] returns if a new record is created
       //If no new record is created User already votted
+      if (videoOwner) {
+        this.removeVideo(payload.video)
+          .then(result => {
+            resolve(result)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      }
       if (currentVotes.count > votesNeeded) {
         this.removeVideo(payload.video)
           .then(result => {

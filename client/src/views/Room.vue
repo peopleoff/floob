@@ -18,7 +18,7 @@
               </v-col> -->
               <v-spacer></v-spacer>
               <v-col align-self="center" class="text-right">
-                <v-btn outlined @click="voteToSkip">Vote To Skip(0)</v-btn>
+                <v-btn outlined @click="voteToSkip">{{skipText}}</v-btn>
                 <v-btn icon tile v-if="hideChat" @click="toggleChat">
                   <v-icon>mdi-arrow-collapse-left</v-icon>
                 </v-btn>
@@ -51,19 +51,6 @@
                 <span class="subheading">
                   {{userCount}}
                 </span>
-                <!-- <v-tooltip left>
-                  <template v-slot:activator="{ on }">
-                    <span
-                      @click="hideChat = !hideChat"
-                      v-on="on"
-                      class="pointer"
-                    >
-                      <v-icon v-if="hideChat">mdi-chevron-left</v-icon>
-                      <v-icon v-else>mdi-chevron-right</v-icon>
-                    </span>
-                  </template>
-                  <span>{{ chatTooltip }}</span>
-                </v-tooltip> -->
               </div>
             </div>
           </div>
@@ -207,18 +194,19 @@ export default {
         return 'col-12 col-md-10 pa-0'
       }
     },
+    skipText(){
+      if(this.$store.state.user && this.videoQueue.length > 0){
+        if(this.$store.state.user.id == this.videoQueue[0].user){
+          return 'Skip Video';
+        }
+      };
+      return 'Vote to skip(0)'
+    },
     chatSize: function() {
       if (this.hideChat) {
         return 'd-none pa-0'
       } else {
         return 'col-lg-2 pa-0'
-      }
-    },
-    chatTooltip() {
-      if (this.hideChat) {
-        return 'Show Chat'
-      } else {
-        return 'Hide Chat'
       }
     },
     loggedIn() {

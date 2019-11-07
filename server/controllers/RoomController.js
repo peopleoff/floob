@@ -119,6 +119,9 @@ module.exports = {
     return new Promise((resolve, reject) => {
       current_viewers
         .findAndCountAll({
+          where: {
+            room: payload.roomID
+          }
         })
         .then(result => {
           resolve(result.count)
