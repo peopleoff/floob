@@ -37,130 +37,14 @@ export default {
     SignupForm
   },
   data() {
-    return {
-      user: {
-        username: "",
-        password: "",
-        confirmPassword: "",
-        email: ""
-      },
-      loading: false
-    };
-  },
-  validations: {
-    user: {
-      username: {
-        minLength: minLength(4),
-        required
-      },
-      password: {
-        minLength: minLength(6),
-        required
-      },
-      confirmPassword: {
-        sameAsPassword: sameAs("password")
-      },
-      email: {
-        minLength: minLength(4),
-        required,
-        email
-      }
+    return{
+
     }
   },
   methods: {
     ...mapMutations(["ADD_USER", "UPDATE_SNACKBAR"]),
-    Register: function() {
-      this.loading = true;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.loading = false;
-        return;
-      } else {
-        UserService.Register(this.user)
-          .then(response => {
-            if (response.data.error) {
-              this.UPDATE_SNACKBAR(response.data);
-              this.loading = false;
-              return;
-            }
-            let today = new Date();
-            today.setTime(today.getTime() + 3600000 * 24 * 7);
-            document.cookie =
-              "token=" +
-              escape(response.data.token) +
-              ";expires=" +
-              today.toGMTString();
-            this.ADD_USER({
-              token: response.data.token,
-              user: response.data.user
-            });
-            this.$router.push("/");
-            this.loading = false;
-          })
-          .catch(error => {
-            this.UPDATE_SNACKBAR(error.data);
-            this.loading = false;
-          });
-      }
-    }
   },
   computed: {
-    usernameErrors() {
-      const errors = [];
-      if (!this.$v.user.username.$dirty) {
-        return errors;
-      }
-      if (!this.$v.user.username.minLength) {
-        errors.push(
-          `Must be at least ${this.$v.user.username.$params.minLength.min} characters long`
-        );
-      }
-      if (!this.$v.user.username.required) {
-        errors.push("Username is required");
-      }
-      return errors;
-    },
-    passwordErrors() {
-      const errors = [];
-      if (!this.$v.user.password.$dirty) {
-        return errors;
-      }
-      if (!this.$v.user.password.minLength) {
-        errors.push(
-          `Must be at least ${this.$v.user.password.$params.minLength.min} characters long`
-        );
-      }
-      if (!this.$v.user.password.required) {
-        errors.push("Password is required");
-      }
-      return errors;
-    },
-    confirmPasswordErrors() {
-      const errors = [];
-      if (!this.$v.user.confirmPassword.$dirty) {
-        return errors;
-      }
-      if (!this.$v.user.confirmPassword.$model) {
-        errors.push("Can not be empty");
-      }
-      if (!this.$v.user.confirmPassword.sameAsPassword) {
-        errors.push("Passwords must match");
-      }
-      return errors;
-    },
-    emailErrors() {
-      const errors = [];
-      if (!this.$v.user.email.$dirty) {
-        return errors;
-      }
-      if (!this.$v.user.email.email) {
-        errors.push("Must be valid e-mail");
-      }
-      if (!this.$v.user.email.required) {
-        errors.push("E-mail is required");
-      }
-      return errors;
-    }
   }
 };
 </script>

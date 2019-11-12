@@ -6,37 +6,43 @@
     </v-toolbar>
     <v-card-text>
       <v-text-field
-        prepend-icon="mdi-account"
         name="username"
         label="Username"
+        hint="This is the name everyone will know you as on Floob"
         type="text"
         v-model="user.username"
         :error-messages="usernameErrors"
       ></v-text-field>
       <v-text-field
-        prepend-icon="mdi-email"
+        name="password"
+        label="Password"
+        :type="showPassword ? 'text' : 'password'"
+        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        @click:append="showPassword = !showPassword"
+        v-model="user.password"
+        :error-messages="passwordErrors"
+      ></v-text-field>
+      <v-text-field
+        name="dob"
+        label="Date of Birth"
+        hint="01/10/1943"
+        v-model="user.dateofbirth"
+        v-mask="dobMask"
+        :error-messages="dateofbirthErrors"
+      ></v-text-field>
+      <v-text-field
         name="email"
         label="Email"
         type="email"
         v-model="user.email"
         :error-messages="emailErrors"
       ></v-text-field>
-      <v-text-field
-        prepend-icon="mdi-lock"
-        name="password"
-        label="Password"
-        type="password"
-        v-model="user.password"
-        :error-messages="passwordErrors"
-      ></v-text-field>
-      <v-text-field
-        prepend-icon="mdi-lock"
-        name="confirmPassword"
-        label="Confirm Password"
-        type="password"
-        v-model="user.confirmPassword"
-        :error-messages="confirmPasswordErrors"
-      ></v-text-field>
+      <p class="caption">
+        By clicking Sign Up, you are indicating that you have read and
+        acknowledge the
+        <a href="TermsOfService" target="_blank">Terms of Service</a> and
+        <a href="PrivacyPolicy" target="_blank">Privacy Notice</a>
+      </p>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -48,7 +54,12 @@
 <script>
 import UserService from '@/services/UserService'
 import { mapMutations } from 'vuex'
-import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
+import {
+  required,
+  minLength,
+  email,
+} from 'vuelidate/lib/validators'
+
 export default {
   name: 'Signup',
   data() {
@@ -56,10 +67,12 @@ export default {
       user: {
         username: '',
         password: '',
-        confirmPassword: '',
-        email: ''
+        email: '',
+        dateofbirth: ''
       },
-      loading: false
+      dobMask: '##/##/####',
+      loading: false,
+      showPassword: false
     }
   },
   validations: {
@@ -72,8 +85,9 @@ export default {
         minLength: minLength(6),
         required
       },
-      confirmPassword: {
-        sameAsPassword: sameAs('password')
+      dateofbirth: {
+        minLength: minLength(6),
+        required
       },
       email: {
         minLength: minLength(4),
@@ -139,6 +153,16 @@ export default {
       }
       return errors
     },
+    dateofbirthErrors() {
+      const errors = []
+      if (!this.$v.user.dateofbirth.$dirty) {
+        return errors
+      }
+      if (!this.$v.user.dateofbirth.required) {
+        errors.push('Date of Birth is required')
+      }
+      return errors
+    },
     passwordErrors() {
       const errors = []
       if (!this.$v.user.password.$dirty) {
@@ -151,19 +175,6 @@ export default {
       }
       if (!this.$v.user.password.required) {
         errors.push('Password is required')
-      }
-      return errors
-    },
-    confirmPasswordErrors() {
-      const errors = []
-      if (!this.$v.user.confirmPassword.$dirty) {
-        return errors
-      }
-      if (!this.$v.user.confirmPassword.$model) {
-        errors.push('Can not be empty')
-      }
-      if (!this.$v.user.confirmPassword.sameAsPassword) {
-        errors.push('Passwords must match')
       }
       return errors
     },

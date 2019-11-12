@@ -4,9 +4,11 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import Vuelidate from 'vuelidate'
+import VueTheMask from 'vue-the-mask'
 import VueSocketIO from 'vue-socket.io'
 
 Vue.use(Vuelidate)
+Vue.use(VueTheMask)
 
 let socketDebug = true;
 if(process.env.NODE_ENV === 'production') {

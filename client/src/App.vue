@@ -13,6 +13,7 @@
 <script>
 import Topbar from './components/includes/Topbar'
 import Snackbar from './components/includes/Snackbar'
+import Footer from './components/includes/Footer'
 import Loader from './components/Loader'
 import LoginDialog from './components/Dialogs/Signup-Dialog'
 
@@ -23,6 +24,7 @@ export default {
     Topbar,
     LoginDialog,
     Loader,
+    Footer,
     Snackbar
   },
   sockets: {

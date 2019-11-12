@@ -71,6 +71,24 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "about" */ './views/AccountRecovery.vue')
     },
+    {
+      path: '/TermsOfService',
+      name: 'TermsOfService',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: "about" */ './views/TermsOfService.vue')
+    },
+    {
+      path: '/PrivacyPolicy',
+      name: 'AccountRecPrivacyPolicyovery',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: "about" */ './views/PrivacyPolicy.vue')
+    },
   ]
 })
 
