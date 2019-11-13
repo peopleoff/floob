@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
-    <section>
-      <v-row align="start" justify="center">
+    <section class="d-flex flex-column">
+      <v-row align="start" justify="center" class="flex-grow-1">
         <v-col class="text-center" cols="12">
           <v-img
             :src="require('@/assets/images/logo-text.svg')"
@@ -23,6 +23,7 @@
           </v-btn>
         </v-col>
       </v-row>
+      <Footer />
     </section>
   </v-container>
 </template>
@@ -30,13 +31,14 @@
 <script>
 import RoomCard from '@/components/RoomCards'
 import RoomService from '@/services/RoomService.js'
-
+import Footer from '../components/includes/Footer'
 import { mapMutations } from 'vuex'
 
 export default {
   name: 'Index',
   components: {
-    RoomCard
+    RoomCard,
+    Footer
   },
   data() {
     return {
@@ -80,19 +82,19 @@ export default {
 .container {
   padding: 0;
 }
-.container{
+.container {
   height: 100%;
 }
-.subheading{
+.subheading {
   width: 50%;
   margin: 0 auto;
 }
 section {
-    height: 100%;
-    background: url('https://media.discordapp.net/attachments/631129642362994698/643913660133277736/FloobFADEsmall.png');
-    background-position: inherit;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position-y: 15%;
+  height: 100%;
+  background: url('https://media.discordapp.net/attachments/631129642362994698/643913660133277736/FloobFADEsmall.png');
+  background-position: inherit;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-y: 15%;
 }
 </style>

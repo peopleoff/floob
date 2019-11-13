@@ -70,6 +70,10 @@ body {
   height: 100% !important;
 }
 
+.w100{
+  width: 100% !important;
+}
+
 .w0 {
   width: 0 !important;
 }

@@ -1,5 +1,24 @@
 <template>
-  <v-card
+  <v-card class="mx-auto roomCard grow elevation-5" max-width="400">
+    <v-img
+      class="white--text align-end"
+      height="200px"
+      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+    >
+      <v-btn outlined color="secondary" class="join-btn" :to="'room/' + room.id">Join</v-btn>
+    </v-img>
+    <v-card-title class="pb-0">{{ room.name }}</v-card-title>
+    <v-card-text class="text--primary">
+      <div>{{ room.description }}</div>
+    </v-card-text>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-icon class="mr-1">mdi-account</v-icon>
+      <span class="subheading">{{ room.current_viewers.length }}</span>
+    </v-card-actions>
+  </v-card>
+  <!-- <v-card
     class="mx-auto room-card"
     color="primary"
     hover
@@ -15,7 +34,7 @@
       <v-icon class="mr-1">mdi-account</v-icon>
       <span class="subheading">{{ room.current_viewers.length }}</span>
     </v-card-actions>
-  </v-card>
+  </v-card> -->
 </template>
 
 <script>
@@ -89,11 +108,26 @@ export default {
 </script>
 
 <style scoped>
-.room-card {
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.05);
+}
+.roomCard:hover .join-btn {
+  display: flex;
+}
+
+.join-btn {
+  display: none;
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+}
+/* .room-card {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  height: 20vh;
 }
 .room-description {
   height: 2rem;
@@ -101,9 +135,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.v-card__actions{
+.v-card__actions {
   position: absolute;
-    bottom: 0;
-    width: 100%;
-}
+  bottom: 0;
+  width: 100%;
+} */
 </style>
