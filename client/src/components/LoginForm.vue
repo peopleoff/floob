@@ -36,70 +36,76 @@
 </template>
 
 <script>
-import UserService from "@/services/UserService";
-import { mapMutations } from "vuex";
-import { required, username, minLength } from "vuelidate/lib/validators";
+import UserService from '@/services/UserService'
+import { mapMutations } from 'vuex'
+import { required, username, minLength } from 'vuelidate/lib/validators'
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       user: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       },
       loading: false,
       rememberme: false,
       status: null
-    };
+    }
   },
   methods: {
-    ...mapMutations(["ADD_USER", "UPDATE_SNACKBAR", "HIDE_LOGIN_FORM"]),
+    ...mapMutations(['ADD_USER', 'UPDATE_SNACKBAR', 'HIDE_LOGIN_FORM']),
     signIn: function() {
-      this.$v.$touch();
-      this.loading = true;
+      this.$v.$touch()
+      this.loading = true
       if (this.$v.$invalid) {
-        this.loading = false;
-        return;
+        this.loading = false
+        return
       } else {
-        UserService.login(this.user)
-        .then(response => {
-          this.loading = false;
+        UserService.login(this.user).then(response => {
+          this.loading = false
           if (response.data.message) {
-            this.UPDATE_SNACKBAR(response.data);
+            this.UPDATE_SNACKBAR(response.data)
           } else {
-            let today = new Date();
+            let today = new Date()
             if (this.rememberme) {
               //If remember me is checked, create cookie token cookie for a week
-              today.setTime(today.getTime() + 3600000 * 24 * 7);
+              today.setTime(today.getTime() + 3600000 * 24 * 7)
               document.cookie =
-                "token=" +
+                'token=' +
                 escape(response.data.token) +
-                ";expires=" +
-                today.toGMTString();
+                ';expires=' +
+                today.toGMTString()
             } else {
               //Otherwise set expiration for one hour
-              today.setTime(today.getTime() + 1 * 3600 * 1000);
+              today.setTime(today.getTime() + 1 * 3600 * 1000)
               document.cookie =
-                "token=" +
+                'token=' +
                 escape(response.data.token) +
-                ";expires=" +
-                today.toGMTString();
+                ';expires=' +
+                today.toGMTString()
             }
             this.ADD_USER({
               user: response.data.user,
               token: response.data.token
-            });
+            })
             this.UPDATE_SNACKBAR({
-              type: "success",
-              message: "Signed In!"
-            });
-            if(this.$route.name == 'Login'){
-              this.$router.go(-1);
-            }else{
-              this.HIDE_LOGIN_FORM();
+              type: 'success',
+              message: 'Signed In!'
+            })
+            if (this.$route.name.toLowerCase() == 'signup') {
+              let previousRoute = JSON.parse(
+                localStorage.getItem('previousRoute')
+              )
+              if (previousRoute.name !== 'room') {
+                this.$router.push('/rooms')
+              } else {
+                this.$router.push(previousRoute.path)
+              }
+            } else {
+              this.HIDE_LOGIN_FORM()
             }
           }
-        });
+        })
       }
     }
   },
@@ -117,37 +123,37 @@ export default {
   },
   computed: {
     usernameErrors() {
-      const errors = [];
+      const errors = []
       if (!this.$v.user.username.$dirty) {
-        return errors;
+        return errors
       }
       if (!this.$v.user.username.minLength) {
         errors.push(
           `Must be at least ${this.$v.user.username.$params.minLength.min} characters long`
-        );
+        )
       }
       if (!this.$v.user.username.required) {
-        errors.push("Username is required");
+        errors.push('Username is required')
       }
-      return errors;
+      return errors
     },
     passwordErrors() {
-      const errors = [];
+      const errors = []
       if (!this.$v.user.password.$dirty) {
-        return errors;
+        return errors
       }
       if (!this.$v.user.password.minLength) {
         errors.push(
           `Must be at least ${this.$v.user.password.$params.minLength.min} characters long`
-        );
+        )
       }
       if (!this.$v.user.password.required) {
-        errors.push("Password is required");
+        errors.push('Password is required')
       }
-      return errors;
+      return errors
     }
   }
-};
+}
 </script>
 
 <style scoped></style>

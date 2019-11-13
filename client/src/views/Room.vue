@@ -7,18 +7,16 @@
           <!-- Video Search -->
           <div class="ma-2 pl-4">
             <v-row no-gutters style="flex-wrap: nowrap;">
-              <v-col align-self="center" v-if="roomInfo">
-                {{ roomInfo.name }}
-              </v-col>
+              <v-col align-self="center" v-if="roomInfo">{{ roomInfo.name }}</v-col>
               <!-- <v-col
                 style="min-width: 100px; max-width: 100%;"
                 class="flex-grow-1 flex-shrink-0"
               >
                 <VideoSearch></VideoSearch>
-              </v-col> -->
+              </v-col>-->
               <v-spacer></v-spacer>
               <v-col align-self="center" class="text-right">
-                <v-btn outlined @click="voteToSkip">{{skipText}}</v-btn>
+                <v-btn v-if="this.videoQueue.length > 0" outlined @click="voteToSkip">{{skipText}}</v-btn>
                 <v-btn icon tile v-if="hideChat" @click="toggleChat">
                   <v-icon>mdi-arrow-collapse-left</v-icon>
                 </v-btn>
@@ -31,7 +29,7 @@
                 <v-btn icon v-if="roomOwner" @click="toggleRoomSettings">
                   <v-icon>mdi-settings</v-icon>
                 </v-btn>
-              </v-col> -->
+              </v-col>-->
             </v-row>
           </div>
           <!-- Video Player -->
@@ -42,15 +40,11 @@
           <div class="ma-2 pl-4">
             <div style="width: 100%;" class="d-flex justify-space-between">
               <div class="roomName">
-                <div class="title" v-if="videoQueue.length > 0">
-                  {{ videoQueue[0].title }}
-                </div>
+                <div class="title" v-if="videoQueue.length > 0">{{ videoQueue[0].title }}</div>
               </div>
               <div>
                 <v-icon class="mr-1" color="red">mdi-account</v-icon>
-                <span class="subheading">
-                  {{userCount}}
-                </span>
+                <span class="subheading">{{userCount}}</span>
               </div>
             </div>
           </div>
@@ -68,11 +62,7 @@
       </v-col>
     </v-row>
     <PublicRoomDialog v-if="this.$route.params.createdRoom" />
-    <RoomSettingsDialog
-      :dialog="roomSettings"
-      :room="roomInfo"
-      @close="toggleRoomSettings"
-    />
+    <RoomSettingsDialog :dialog="roomSettings" :room="roomInfo" @close="toggleRoomSettings" />
   </v-container>
 </template>
 
@@ -119,6 +109,9 @@ export default {
     },
     userCount: function(payload) {
       this.userCount = payload
+    },
+    skipCounter: function(payload) {
+      this.videoQueue[0].skipCounter = payload
     },
     voteAdded: function(payload) {
       this.videoQueue.map(element => {
@@ -194,13 +187,15 @@ export default {
         return 'col-12 col-md-10 pa-0'
       }
     },
-    skipText(){
-      if(this.$store.state.user && this.videoQueue.length > 0){
-        if(this.$store.state.user.id == this.videoQueue[0].user){
-          return 'Skip Video';
+    skipText() {
+      if (this.$store.state.user && this.videoQueue.length > 0) {
+        if (this.$store.state.user.id == this.videoQueue[0].user) {
+          return 'Skip Video'
         }
-      };
-      return 'Vote to skip(0)'
+      }
+      if (this.videoQueue.length > 0) {
+        return `Vote to skip (${this.videoQueue[0].skipCounter})`
+      }
     },
     chatSize: function() {
       if (this.hideChat) {

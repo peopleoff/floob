@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING(250),
         allowNull: false
       },
+      date_of_birth: {
+        type: DataTypes.STRING(250),
+        allowNull: false
+      },
       type: {
         type: DataTypes.INTEGER(11),
         allowNull: true,

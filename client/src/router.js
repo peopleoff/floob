@@ -95,8 +95,13 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
 
-  function tokenLogin() {
+  let historyObject = {
+    name: from.name,
+    path: from.fullPath
+  }
+  localStorage.setItem('previousRoute', JSON.stringify(historyObject));
 
+  function tokenLogin() {
     let token = getCookie('token');
     let user = store.state.user
 

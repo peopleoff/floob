@@ -7,7 +7,7 @@ module.exports = {
       videos
         .findAll({
           where: {
-            roomID: id
+            room: id
           },
           order: [['createdAt', 'ASC']]
         })
@@ -34,7 +34,7 @@ module.exports = {
           let videoInfo = result.data.items[0].snippet
           let newVideo = {
             videoID: videoID,
-            roomID: roomID,
+            room: roomID,
             title: videoInfo.title,
             channel: videoInfo.channelTitle,
             image: videoInfo.thumbnails.high.url,
@@ -55,15 +55,14 @@ module.exports = {
     })
   },
   async voteToSkip(payload, votesNeeded) {
-    //Check if user has already skipped video
-    console.log(payload)
-    console.log(votesNeeded)
+    //Check if user posted video
     let videoOwner = await videos.findOne({
       where: {
         id: payload.video,
         user: payload.user
       }
-    })
+    });
+    //Check if user has already skipped video
     let userVoted = await vote_to_skip.findOrCreate({
       defaults: payload,
       where: {
@@ -79,25 +78,37 @@ module.exports = {
       }
     })
     return new Promise((resolve, reject) => {
-      // userVoted[1] returns if a new record is created
-      //If no new record is created User already votted
+      //Auto skip video if user who posted video skips.
+      let video = {
+        skipVideo: false,
+        currentVotes: currentVotes.count,
+        result: null
+      }
       if (videoOwner) {
         this.removeVideo(payload.video)
           .then(result => {
-            resolve(result)
+            video.skipVideo = true;
+            video.result = result;
+            resolve(video)
           })
           .catch(error => {
             reject(error)
           })
-      }
+      };
+      // userVoted[1] returns if a new record is created
+      //If no new record is created User already votted
       if (currentVotes.count > votesNeeded) {
         this.removeVideo(payload.video)
           .then(result => {
-            resolve(result)
+            video.skipVideo = true;
+            video.result = result;
+            resolve(video)
           })
           .catch(error => {
             reject(error)
           })
+      }else{
+        resolve(video)
       }
       if (!userVoted[1]) {
         reject({
@@ -171,7 +182,7 @@ module.exports = {
   },
   getThumbnail(req, res) {
     Video.findOne({
-      roomID: req.body.roomID
+      room: req.body.roomID
     })
       .then(result => {
         if (result) {

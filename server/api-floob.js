@@ -135,7 +135,8 @@ function voteToSkip(payload, socket) {
   let votesNeeded = roomCount.length / 2
   VideoController.voteToSkip(skipObject, votesNeeded)
     .then(result => {
-      if (result) {
+      console.log(result);
+      if (result.skipVideo) {
         VideoController.getAll(payload.roomID)
           .then(videoResult => {
             io.sockets.in(payload.roomID).emit('getVideos', videoResult)
@@ -143,6 +144,8 @@ function voteToSkip(payload, socket) {
           .catch(error => {
             catchError(error)
           })
+      }else{
+        io.sockets.in(payload.roomID).emit('skipCounter', result.currentVotes)
       }
     })
     .catch(error => {

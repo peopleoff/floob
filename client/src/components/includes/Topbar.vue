@@ -68,15 +68,11 @@ export default {
       }
       RoomService.register(newRoom)
         .then(result => {
-          let roomID = result.data.room
+          let roomID = result.data.room;
           this.$router.push({
             name: 'room',
             params: { id: roomID, createdRoom: true }
           })
-          // this.$router.push({
-          //   path: '/room/' + result.data.room,
-          //   params: { newRoom: true }
-          // })
         })
         .catch(error => {
           console.error(error)

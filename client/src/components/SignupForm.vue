@@ -26,9 +26,9 @@
         name="dob"
         label="Date of Birth"
         hint="01/10/1943"
-        v-model="user.dateofbirth"
+        v-model="user.date_of_birth"
         v-mask="dobMask"
-        :error-messages="dateofbirthErrors"
+        :error-messages="date_of_birthErrors"
       ></v-text-field>
       <v-text-field
         name="email"
@@ -40,7 +40,10 @@
       <p class="caption">
         By clicking Sign Up, you are indicating that you have read and
         acknowledge the
-        <a href="TermsOfService" target="_blank">Terms of Service</a> and
+        <a
+          href="TermsOfService"
+          target="_blank"
+        >Terms of Service</a> and
         <a href="PrivacyPolicy" target="_blank">Privacy Notice</a>
       </p>
     </v-card-text>
@@ -54,11 +57,7 @@
 <script>
 import UserService from '@/services/UserService'
 import { mapMutations } from 'vuex'
-import {
-  required,
-  minLength,
-  email,
-} from 'vuelidate/lib/validators'
+import { required, minLength, email } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Signup',
@@ -68,7 +67,7 @@ export default {
         username: '',
         password: '',
         email: '',
-        dateofbirth: ''
+        date_of_birth: ''
       },
       dobMask: '##/##/####',
       loading: false,
@@ -85,7 +84,7 @@ export default {
         minLength: minLength(6),
         required
       },
-      dateofbirth: {
+      date_of_birth: {
         minLength: minLength(6),
         required
       },
@@ -97,7 +96,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['ADD_USER', 'UPDATE_SNACKBAR']),
+    ...mapMutations(['ADD_USER', 'UPDATE_SNACKBAR', 'HIDE_LOGIN_FORM']),
     Register: function() {
       this.loading = true
       this.$v.$touch()
@@ -127,7 +126,19 @@ export default {
               type: 'success',
               message: 'Signed In!'
             })
-            this.$router.push('/')
+            //If not on the Signup page, close the dialog
+            if (this.$route.name.toLowerCase() == 'signup') {
+              let previousRoute = JSON.parse(
+                localStorage.getItem('previousRoute')
+              )
+              if (previousRoute.name !== 'room') {
+                this.$router.push('/rooms')
+              } else {
+                this.$router.push(previousRoute.path)
+              }
+            } else {
+              this.HIDE_LOGIN_FORM()
+            }
             this.loading = false
           })
           .catch(error => {
@@ -153,12 +164,12 @@ export default {
       }
       return errors
     },
-    dateofbirthErrors() {
+    date_of_birthErrors() {
       const errors = []
-      if (!this.$v.user.dateofbirth.$dirty) {
+      if (!this.$v.user.date_of_birth.$dirty) {
         return errors
       }
-      if (!this.$v.user.dateofbirth.required) {
+      if (!this.$v.user.date_of_birth.required) {
         errors.push('Date of Birth is required')
       }
       return errors

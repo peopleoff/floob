@@ -2,7 +2,7 @@
   <v-app>
     <Topbar />
     <v-content id="content">
-      <router-view />
+      <router-view :key="$route.fullPath"/>
       <Snackbar :snackbar="snackbar" />
       <LoginDialog />
       <Loader :isVisible="loading" />    

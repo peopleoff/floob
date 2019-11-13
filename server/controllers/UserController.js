@@ -73,13 +73,6 @@ module.exports = {
         message: 'No Information submitted'
       })
     }
-    if (req.body.password !== req.body.confirmPassword) {
-      return res.send({
-        error: true,
-        type: 'error',
-        message: 'Passwords do not match'
-      })
-    }
     users
       .findOne({
         where: {

@@ -9,6 +9,7 @@
       full-width
       id="videoBar"
       @input="searchVideos"
+      @keydown.enter="addVideoLink"
       v-model="searchCriteria"
     ></v-text-field>
     <v-list
@@ -30,9 +31,7 @@
 
         <v-list-item-content>
           <v-list-item-title v-html="item.snippet.title"></v-list-item-title>
-          <v-list-item-subtitle
-            v-html="item.snippet.channelTitle"
-          ></v-list-item-subtitle>
+          <v-list-item-subtitle v-html="item.snippet.channelTitle"></v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -66,7 +65,29 @@ export default {
       this.searchResult = null
       this.searchCriteria = ''
     },
+    getVideoID(name, url) {
+      if (url.includes('youtu.be')) {
+        let index = 0
+        //Mobile Link
+        let firstCheck = url.split('/')[url.split('/').length - 1]
+        if (firstCheck.length > 0) {
+          index = url.split('/').length - 1
+        } else {
+          index = url.split('/').length - 2
+        }
+        let videoID = url.split('/')[index]
+        return videoID
+      }
+      if (!url) url = window.location.href
+      name = name.replace(/[\[\]]/g, '\\$&')
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url)
+      if (!results) return null
+      if (!results[2]) return ''
+      return decodeURIComponent(results[2].replace(/\+/g, ' '))
+    },
     searchVideos: _.debounce(function() {
+      console.log('test')
       this.$socket.emit('searchVideos', {
         search: this.searchCriteria
       })
@@ -87,8 +108,29 @@ export default {
         roomID: this.$route.params.id,
         user: this.$store.state.user
       }
-      this.$socket.emit('addVideo', newVideo);
-      this.searchResult = [];
+      this.$socket.emit('addVideo', newVideo)
+      this.searchResult = []
+    },
+    addVideoLink() {
+      if (!this.loggedIn) {
+        this.UPDATE_SNACKBAR({
+          type: 'info',
+          message: 'Please Login first',
+          x: 'right',
+          y: 'top'
+        })
+        return
+      }
+      let user = this.$store.state.user
+      let videoID = this.getVideoID('v', this.searchCriteria)
+      let newVideo = {
+        videoLink: videoID,
+        pure: true,
+        roomID: this.$route.params.id,
+        user: this.$store.state.user
+      }
+      this.$socket.emit('addVideo', newVideo)
+      this.searchCriteria = ''
     },
     videoWidth() {
       let widths = document.getElementById('videoSearch')

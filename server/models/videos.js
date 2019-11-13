@@ -6,9 +6,13 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING(500),
         allowNull: false
       },
-      roomID: {
-        type: DataTypes.STRING(500),
-        allowNull: false
+      room: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "rooms",
+          key: "id"
+        }
       },
       title: {
         type: DataTypes.STRING(500),
@@ -31,13 +35,8 @@ module.exports = function(sequelize, DataTypes) {
         }
       },
       skipCounter: {
-        type: DataTypes.STRING(3000),
-        get: function() {
-          return JSON.parse(this.getDataValue("skipCounter"));
-        },
-        set: function(val) {
-          return this.setDataValue("skipCounter", JSON.stringify(val));
-        }
+        type: DataTypes.INTEGER(11),
+        defaultValue: 0
       }
     },
     {
