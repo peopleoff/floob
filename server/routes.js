@@ -6,7 +6,7 @@ module.exports = (app) => {
 
     // // Get Requests
     // // Post Requests
-    app.post('/videos/add', VideoController.add);
+    app.post('/videos/postVideo', VideoController.postVideo);
     app.post('/videos/getThumbnail', VideoController.getThumbnail);
     //User's Requests
     app.post('/users/register', UserController.register);

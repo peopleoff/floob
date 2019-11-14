@@ -19,7 +19,17 @@ module.exports = {
         })
     })
   },
-  add(payload) {
+  postVideo(req, res) {
+    module.exports
+      .addVideo(req.body)
+      .then(result => {
+        console.log(result)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  },
+  addVideo(payload) {
     return new Promise((resolve, reject) => {
       const { videoLink, roomID, pure, user } = payload
       videoID = ''
@@ -61,7 +71,7 @@ module.exports = {
         id: payload.video,
         user: payload.user
       }
-    });
+    })
     //Check if user has already skipped video
     let userVoted = await vote_to_skip.findOrCreate({
       defaults: payload,
@@ -87,27 +97,27 @@ module.exports = {
       if (videoOwner) {
         this.removeVideo(payload.video)
           .then(result => {
-            video.skipVideo = true;
-            video.result = result;
+            video.skipVideo = true
+            video.result = result
             resolve(video)
           })
           .catch(error => {
             reject(error)
           })
-      };
+      }
       // userVoted[1] returns if a new record is created
       //If no new record is created User already votted
       if (currentVotes.count > votesNeeded) {
         this.removeVideo(payload.video)
           .then(result => {
-            video.skipVideo = true;
-            video.result = result;
+            video.skipVideo = true
+            video.result = result
             resolve(video)
           })
           .catch(error => {
             reject(error)
           })
-      }else{
+      } else {
         resolve(video)
       }
       if (!userVoted[1]) {

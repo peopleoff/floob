@@ -29,9 +29,9 @@ sequelize.sync({ force: false }).then(() => {
 const io = require('socket.io')(server, {
   origins: allowedOrigins,
   secure: true
-})
-// <----------------------------Socket Functions----------------------------> //
+});
 
+// <----------------------------Socket Functions----------------------------> //
 function addMessage(payload, socket) {
   let newMessage = {
     id: guid(),
@@ -84,7 +84,7 @@ function removeFromRoom(payload, socket) {
 }
 
 function addVideo(payload, socket) {
-  VideoController.add(payload)
+  VideoController.addVideo(payload)
     .then(result => {
       VideoController.getAll(payload.roomID)
         .then(videoResult => {
@@ -152,31 +152,6 @@ function voteToSkip(payload, socket) {
       console.log(error)
       io.to(socket.id).emit('updateSnackbar', error)
     })
-  // let votesNeeded = 0;
-  // // Check if roomcount is defined
-  // if (roomCount) {
-  //   votesNeeded = roomCount.length / 2;
-  // }
-  // VideoController.voteToSkip(payload, votesNeeded)
-  //   .then(result => {
-  //     switch (result) {
-  //       case "Already Voted":
-  //         break;
-  //       // If deleted, get videos again and send to room.
-  //       case "Video Deleted":
-  //         VideoController.getAll(payload.roomID).then(videoResult => {
-  //           io.sockets.in(payload.roomID).emit("getVideos", videoResult);
-  //         });
-  //         break;
-  //       // Default vote added, send back video with updated skipCounter
-  //       default:
-  //         io.sockets.in(payload.roomID).emit("voteAdded", result);
-  //         break;
-  //     }
-  //   })
-  //   .catch(error => {
-  //     catchError(error);
-  //   });
 }
 // <----------------------------Socket Functions----------------------------> //
 

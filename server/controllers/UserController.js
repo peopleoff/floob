@@ -17,12 +17,12 @@ users.hasMany(current_viewers, {
   foreignKey: 'room',
   as: '1',
   sourceKey: 'id'
-});
+})
 current_viewers.belongsTo(users, {
   foreignKey: 'room',
   as: '2',
   sourceKey: 'id'
-});
+})
 
 function tokenLogin(token, res) {
   try {
@@ -217,7 +217,9 @@ module.exports = {
         } else {
           users
             .findOne({
-              reset_token: token
+              where: {
+                reset_token: token
+              }
             })
             .then(result => {
               passwordResetEmail(

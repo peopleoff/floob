@@ -5,7 +5,7 @@
       height="200px"
       src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     >
-      <v-btn outlined color="secondary" class="join-btn" :to="'room/' + room.id">Join</v-btn>
+      <v-btn color="secondary" class="join-btn" :to="'room/' + room.id">Join</v-btn>
     </v-img>
     <v-card-title class="pb-0">{{ room.name }}</v-card-title>
     <v-card-text class="text--primary">
