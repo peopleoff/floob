@@ -92,7 +92,7 @@ export default {
               type: 'success',
               message: 'Signed In!'
             })
-            if (this.$route.name.toLowerCase() == 'signup') {
+            if (this.$route.name.toLowerCase() == 'login') {
               let previousRoute = JSON.parse(
                 localStorage.getItem('previousRoute')
               )

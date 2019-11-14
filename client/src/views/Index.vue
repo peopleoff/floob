@@ -1,13 +1,11 @@
 <template>
   <v-container fluid>
-    <section class="d-flex flex-column">
+    <section class="d-flex flex-column" :style="{ 'backgroundImage': 'url(\'' + require('@/assets/images/landing.png') + '\')' }">
       <v-row align="start" justify="center" class="flex-grow-1">
         <v-col class="text-center" cols="12">
           <v-img
             :src="require('@/assets/images/logo-text.svg')"
-            height="100%"
-            width="30%"
-            style="margin: 0 auto"
+            id="logo"
           ></v-img>
           <h4 class="subheading">
             Floob gives gamers a place to chill while sharing videos that
@@ -79,6 +77,11 @@ export default {
 </script>
 
 <style scoped>
+#logo{
+  height: 100%;
+  width: 50%;
+  margin: 25px auto;
+}
 .container {
   padding: 0;
 }
@@ -91,7 +94,7 @@ export default {
 }
 section {
   height: 100%;
-  background: url('https://media.discordapp.net/attachments/631129642362994698/643913660133277736/FloobFADEsmall.png');
+  background: url('/assets/images/landing.png');
   background-position: inherit;
   background-size: cover;
   background-repeat: no-repeat;
