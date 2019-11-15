@@ -225,7 +225,7 @@ module.exports = {
               passwordResetEmail(
                 result.email,
                 result.username,
-                result.resettoken
+                result.reset_token
               )
               return res.send({
                 error: false,
@@ -295,7 +295,15 @@ module.exports = {
             },
             {
               where: {
-                username_lowercase: decoded.username.toLowerCase()
+                [Op.or]: [
+                  {
+                    username_lowercase: decoded.username.toLowerCase()
+                  },
+                  {
+                    email_lowercase: decoded.username.toLowerCase()
+                  }
+                ],
+                reset_token: req.body.token
               }
             }
           )

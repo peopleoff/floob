@@ -34,7 +34,3 @@ export default {
     }
 }
 </script>
-
-<style>
-@import '/video.js/dist/video-js.css';
-</style>

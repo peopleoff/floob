@@ -70,6 +70,7 @@
 import videoQueue from '@/components/VideoQueue'
 import VideoSearch from '@/components/VideoSearch'
 import VideoPlayer from '@/components/VideoPlayer'
+import NewVideoPlayer from '@/components/NewVideoPlayer'
 import PublicRoomDialog from '@/components/Dialogs/Public-Room-Dialog'
 import RoomSettingsDialog from '@/components/Dialogs/Room-Settings-Dialog'
 import Chat from '@/components/Chat'
@@ -83,6 +84,7 @@ export default {
     videoQueue,
     VideoSearch,
     VideoPlayer,
+    NewVideoPlayer,
     PublicRoomDialog,
     RoomSettingsDialog,
     Chat

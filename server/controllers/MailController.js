@@ -4,6 +4,7 @@ sgMail.setApiKey(process.env.API_FLOOB_SENDGRIDAPI)
 
 module.exports = {
   passwordResetEmail(recipient, username, token) {
+    console.log("here");
     console.log(token);
     const msg = {
       to: {
@@ -17,7 +18,7 @@ module.exports = {
       dynamic_template_data: {
         subject: 'Floob Password Reset',
         username: username,
-        token: token
+        reset_link: `https://Floob.gg/passwordReset/${token}`
       }
     }
     sgMail
