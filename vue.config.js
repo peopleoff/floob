@@ -1,7 +1,6 @@
 // vue.config.js
 module.exports = {
   transpileDependencies: ['vuetify'],
-  publicPath: process.env.NODE_ENV === 'production' ? '/my-project/' : '/',
   pluginOptions: {
     electronBuilder: {
       builderOptions: {
