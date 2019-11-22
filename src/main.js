@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify'
 import Vuelidate from 'vuelidate'
 import VueTheMask from 'vue-the-mask'
 import VueSocketIO from 'vue-socket.io'
+import './registerServiceWorker'
 
 Vue.use(Vuelidate)
 Vue.use(VueTheMask)
