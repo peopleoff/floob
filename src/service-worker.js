@@ -26,7 +26,7 @@ if (workbox) {
   workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
   
   workbox.routing.registerRoute(
-    new RegExp('https://api.retoscale.com'),
+    new RegExp('https://api.floob.gg'),
     workbox.strategies.networkFirst({
       cacheName: 'api',
     }),

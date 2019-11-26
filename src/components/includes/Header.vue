@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app>
-    <router-link to="/" tag="img" :src="require('@/assets/images/logo-text.svg')" class="logo">
+    <router-link to="/" tag="img" :src="require('@/assets/images/logo-text.svg')" class="logo" alt="Floob Logo">
     </router-link>
     <v-layout row align-center style="max-width: 50vw">
       <v-text-field

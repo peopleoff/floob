@@ -1,8 +1,9 @@
 <template>
-  <v-footer color="primary" padless>
+  <v-footer padless>
     <v-row justify="center" no-gutters>
-      <v-btn color="white" text class="my-2" to="/PrivacyPolicy">Privacy Policy</v-btn>
-      <v-btn color="white" text class="my-2" to="/TermsOfService">Terms & Conditions</v-btn>
+      <v-btn color="white" text class="my-2" to="/PrivacyPolicy">Help</v-btn>
+      <v-btn color="white" text class="my-2" to="/PrivacyPolicy">Privacy</v-btn>
+      <v-btn color="white" text class="my-2" to="/TermsOfService">Terms</v-btn>
     </v-row>
   </v-footer>
 </template>
@@ -13,4 +14,9 @@ export default {
   data: () => ({})
 }
 </script>
-<style></style>
+<style scoped>
+.row .v-btn:not(:last-child){
+  border-right: 1px solid #eee;
+  border-radius: 0%
+}
+</style>

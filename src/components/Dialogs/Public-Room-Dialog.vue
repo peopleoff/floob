@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="50%">
+    <v-dialog v-model="dialog" persistent width="50%" :fullscreen="$vuetify.breakpoint.smAndDown">
       <v-card>
         <v-card-title class="headline">
           Welcome to Your One Night Room!
@@ -72,7 +72,10 @@ export default {
         type: 'info',
         message: 'Link Copied'
       })
-    }
+    },
+    width() {
+      return "100%"
+    },
   },
 }
 </script>

@@ -1,74 +1,18 @@
 <template>
   <v-app-bar class="topBar" color="purple" fixed flat>
+    <v-app-bar-nav-icon @click.stop="toggleSidebar"></v-app-bar-nav-icon>
     <router-link
       to="/rooms"
       tag="img"
       :src="imageHeight"
       class="logo pointer"
+      alt="Floob Logo"
     ></router-link>
     <v-spacer></v-spacer>
-    <div style="width: 50%;" v-if="isRoom">
+    <div style="width: 75%;" v-if="isRoom">
       <VideoSearch></VideoSearch>
     </div>
     <v-spacer></v-spacer>
-    <v-menu bottom left offset-y v-if="$vuetify.breakpoint.smAndDown">
-      <template v-slot:activator="{ on }">
-        <v-btn dark icon v-on="on">
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
-      <v-list v-if="loggedIn">
-        <v-list-item v-show="!isRoom" @click="createRoom">
-                  <v-list-item-icon>
-          <v-icon>mdi-home</v-icon>
-        </v-list-item-icon>
-          <v-list-item-title>Create a Room</v-list-item-title>
-        </v-list-item>
-        <v-list-item @click="logOut()">
-                  <v-list-item-icon>
-          <v-icon>mdi-home</v-icon>
-        </v-list-item-icon>
-          <v-list-item-title>Log Out</v-list-item-title>
-        </v-list-item>
-      </v-list>
-      <v-list v-else>
-        <v-list-item to="/Login">
-                <v-list-item-icon>
-          <v-icon>mdi-home</v-icon>
-        </v-list-item-icon>
-          <v-list-item-title>Log In</v-list-item-title>
-        </v-list-item>
-        <v-list-item to="/Signup">
-                <v-list-item-icon>
-          <v-icon>mdi-home</v-icon>
-        </v-list-item-icon>
-          <v-list-item-title>Sign Up</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-    <div v-else>
-      <div class="d-flex" v-if="loggedIn">
-        <v-btn
-          class="ma-2"
-          color="secondary"
-          v-show="!isRoom"
-          @click="createRoom"
-        >
-          Create a Room
-        </v-btn>
-        <v-btn class="ma-2" outlined color="secondary" @click="logOut()">
-          Log Out
-        </v-btn>
-      </div>
-      <div class="d-flex" v-else>
-        <v-btn class="ma-2" outlined color="secondary" to="/Login"
-          >Log In</v-btn
-        >
-        <v-btn class="ma-2 purple--text" color="secondary" to="/Signup">
-          Sign Up
-        </v-btn>
-      </div>
-    </div>
   </v-app-bar>
 </template>
 
@@ -82,7 +26,6 @@ export default {
   },
   data() {
     return {
-      mini: true,
       items: [
         { title: 'Search Rooms', icon: 'mdi-magnify' },
         { title: 'Public Rooms', icon: 'mdi-lock-open-variant' },
@@ -98,6 +41,9 @@ export default {
         type: 'success',
         message: 'Signed Out'
       })
+    },
+    toggleSidebar() {
+      this.$emit('toggleSidebar')
     },
     createRoom() {
       if (!this.loggedIn) {

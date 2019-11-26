@@ -109,7 +109,7 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-
+  store.commit('STOP_LOADING');
   let historyObject = {
     name: from.name,
     path: from.fullPath
@@ -125,11 +125,11 @@ router.beforeEach((to, from, next) => {
       UserService.login({
         token: token
       }).then(response => {
+        console.log(response);
         if (response.data.error) {
           setError('Error signing in')
           store.commit('LOGOUT_USER')
         } else {
-          console.log(response);
           store.commit('ADD_USER', response.data)
         }
       })

@@ -10,14 +10,8 @@
               <v-col align-self="center" v-if="roomInfo">{{
                 roomInfo.name
               }}</v-col>
-              <!-- <v-col
-                style="min-width: 100px; max-width: 100%;"
-                class="flex-grow-1 flex-shrink-0"
-              >
-                <VideoSearch></VideoSearch>
-              </v-col>-->
               <v-spacer></v-spacer>
-              <v-col align-self="center" class="text-right">
+              <v-col align-self="center" class="text-right d-flex justify-end">
                 <v-btn
                   v-if="this.videoQueue.length > 0"
                   outlined
@@ -28,15 +22,6 @@
                   <v-icon>mdi-arrow-collapse-left</v-icon>
                 </v-btn>
               </v-col>
-              <!-- <v-col
-                cols="1"
-                class="flex-grow-0 flex-shrink-1 align-self-center text-center"
-                v-if="roomOwner"
-              >
-                <v-btn icon v-if="roomOwner" @click="toggleRoomSettings">
-                  <v-icon>mdi-settings</v-icon>
-                </v-btn>
-              </v-col>-->
             </v-row>
           </div>
           <!-- Video Player -->
@@ -54,6 +39,21 @@
               <div>
                 <v-icon class="mr-1" color="red">mdi-account</v-icon>
                 <span class="subheading">{{ userCount }}</span>
+                <v-menu offset-y transition="scale-transition" v-if="roomOwner">
+                  <template v-slot:activator="{ on }">
+                    <v-btn dark icon v-on="on">
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item @click="toggleRoomSettings">
+                      <v-list-item-icon>
+                        <v-icon>mdi-settings</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-title>Settings</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
               </div>
             </div>
           </div>
@@ -64,7 +64,7 @@
         </div>
       </v-col>
       <!-- sidebar Layout -->
-      <v-col :class="chatSize">
+      <v-col id="sidebar" :class="chatSize">
         <v-row class="mx-0 h100 w100">
           <Chat @toggleChat="toggleChat" />
         </v-row>
@@ -80,12 +80,12 @@
 </template>
 
 <script>
+const PublicRoomDialog = () => import('@/components/Dialogs/Public-Room-Dialog')
+const RoomSettingsDialog = () =>
+  import('@/components/Dialogs/Room-Settings-Dialog')
 import videoQueue from '@/components/VideoQueue'
 import VideoSearch from '@/components/VideoSearch'
 import VideoPlayer from '@/components/VideoPlayer'
-import NewVideoPlayer from '@/components/NewVideoPlayer'
-import PublicRoomDialog from '@/components/Dialogs/Public-Room-Dialog'
-import RoomSettingsDialog from '@/components/Dialogs/Room-Settings-Dialog'
 import Chat from '@/components/Chat'
 import RoomService from '@/services/RoomService'
 
@@ -97,7 +97,6 @@ export default {
     videoQueue,
     VideoSearch,
     VideoPlayer,
-    NewVideoPlayer,
     PublicRoomDialog,
     RoomSettingsDialog,
     Chat
@@ -186,6 +185,7 @@ export default {
       let createdRoom = this.$route.params.createdRoom
       if (createdRoom) {
         this.showCreatedRoom = true
+        this.roomSettings = true
       }
     }
   },
@@ -199,7 +199,10 @@ export default {
     },
     skipText() {
       if (this.$store.state.user && this.videoQueue.length > 0) {
-        if (this.$store.state.user.id == this.videoQueue[0].user || this.roomOwner) {
+        if (
+          this.$store.state.user.id == this.videoQueue[0].user ||
+          this.roomOwner
+        ) {
           return 'Skip Video'
         }
       }
@@ -241,5 +244,15 @@ export default {
 <style scoped>
 .h100 {
   height: 100%;
+}
+@media only screen and (max-width: 959px) {
+  #sidebar {
+    background: #303030;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+  }
 }
 </style>

@@ -3,9 +3,11 @@
     <v-img
       class="white--text align-end"
       height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      :src="roomThumbnail"
     >
-      <v-btn color="secondary" class="join-btn" :to="'room/' + room.id">Join</v-btn>
+      <v-btn color="secondary" class="join-btn" :to="'room/' + room.id"
+        >Join</v-btn
+      >
     </v-img>
     <v-card-title class="pb-0">{{ room.name }}</v-card-title>
     <v-card-text class="text--primary">
@@ -14,8 +16,8 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-icon class="mr-1">mdi-account</v-icon>
-      <span class="subheading">{{ room.current_viewers.length }}</span>
+      <v-icon class="mr-1">mdi-play</v-icon>
+      <span class="subheading">{{ room.videos.length }}</span>
     </v-card-actions>
   </v-card>
   <!-- <v-card
@@ -102,6 +104,13 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.getters.loggedIn
+    },
+    roomThumbnail() {
+      if (this.room.videos.length > 0) {
+        return this.room.videos[0].image
+      } else {
+        return 'https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png'
+      }
     }
   }
 }
