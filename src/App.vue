@@ -1,8 +1,15 @@
 <template>
   <v-app>
     <Topbar @toggleSidebar="toggleSidebar" />
-    <v-navigation-drawer v-model="drawer" class="primary" aria-label="Navigation Button" app temporary>
-      <v-list-item to="/" color="secondary">
+    <v-navigation-drawer
+      v-model="drawer"
+      class="primary"
+      aria-label="Navigation Button"
+      overlay-color="secondary"
+      app
+      temporary
+    >
+      <v-list-item color="secondary" @click="toggleSidebar">
         <v-list-item-avatar tile height="100%">
           <v-img :src="require('@/assets/images/floob-logo-white.svg')"></v-img>
         </v-list-item-avatar>
@@ -13,15 +20,20 @@
       </v-list-item>
       <template v-slot:append>
         <v-list>
-          <v-list-item link to="/Login">
+          <!-- <v-list-item link to="/Login">
             <v-list-item-icon>
               <v-icon>mdi-message-draw</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Submit Feedback</v-list-item-title>
             </v-list-item-content>
-          </v-list-item>
-          <v-list-item link to="//www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LUBJ846KR6SKS&source=url" target="_blank" rel="noreferrer">
+          </v-list-item> -->
+          <v-list-item
+            link
+            to="//www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LUBJ846KR6SKS&source=url"
+            target="_blank"
+            rel="noreferrer"
+          >
             <v-list-item-icon>
               <v-icon>mdi-heart</v-icon>
             </v-list-item-icon>
@@ -41,7 +53,7 @@
               <v-list-item-title>Create Room</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item button link>
+          <v-list-item button link @click="logOut">
             <v-list-item-icon>
               <v-icon>mdi-logout</v-icon>
             </v-list-item-icon>
@@ -114,9 +126,16 @@ export default {
     drawer: false
   }),
   methods: {
-    ...mapMutations(['UPDATE_SNACKBAR', 'TOGGLE_FORM', 'TOGGLE_FEEDBACK']),
+    ...mapMutations(['UPDATE_SNACKBAR', 'TOGGLE_FORM', 'TOGGLE_FEEDBACK', 'LOGOUT_USER']),
     toggleSidebar() {
       this.drawer = !this.drawer
+    },
+    logOut() {
+      this.LOGOUT_USER()
+      this.UPDATE_SNACKBAR({
+        type: 'success',
+        message: 'Signed Out'
+      })
     },
     createRoom() {
       if (!this.loggedIn) {

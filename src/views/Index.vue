@@ -103,7 +103,7 @@
   </div> -->
   <v-container fluid>
     <section
-      class="d-flex flex-column"
+      class="d-flex flex-column h100"
       :style="{
         backgroundImage:
           'url(\'' + require('@/assets/images/landing.png') + '\')'
@@ -198,6 +198,7 @@ export default {
 } */
 .container {
   height: 100%;
+  padding: 0;
 }
 .subheading {
   width: 50%;

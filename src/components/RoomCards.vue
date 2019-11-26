@@ -96,7 +96,6 @@ export default {
     getThumbnail(room) {
       let card = document.getElementById(room._id)
       VideoService.getThumbnail({ roomID: room._id }).then(result => {
-        console.log(result.data)
         card.style.backgroundImage = 'url(' + result.data.image + ')'
       })
     }
@@ -109,7 +108,7 @@ export default {
       if (this.room.videos.length > 0) {
         return this.room.videos[0].image
       } else {
-        return 'https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png'
+        return require('@/assets/images/thumbnail.gif')
       }
     }
   }
