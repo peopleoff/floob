@@ -1,15 +1,9 @@
 <template>
-  <v-card class="mx-auto roomCard grow elevation-5" max-width="400">
-    <v-img
-      class="white--text align-end"
-      height="200px"
-      :src="roomThumbnail"
-    >
-      <v-btn color="secondary" class="join-btn" :to="'room/' + room.id"
-        >Join</v-btn
-      >
-    </v-img>
-    <v-card-title class="pb-0">{{ room.name }}</v-card-title>
+  <div>
+    <v-card class="roomCard grow elevation-5" height="150" :to="'room/' + room.id">
+      <v-img class="white--text align-end" height="100%" :src="roomThumbnail">
+      </v-img>
+      <!-- <v-card-title class="pb-0">{{ room.name }}</v-card-title>
     <v-card-text class="text--primary">
       <div>{{ room.description }}</div>
     </v-card-text>
@@ -18,8 +12,15 @@
       <v-spacer></v-spacer>
       <v-icon class="mr-1">mdi-play</v-icon>
       <span class="subheading">{{ room.videos.length }}</span>
-    </v-card-actions>
-  </v-card>
+    </v-card-actions> -->
+    </v-card>
+    <div class="font-weight-bold ellipsis">
+      {{room.name}}
+    </div>
+    <div class="ellipsis" v-if="room.videos.length > 0">
+      Playing: {{room.videos[0].title}}
+    </div>
+  </div>
   <!-- <v-card
     class="mx-auto room-card"
     color="primary"
@@ -131,6 +132,11 @@ export default {
   position: absolute;
   bottom: 5%;
   right: 5%;
+}
+.ellipsis{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 /* .room-card {
   background-repeat: no-repeat;

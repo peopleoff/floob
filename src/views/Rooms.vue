@@ -13,9 +13,49 @@
         v-model="search"
       ></v-text-field>
     </section>
-    <section>
-      <h1>Rooms</h1>
-      <h3>View the most engaged public rooms.</h3>
+    <section class="py-6">
+      <h1 class="header">Featured Rooms</h1>
+      <v-carousel hide-delimiters>
+        <v-carousel-item
+          v-for="(room, i) in sponsoredRooms"
+          v-if="room.videos.length !== 0"
+          :key="room.id"
+          :to="'room/' + room.id"
+        >
+          <v-sheet height="100%">
+            <v-row class="fill-height" align="center" justify="center">
+              <div class="display-3" v-if="room.videos.length === 0">
+                Slide {{ i + 1 }}
+              </div>
+              <v-img
+                class="white--text align-end"
+                height="100%"
+                v-else
+                :src="room.videos[0].image"
+              >
+                <div class="pa-4 ma-4 imageRoomName">{{ room.name }}</div>
+              </v-img>
+            </v-row>
+          </v-sheet>
+        </v-carousel-item>
+      </v-carousel>
+    </section>
+    <section class="py-6" v-if="recommendedRooms.length > 0">
+      <h1 class="header">Recommended Rooms</h1>
+      <v-row v-if="fileretedList.length > 0">
+        <v-col
+          v-for="room in recommendedRooms"
+          :key="room.id"
+          sm="6"
+          md="4"
+          lg="3"
+        >
+          <RoomCard :room="room" @toggledRoom="getRooms" />
+        </v-col>
+      </v-row>
+    </section>
+    <section class="py-6" v-if="publicRooms.length > 0">
+      <h1 class="header">Rooms</h1>
       <v-row v-if="fileretedList.length > 0">
         <v-col
           v-for="room in fileretedList"
@@ -26,21 +66,6 @@
         >
           <RoomCard :room="room" @toggledRoom="getRooms" />
         </v-col>
-        <div class="wrapper" v-if="fileretedList.length === 0">
-          <v-col
-            v-for="(skeleton, index) in 25"
-            :key="index"
-            sm="6"
-            md="4"
-            lg="3"
-          >
-            <v-skeleton-loader
-              type="card"
-              :loading="loading"
-              transition="fade-transition"
-            ></v-skeleton-loader>
-          </v-col>
-        </div>
       </v-row>
     </section>
   </v-container>
@@ -59,17 +84,16 @@ export default {
   },
   data() {
     return {
-      loading: true,
       search: '',
       publicRooms: [],
-      favoriteRooms: []
+      sponsoredRooms: [],
+      recommendedRooms: []
     }
   },
   methods: {
     ...mapMutations(['TOGGLE_LOADING']),
     getRooms() {
       let user = null
-      this.loading = true
       this.publicRooms = []
       this.favoriteRooms = []
       if (this.$store.state.user) {
@@ -80,7 +104,8 @@ export default {
       })
         .then(response => {
           this.publicRooms = response.data.publicRooms
-          this.loading = false
+          this.sponsoredRooms = response.data.sponsoredRooms
+          this.recommendedRooms = response.data.recommendedRooms
         })
         .catch(error => {
           console.log(error)
@@ -99,3 +124,22 @@ export default {
   }
 }
 </script>
+
+<style>
+.header {
+  border-bottom: 1px solid #eee;
+}
+.v-image__image--cover {
+  transition: all 0.5s ease;
+}
+.v-item-group:hover .v-image__image--cover {
+  transition: all 0.5s ease;
+  transform: scale(1.25);
+}
+.imageRoomName {
+  background: rgb(0, 0, 0, 0.75);
+  width: fit-content;
+  padding: 20px;
+  font-size: 2rem;
+}
+</style>
