@@ -21,6 +21,9 @@
                 <v-btn icon tile v-if="hideChat" @click="toggleChat">
                   <v-icon>mdi-arrow-collapse-left</v-icon>
                 </v-btn>
+                <v-btn icon tile v-if="roomOwner" @click="toggleRoomSettings">
+                  <v-icon>mdi-settings</v-icon>
+                </v-btn>
               </v-col>
             </v-row>
           </div>
@@ -39,21 +42,6 @@
               <div>
                 <v-icon class="mr-1" color="red">mdi-account</v-icon>
                 <span class="subheading">{{ userCount }}</span>
-                <v-menu offset-y transition="scale-transition" v-if="roomOwner">
-                  <template v-slot:activator="{ on }">
-                    <v-btn dark icon v-on="on">
-                      <v-icon>mdi-dots-vertical</v-icon>
-                    </v-btn>
-                  </template>
-                  <v-list>
-                    <v-list-item @click="toggleRoomSettings">
-                      <v-list-item-icon>
-                        <v-icon>mdi-settings</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-title>Settings</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
               </div>
             </div>
           </div>
