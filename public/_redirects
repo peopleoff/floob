@@ -1,2 +1,5 @@
 # Netlify settings for single-page application
 /*    /index.html   200
+
+# Redirect default Netlify subdomain to primary domain
+https://floob.netlify.com/* https://floob.gg/:splat 301!
