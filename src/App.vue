@@ -20,14 +20,6 @@
       </v-list-item>
       <template v-slot:append>
         <v-list>
-          <!-- <v-list-item link to="/Login">
-            <v-list-item-icon>
-              <v-icon>mdi-message-draw</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Submit Feedback</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item> -->
           <v-list-item
             link
             to="//www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LUBJ846KR6SKS&source=url"
