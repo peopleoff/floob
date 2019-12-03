@@ -11,9 +11,12 @@
       </v-btn>
     </div>
     <div class="ma-2 h100" id="messages" v-if="!showUsers">
+      <div id="userInfo">
+        Test
+      </div>
       <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
       <div v-for="message in messages" :key="message.id">
-        <span class="primary--text">{{ message.username }}</span>
+        <span class="primary--text message" @click="clickMessage(message, $event)">{{ message.username }}</span>
         <span>: {{ message.message }}</span>
       </div>
     </div>
@@ -100,6 +103,13 @@ export default {
     toggleChat() {
       this.$emit("toggleChat");
     },
+    clickMessage(chat, event){
+      console.log(chat);
+      console.log(event);
+      let info = document.getElementById('userInfo');
+      info.style.display = "block";
+      info.style.top = event.layerY + 20 + "px";
+    },
     getUsers() {
       if (this.showUsers) {
         this.showUsers = false;
@@ -166,10 +176,21 @@ export default {
   max-height: 75.5vh;
   overflow-y: scroll;
   font-size: 14px;
+  position: relative;
+}
+.message{
+  cursor: pointer;
 }
 #users {
   max-height: 75.5vh;
   overflow-y: scroll;
   font-size: 14px;
+}
+#userInfo{
+  display: none;
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    background: green;
 }
 </style>

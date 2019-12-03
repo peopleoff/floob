@@ -15,14 +15,14 @@
     </section>
     <section class="py-6">
       <h1 class="header">Featured Rooms</h1>
-      <v-carousel hide-delimiters>
+      <v-carousel height="300">
         <v-carousel-item
           v-for="(room, i) in sponsoredRooms"
           v-if="room.videos.length !== 0"
           :key="room.id"
           :to="'room/' + room.id"
         >
-          <v-sheet height="100%">
+          <v-sheet>
             <v-row class="fill-height" align="center" justify="center">
               <div class="display-3" v-if="room.videos.length === 0">
                 Slide {{ i + 1 }}

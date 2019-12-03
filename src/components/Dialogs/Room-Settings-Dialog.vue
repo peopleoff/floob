@@ -4,6 +4,7 @@
     @click:outside="close"
     max-width="600px"
     transition="dialog-bottom-transition"
+    :fullscreen="$vuetify.breakpoint.xsOnly"
   >
     <v-card v-if="room">
       <v-toolbar dark color="primary">
