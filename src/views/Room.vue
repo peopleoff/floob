@@ -2,7 +2,7 @@
   <v-container fluid class="h100">
     <v-row class="h100">
       <!-- Main Layout -->
-      <v-col :class="videoSize">
+      <v-col class="col">
         <div class="d-flex flex-column h100">
           <!-- Video Search -->
           <div class="ma-2 pl-4">
@@ -18,11 +18,11 @@
                   @click="voteToSkip"
                   >{{ skipText }}</v-btn
                 >
-                <v-btn icon tile v-if="hideChat" @click="toggleChat">
-                  <v-icon>mdi-arrow-collapse-left</v-icon>
-                </v-btn>
                 <v-btn icon tile v-if="roomOwner" @click="toggleRoomSettings">
                   <v-icon>mdi-settings</v-icon>
+                </v-btn>
+                <v-btn icon tile id="openChatBtn" @click="toggleChat">
+                  <v-icon>mdi-arrow-collapse-left</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -52,7 +52,7 @@
         </div>
       </v-col>
       <!-- sidebar Layout -->
-      <v-col id="sidebar" :class="chatSize">
+      <v-col class="col-md-3" id="sidebar">
         <v-row class="mx-0 h100 w100">
           <Chat @toggleChat="toggleChat" />
         </v-row>
@@ -144,7 +144,15 @@ export default {
         })
     },
     toggleChat() {
-      this.hideChat = !this.hideChat
+      let sidebar = document.getElementById("sidebar");
+      let openChatBtn = document.getElementById("openChatBtn");
+      if(sidebar.style.display == "block" || sidebar.style.display == ""){
+        sidebar.style.display = "none"
+        openChatBtn.style.display = "block"
+      }else{
+        sidebar.style.display = "block"
+        openChatBtn.style.display = "none"
+      }
     },
     toggleRoomSettings() {
       this.roomSettings = !this.roomSettings
@@ -178,13 +186,6 @@ export default {
     }
   },
   computed: {
-    videoSize: function() {
-      if (this.hideChat) {
-        return 'col-12 pa-0'
-      } else {
-        return 'col-12 col-md-10 pa-0'
-      }
-    },
     skipText() {
       if (this.$store.state.user && this.videoQueue.length > 0) {
         if (
@@ -196,13 +197,6 @@ export default {
       }
       if (this.videoQueue.length > 0) {
         return `Vote to skip`
-      }
-    },
-    chatSize: function() {
-      if (this.hideChat) {
-        return 'd-none pa-0'
-      } else {
-        return 'col-lg-2 pa-0'
       }
     },
     loggedIn() {
@@ -233,6 +227,7 @@ export default {
 .h100 {
   height: 100%;
 }
+
 @media only screen and (max-width: 959px) {
   #sidebar {
     background: #303030;
@@ -241,6 +236,15 @@ export default {
     top: 0;
     width: 50%;
     height: 100%;
+    display: none;
+  }
+}
+@media only screen and (min-width: 959px) {
+  #openChatBtn{
+    display: none;
+  }
+  #sidebar {
+    display: block;
   }
 }
 </style>

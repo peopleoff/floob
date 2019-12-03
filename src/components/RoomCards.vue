@@ -1,6 +1,18 @@
 <template>
   <div>
-    <v-img class="white--text align-end roomCard grow" aspect-ratio="1.7778" :src="roomThumbnail"></v-img>
+    <v-card class="roomCard grow elevation-5" :to="'room/' + room.id">
+      <v-img class="white--text align-end" aspect-ratio="1.7778" :src="roomThumbnail">
+      </v-img>
+      <!-- <v-card-title class="pb-0">{{ room.name }}</v-card-title>
+    <v-card-text class="text--primary">
+      <div>{{ room.description }}</div>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-icon class="mr-1">mdi-play</v-icon>
+      <span class="subheading">{{ room.videos.length }}</span>
+    </v-card-actions> -->
+    </v-card>
     <div class="font-weight-bold ellipsis">
       {{room.name}}
     </div>
@@ -8,6 +20,23 @@
       Playing: {{room.videos[0].title}}
     </div>
   </div>
+  <!-- <v-card
+    class="mx-auto room-card"
+    color="primary"
+    hover
+    shaped
+    :id="room.id"
+    :to="'room/' + room.id"
+  >
+    <v-card-text>
+      <p class="display-1 font-weight-black">{{ room.name }}</p>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-icon class="mr-1">mdi-account</v-icon>
+      <span class="subheading">{{ room.current_viewers.length }}</span>
+    </v-card-actions>
+  </v-card> -->
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h4>Video Queue({{ queue.length }})</h4>
-    <v-row class="flex-nowrap videoQue pb-4" dense>
+    <v-row class="videoQue pb-4" dense>
       <v-col
         v-for="(video, index) in queue"
         :key="index"
@@ -84,12 +84,5 @@ export default {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   text-align: center;
-}
-.videoQue {
-  overflow-x: scroll;
-  scroll-behavior: smooth;
-  font-size: 14px;
-  min-height: 5rem;
-  border-top: 1px solid white;
 }
 </style>
