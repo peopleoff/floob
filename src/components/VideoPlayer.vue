@@ -128,14 +128,17 @@ export default {
 
 <style>
 #playerContainer {
-  height: 100%;
+  height: 485px;
   width: 100%;
-  min-height: 60vh;
   border: 1px solid #00bcd4;
 }
 #player {
   height: 100%;
   width: 100%;
-  min-height: 60vh;
+}
+@media only screen and (max-width: 959px) {
+#playerContainer {
+  height: 193px;
+}
 }
 </style>

@@ -85,4 +85,11 @@ export default {
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
+@media only screen and (max-width: 959px) {
+  .videoQue{
+    flex-wrap: nowrap;
+    overflow: scroll;
+  }
+}
 </style>

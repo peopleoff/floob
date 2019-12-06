@@ -2,7 +2,7 @@
   <v-container fluid class="h100">
     <v-row class="h100">
       <!-- Main Layout -->
-      <v-col class="col">
+      <v-col>
         <div class="d-flex flex-column h100">
           <!-- Video Search -->
           <div class="ma-2 pl-4">
@@ -21,14 +21,14 @@
                 <v-btn icon tile v-if="roomOwner" @click="toggleRoomSettings">
                   <v-icon>mdi-settings</v-icon>
                 </v-btn>
-                <v-btn icon tile id="openChatBtn" @click="toggleChat">
+                <v-btn icon tile class="hidden-sm-and-down" v-if="hideChat" @click="toggleChat">
                   <v-icon>mdi-arrow-collapse-left</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
           </div>
           <!-- Video Player -->
-          <div class="ma-2 pl-4 flex-grow-1">
+          <div class="ma-2 pl-4">
             <VideoPlayer :videoQueue="videoQueue" />
           </div>
           <!-- Video Actions -->
@@ -38,10 +38,9 @@
                 <div class="title" v-if="videoQueue.length > 0">
                   {{ videoQueue[0].title }}
                 </div>
-              </div>
-              <div>
-                <v-icon class="mr-1" color="red">mdi-account</v-icon>
-                <span class="subheading">{{ userCount }}</span>
+                <div class="subtitle-1" v-if="videoQueue.length > 0">
+                  {{ videoQueue[0].channel }}
+                </div>
               </div>
             </div>
           </div>
@@ -52,7 +51,7 @@
         </div>
       </v-col>
       <!-- sidebar Layout -->
-      <v-col class="col-md-3" id="sidebar">
+      <v-col class="col-sm-3 col-12" v-bind:class="{ 'd-none': hideChat }" id="sidebar">
         <v-row class="mx-0 h100 w100">
           <Chat @toggleChat="toggleChat" />
         </v-row>
@@ -144,15 +143,7 @@ export default {
         })
     },
     toggleChat() {
-      let sidebar = document.getElementById("sidebar");
-      let openChatBtn = document.getElementById("openChatBtn");
-      if(sidebar.style.display == "block" || sidebar.style.display == ""){
-        sidebar.style.display = "none"
-        openChatBtn.style.display = "block"
-      }else{
-        sidebar.style.display = "block"
-        openChatBtn.style.display = "none"
-      }
+      this.hideChat = !this.hideChat
     },
     toggleRoomSettings() {
       this.roomSettings = !this.roomSettings
@@ -199,6 +190,13 @@ export default {
         return `Vote to skip`
       }
     },
+    chatSize: function() {
+      if (this.hideChat) {
+        return 'd-none pa-0'
+      } else {
+        return 'col-lg-2 pa-0'
+      }
+    },
     loggedIn() {
       return this.$store.getters.loggedIn
     },
@@ -229,22 +227,18 @@ export default {
 }
 
 @media only screen and (max-width: 959px) {
-  #sidebar {
-    background: #303030;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    display: none;
+  .v-application .title {
+    font-size: 0.75rem !important;
   }
-}
-@media only screen and (min-width: 959px) {
-  #openChatBtn{
-    display: none;
+  .v-application .subtitle-1 {
+    font-size: 0.5rem !important;
+  }
+  .v-application .pl-4 {
+    padding-left: 0 !important;
   }
   #sidebar {
-    display: block;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
   }
 }
 </style>

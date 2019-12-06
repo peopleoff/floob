@@ -15,28 +15,21 @@
     </section>
     <section class="py-6">
       <h1 class="header">Featured Rooms</h1>
-      <v-carousel height="300">
+      <v-carousel>
         <v-carousel-item
           v-for="(room, i) in sponsoredRooms"
           v-if="room.videos.length !== 0"
           :key="room.id"
           :to="'room/' + room.id"
         >
-          <v-sheet>
-            <v-row class="fill-height" align="center" justify="center">
-              <div class="display-3" v-if="room.videos.length === 0">
-                Slide {{ i + 1 }}
-              </div>
-              <v-img
-                class="white--text align-end"
-                height="100%"
-                v-else
-                :src="room.videos[0].image"
-              >
-                <div class="pa-4 ma-4 imageRoomName">{{ room.name }}</div>
-              </v-img>
-            </v-row>
-          </v-sheet>
+          <v-img
+            class="white--text align-end"
+            height="100%"
+            aspect-ratio="1.77779"
+            :src="room.videos[0].image"
+          >
+            <div class="pa-4 ma-4 imageRoomName">{{ room.name }}</div>
+          </v-img>
         </v-carousel-item>
       </v-carousel>
     </section>

@@ -204,4 +204,9 @@ body {
 #content {
   margin-top: 55px;
 }
+@media only screen and (max-width: 959px) {
+  .container{
+    padding: 0;
+  }
+}
 </style>
