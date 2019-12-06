@@ -104,8 +104,6 @@ export default {
       this.$emit("toggleChat");
     },
     clickMessage(chat, event){
-      console.log(chat);
-      console.log(event);
       let info = document.getElementById('userInfo');
       info.style.display = "block";
       info.style.top = event.layerY + 20 + "px";
@@ -115,7 +113,6 @@ export default {
         this.showUsers = false;
       } else {
         UserService.getUsers({ room: this.$route.params.id }).then(result => {
-          console.log(result.data);
           this.currentViewers = result.data;
         });
         this.showUsers = true;

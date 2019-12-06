@@ -85,11 +85,17 @@ export default {
       if (!results[2]) return ''
       return decodeURIComponent(results[2].replace(/\+/g, ' '))
     },
-    searchVideos: _.debounce(function() {
+    searchVideos: _.debounce(function() { 
+      let user = null;
+      if (this.loggedIn) {
+        user = this.$store.state.user.id
+      }
       this.$socket.emit('searchVideos', {
-        search: this.searchCriteria
+        search: this.searchCriteria,
+        roomID: this.$route.params.id,
+        user: user
       })
-    }, 250),
+    }, 500),
     addVideo(videoID) {
       if (!this.loggedIn) {
         this.UPDATE_SNACKBAR({
@@ -135,7 +141,6 @@ export default {
     },
     videoWidth() {
       let widths = document.getElementById('videoSearch')
-      console.log(widths.offsetWidth);
       return widths.offsetWidth
     }
   },
