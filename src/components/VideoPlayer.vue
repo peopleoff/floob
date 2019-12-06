@@ -49,10 +49,10 @@ export default {
 
       //Init Iframe Injection into playerbody
       let controls = 0
-      let disablekb = 0
+      let disablekb = 1
       if (currentUserID == videoUserID) {
         controls = 1
-        disablekb = 1
+        disablekb = 0
       }
       new YT.Player('player', {
         videoId: videoID,
@@ -61,7 +61,6 @@ export default {
           controls: controls,
           disablekb: disablekb,
           modestbranding: 1
-          // 'start': 60
         },
         events: {
           onReady: this.onPlayerReady,
@@ -72,15 +71,12 @@ export default {
     },
     onPlayerReady: function(event) {
       this.videoPlayer = event.target
-      console.log(event);
       event.target.playVideo()
     },
     onApiChange: function(event) {
-      console.log(event);
       event.target.playVideo()
     },
     onPlayerStateChange: function(event) {
-      console.log(event);
       if (event.data === 3) {
         let payload = {
           roomID: this.$route.params.id,
@@ -92,10 +88,6 @@ export default {
         this.$socket.emit('removeVideo', this.videoQueue[0])
         this.videoQueue.shift()
       }
-    },
-    test() {
-      console.log(this.videoPlayer)
-      console.log(this.videoPlayer.getCurrentTime())
     },
     addRandomVideo() {
       this.$socket.emit('addVideo', newVideo)
