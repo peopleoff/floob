@@ -1,36 +1,58 @@
 <template>
   <v-app dark>
-    <v-app-bar fixed flat class="transparent" color="transparent">
-      <router-link to="/" tag="img" :src="require('@/assets/images/logo.svg')" class="logo" alt="Floob Logo"></router-link>
-
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>mdi-reddit</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-twitter</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-instagram</v-icon>
-      </v-btn>
-
-      <v-btn rounded outlined>
-        Sign In
-      </v-btn>
-    </v-app-bar>
+    <topNav />
     <v-content>
       <nuxt />
     </v-content>
+    <v-footer dark padless>
+      <v-card flat tile class="indigo lighten-1 white--text text-center">
+        <v-card-text>
+          <v-btn
+            v-for="icon in icons"
+            :key="icon"
+            class="mx-4 white--text"
+            icon
+          >
+            <v-icon size="24px">{{ icon }}</v-icon>
+          </v-btn>
+        </v-card-text>
+
+        <v-card-text class="white--text pt-0">
+          Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet.
+          Mauris cursus commodo interdum. Praesent ut risus eget metus luctus
+          accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim
+          a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula
+          lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus
+          iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum
+          tempor vel ut orci. Orci varius natoque penatibus et magnis dis
+          parturient montes, nascetur ridiculus mus.
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-text class="white--text">
+          {{ new Date().getFullYear() }} — <strong>Floob</strong>
+        </v-card-text>
+      </v-card>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
+import topNav from "@/components/includes/topNav";
 export default {
-  data() {
-    return {};
-  }
+  components: {
+    topNav
+  },
+  data: () => ({
+    icons: [
+      "mdi-facebook",
+      "mdi-twitter",
+      "mdi-google-plus",
+      "mdi-linkedin",
+      "mdi-instagram"
+    ]
+  })
 };
 </script>
 
@@ -39,7 +61,7 @@ export default {
   background: transparent !important;
   background-color: transparent !important;
 }
-.logo{
+.logo {
   height: 100%;
   cursor: pointer;
 }
