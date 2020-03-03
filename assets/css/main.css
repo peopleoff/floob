@@ -1,0 +1,17 @@
+.layout-enter-active,
+.layout-leave-active {
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+  transition-duration: 500ms;
+}
+.layout-enter,
+.layout-leave-active {
+  opacity: 0;
+}
+
+.h100 {
+  height: 100%;
+}
+* {
+  font-family: "Poppins";
+}

@@ -1,8 +1,8 @@
 <template>
   <v-app dark>
-    <topNav />
+    <sideNav />
     <v-content>
-      <v-container>
+      <v-container fluid class="h100">
         <nuxt />
       </v-container>
     </v-content>
@@ -11,9 +11,12 @@
 
 <script>
 import topNav from "@/components/includes/topNav";
+import sideNav from "@/components/includes/sideNav";
+
 export default {
   components: {
-    topNav
+    topNav,
+    sideNav
   },
   data() {
     return {
