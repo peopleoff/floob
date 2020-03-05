@@ -2,9 +2,7 @@
   <v-app dark>
     <sideNav />
     <v-content>
-      <v-container fluid class="h100">
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-content>
   </v-app>
 </template>

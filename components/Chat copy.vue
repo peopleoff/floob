@@ -1,7 +1,7 @@
 <template>
-  <div class="d-flex flex-column justify-space-around h100">
+  <div class="d-flex flex-column h100 w100">
     <!-- Video Search -->
-    <div class="d-flex flex-row justify-space-between align-center">
+    <div class="ma-2 d-flex flex-row justify-space-between align-center">
       <v-btn icon tile @click="toggleChat" class="hidden-sm-and-down">
         <v-icon>mdi-arrow-collapse-right</v-icon>
       </v-btn>
@@ -38,10 +38,8 @@
         hide-details
         outlined
         label="Say Something..."
-        append-icon="mdi-send"
         full-width
         v-model="message"
-        @click:append="addMessage"
         @keydown.enter="addMessage"
       ></v-text-field>
     </div>
@@ -49,46 +47,29 @@
 </template>
 
 <script>
-
+import { mapMutations } from 'vuex'
+import UserService from '@/services/UserService'
 export default {
   name: 'Chat',
   data() {
     return {
       message: '',
-      messages: [
-        {
-          id: 1,
-          username: "legendarysoviet",
-          message: "hello"
-        },
-        {
-          id: 2,
-          username: "AnthonyKings",
-          message: "hello"
-        },
-        {
-          id: 3,
-          username: "Foil80",
-          message: "Dolor veniam in consequat ut."
-        },
-        {
-          id: 4,
-          username: "Justin",
-          message: "Proident aliquip ex ullamco fugiat. Officia ea velit magna aute laboris aliqua aliqua. Sit do dolor ad amet. Laborum duis aute qui adipisicing aliqua duis fugiat dolore nisi. Nulla aliquip mollit nisi elit est ipsum et ex adipisicing. Ad exercitation ex laboris reprehenderit labore voluptate esse minim non irure magna deserunt."
-        },
-        {
-          id: 5,
-          username: "legendarysoviet",
-          message: "Reprehenderit consequat anim nostrud deserunt excepteur culpa. Officia eiusmod tempor sunt cillum esse. Cupidatat anim consequat minim cillum dolore quis dolore occaecat consequat eu anim eiusmod."
-        },
-      ],
+      messages: [],
       currentViewers: [],
       video: '',
       hideChat: false,
       showUsers: false
     }
   },
+  sockets: {
+    newMessage: function(payload) {
+      this.messages.push(payload)
+      const messages = document.getElementById('messages');
+      messages.scrollTop = messages.scrollHeight;
+    }
+  },
   methods: {
+    ...mapMutations(['UPDATE_SNACKBAR', 'SHOW_LOGIN_FORM']),
     getVideoID(name, url) {
       if (url.includes('youtu.be')) {
         let index = 0
@@ -121,6 +102,7 @@ export default {
           roomID: this.$route.params.id,
           user: this.$store.state.user
         }
+        this.$socket.emit('addMessage', newMessage)
         this.message = ''
         let container = document.querySelector('#messages')
         container.scrollTop = container.scrollHeight
@@ -135,8 +117,42 @@ export default {
       // info.style.display = 'block'
       // info.style.top = event.layerY + 20 + 'px'
     },
+    getUsers() {
+      if (this.showUsers) {
+        this.showUsers = false
+      } else {
+        UserService.getUsers({ room: this.$route.params.id }).then(result => {
+          this.currentViewers = result.data
+        })
+        this.showUsers = true
+      }
+    },
+    addVideo() {
+      if (!this.loggedIn) {
+        this.UPDATE_SNACKBAR({
+          type: 'info',
+          message: 'Please Login first',
+          x: 'right',
+          y: 'top'
+        })
+        return
+      }
+      let user = this.$store.state.user
+      let videoID = this.getVideoID('v', this.video)
+      let newVideo = {
+        videoLink: videoID,
+        pure: true,
+        roomID: this.$route.params.id,
+        user: this.$store.state.user
+      }
+      this.$socket.emit('addVideo', newVideo)
+      this.video = ''
+    }
   },
   computed: {
+    loggedIn() {
+      return this.$store.getters.loggedIn
+    },
     chatSize: function() {
       if (this.hideChat) {
         return 'd-none pa-0'
