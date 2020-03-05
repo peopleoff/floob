@@ -21,7 +21,8 @@ export default {
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
+        href:
+          "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
       }
     ]
   },
@@ -32,11 +33,16 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["~/assets/css/main.css"],
+  css: ["video.js/dist/video-js.css", "~/assets/css/main.css"],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    {
+      src: "~plugins/videoPlayer.js",
+      ssr: false
+    }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
