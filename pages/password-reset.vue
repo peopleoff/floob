@@ -23,12 +23,3 @@
     </v-sheet>
   </section>
 </template>
-
-<script>
-export default {
-  layout: "landing"
-};
-</script>
-
-<style>
-</style>

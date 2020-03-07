@@ -31,7 +31,6 @@ import login from "@/components/auth/login";
 import signup from "@/components/auth/signup";
 
 export default {
-  layout: "auth",
   components: {
     login,
     signup

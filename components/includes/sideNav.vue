@@ -1,10 +1,7 @@
 <template>
   <v-navigation-drawer permanent expand-on-hover app>
     <v-list-item two-line>
-      <v-list-item-avatar>
-        <img :src="require('@/assets/images/logo-white.svg')">
-      </v-list-item-avatar>
-
+        <v-img :src="require('@/assets/images/logo-white.svg')"></v-img>
       <v-list-item-content>
         <v-list-item-title>Floob</v-list-item-title>
       </v-list-item-content>
@@ -13,7 +10,7 @@
       <v-img :src="require('@/assets/images/logo.svg')" v-if="mini"></v-img>
       <v-img :src="require('@/assets/images/logo-white.svg')" v-else></v-img>
     </div> -->
-    <v-divider></v-divider>
+
     <v-list nav dense class="bottom-icons">
       <v-list-item link>
         <v-list-item-icon>

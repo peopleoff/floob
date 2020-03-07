@@ -2,41 +2,24 @@
   <v-app dark>
     <topNav />
     <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-content>
+    <snackBar />
   </v-app>
 </template>
 
 <script>
 import topNav from "@/components/includes/topNav";
+import snackBar from '@/components/includes/snackBar'
 export default {
   components: {
-    topNav
+    topNav,
+    snackBar
   },
-  data() {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: "mdi-apps",
-          title: "Welcome",
-          to: "/"
-        },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire"
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: "Vuetify.js"
-    };
-  }
+  data: () => ({
+  })
 };
 </script>
+
+<style>
+</style>

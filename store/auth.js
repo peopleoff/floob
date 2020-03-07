@@ -4,6 +4,21 @@ export const state = () => ({
   showLoginForm: false
 });
 
+export const actions = {
+  ADD_USER: ({ commit }, payload) => {
+    commit("ADD_USER", payload);
+  },
+  LOGOUT_USER: ({ commit }, payload) => {
+    commit("LOGOUT_USER", payload);
+  },
+  SHOW_LOGIN_FORM: ({ commit }) => {
+    commit("SHOW_LOGIN_FORM");
+  },
+  HIDE_LOGIN_FORM: ({ commit }) => {
+    commit("HIDE_LOGIN_FORM");
+  }
+};
+
 export const mutations = {
   ADD_USER: (state, payload) => {
     state.user = payload.user;

@@ -84,7 +84,7 @@
 
 <style>
 #playerContainer {
-  height: 70vh;
+  height: 60vh;
   width: 100%;
 }
 #player {
