@@ -20,7 +20,7 @@
     <v-btn icon>
       <v-icon>mdi-instagram</v-icon>
     </v-btn>
-    <v-btn rounded outlined nuxt to="/login">
+    <v-btn color="legendary_mint" rounded outlined nuxt to="/login">
       Sign In
     </v-btn>
   </v-app-bar>
