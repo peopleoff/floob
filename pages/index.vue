@@ -7,10 +7,15 @@
             <h3 class="display-3 font-weight-medium pb-9">
               The best way to watch videos with your friends when you're too scared to go outside
             </h3>
-            <v-btn color="legendary_mint" id="cta" style="width: 50%; height: 50px;">Create A Room</v-btn>
+            <v-btn color="legendary_mint" id="cta" nuxt to="/room/25">Create A Room</v-btn>
           </v-col>
           <v-col sm="6">
-            <v-img :src="require('~/assets/images/placeholder.svg')"></v-img>
+            <!-- <v-img :src="require('~/assets/images/landing.svg')"></v-img> -->
+            <object type="image/svg+xml" :data="require('~/assets/images/landing.svg')">
+
+            <img :src="require('~/assets/images/landing.svg')" />
+
+            </object>
           </v-col>
         </v-row>
       </v-container>
@@ -94,20 +99,18 @@
   </div>
 </template>
 
-<script>
-export default {
-  layout: "landing"
-};
-</script>
 
 <style>
 #cta{
-  color: #424242;
+  color: white;
+  width: 50%;
+  height: 50px;
 }
 section#hero {
   background-color: #634fd6;
   height: 100vh;
   position: relative;
+  padding-top: 15vh;
 }
 
 section#explain {

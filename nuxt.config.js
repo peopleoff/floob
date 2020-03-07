@@ -41,6 +41,9 @@ export default {
     {
       src: "~plugins/videoPlayer.js",
       ssr: false
+    },
+    {
+      src: "~plugins/vuelidate.js"
     }
   ],
   /*

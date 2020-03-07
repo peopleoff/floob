@@ -1,41 +1,39 @@
 <template>
   <section class="h100 grid-container">
-    <v-app-bar app>
-      <v-spacer></v-spacer>
-      <v-text-field
-        name="password"
-        hint="Hint: BlackMesaScientist"
-        type="password"
-        filled
-        outlined
-        hide-details
-        width="50%"
-      ></v-text-field>
-      <v-spacer></v-spacer>
-    </v-app-bar>
-    <div class="player pa-2">
+    <div class="player">
+      <v-app-bar absolute class="search-bar">
+        <v-spacer></v-spacer>
+        <v-text-field
+          name="videoSearch"
+          hint="Hint: BlackMesaScientist"
+          type="text"
+          filled
+          outlined
+          hide-details
+          width="50%"
+        ></v-text-field>
+        <v-spacer></v-spacer>
+      </v-app-bar>
       <div class="d-flex flex-column h100">
         <!-- Video Player -->
-        <div>
+        <div style="padding-top: 50px;">
           <VideoPlayer :videoQueue="videoQueue" />
         </div>
         <!-- Video Actions -->
-        <div class="d-flex justify-space-between align-center py-2">
+        <div class="d-flex justify-space-between align-center pa-5">
           <div class="roomName">
             <div class="title">
               The LUCKIEST Jump I've Ever Had in Versus Mode (Super Mario Maker
               2 Multiplayer)
             </div>
-            <div class="subtitle-1">
-              Youtube - raysfire
-            </div>
+            <div class="subtitle-1"><v-icon>mdi-youtube</v-icon> raysfire</div>
           </div>
           <div>
             <v-btn>Vote To Skip</v-btn>
           </div>
         </div>
         <!-- Video Que -->
-        <div>
+        <div class="px-5">
           <videoQueue :videoQueue="videoQueue" />
         </div>
       </div>
@@ -67,7 +65,7 @@ import { mapMutations } from "vuex";
 
 export default {
   name: "Room",
-  layout: "room",
+  layout: "app",
   components: {
     videoQueue,
     videoSearch,
@@ -214,12 +212,16 @@ export default {
   height: 100%;
 }
 
+.player{
+  position: relative;
+}
+
 .grid-container {
-display: grid;
-grid-template-columns: 3fr 1fr;
-grid-template-rows: 1fr;
-grid-column-gap: 0px;
-grid-row-gap: 0px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 }
 
 #sidebar {
