@@ -1,29 +1,25 @@
 <template>
-  <v-snackbar v-model="show">
-    {{ message }}
-    <v-btn @click.native="show = false">Close</v-btn>
-  </v-snackbar>
+  <div v-if="notification">
+    <v-snackbar v-model="notification" :color="notification.type" top @input="this.remove">
+      {{ notification.message }}
+      <v-btn text @click="this.remove">Close</v-btn>
+    </v-snackbar>
+  </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import { mapActions, mapState } from "vuex";
 
 export default {
   data() {
     return {
-      show: false,
-      message: ""
+      timeout: null
     };
   },
-  created: function () {
-    this.$store.watch(state => state.utilities.snackbar, () => {
-      const msg = this.$store.state.utilities.snackbar
-      if (msg) {
-        this.show = true
-        this.message = this.$store.state.utilities.snackbar.message
-        this.$store.commit('utilities/UPDATE_SNACKBAR', null)
-      }
-    })
-  }
+  methods: mapActions("notification", ["remove"]),
+  computed: mapState("notification", ["notification"])
 };
 </script>
+
+<style>
+</style>

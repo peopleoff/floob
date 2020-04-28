@@ -1,5 +1,5 @@
 <template>
-  <section class="d-flex h100 align-center justify-center">
+  <section class="d-flex h100 align-center justify-center login-background">
     <v-sheet class="pa-5 login-sheet" color="#36393f">
       <h1 class="text-center">Welcome Back!</h1>
       <v-tabs
@@ -19,7 +19,7 @@
           <login />
         </v-tab-item>
         <v-tab-item>
-          <signup />
+          <register />
         </v-tab-item>
       </v-tabs-items>
     </v-sheet>
@@ -28,12 +28,12 @@
 
 <script>
 import login from "@/components/auth/login";
-import signup from "@/components/auth/signup";
+import register from "@/components/auth/register";
 
 export default {
   components: {
     login,
-    signup
+    register
   },
   data() {
     return {
@@ -43,13 +43,16 @@ export default {
 };
 </script>
 
-<style>
-.login-card{
-  width: 100%;
-  background-color: #36393f
+<style scoped>
+.login-background{
+  background: url('~assets/images/color-background.jpg');
+  background-size: cover;
 }
 .login-sheet{
   width: 50%;
+}
+.theme--dark.v-tabs-items{
+  background-color: transparent;
 }
 
 @media only screen and (max-width: 600px) {

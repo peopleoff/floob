@@ -17,10 +17,10 @@ const isHandlerEnabled = (config = {}) => {
 };
 
 const errorHandler = error => {
-  console.log(error);
   if (isHandlerEnabled(error.config)) {
     // Handle errors
   }
+  console.log(error);
   return Promise.reject({ ...error });
 };
 
@@ -29,10 +29,12 @@ const successHandler = response => {
     // Handle responses
     // store.commit('STOP_LOADING');
   }
+  console.log(response);
   return response;
 };
 
 function requestHandler(request) {
+  console.log(request);
   if (isHandlerEnabled(request)) {
     // store.commit('START_LOADING');
     // const token = getCookie("token");
@@ -45,7 +47,7 @@ function requestHandler(request) {
 
 export default () => {
   const connection = axios.create({
-    baseURL: process.env.VUE_APP_API
+    baseURL: process.env.baseUrl
   });
 
   connection.interceptors.request.use(request => requestHandler(request));

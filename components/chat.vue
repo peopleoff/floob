@@ -10,26 +10,15 @@
         <v-icon>mdi-account-group</v-icon>
       </v-btn>
     </div>
-    <div class="ma-2" id="messages" v-if="!showUsers">
-      <div id="userInfo">
-        Test
-      </div>
-      <div class="font-weight-thin" style="color: #9e9e9e">
-        Welcome To Chat!
-      </div>
+    <div class="ma-2" id="messages">
+      <div id="userInfo">Test</div>
+      <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
       <div v-for="message in messages" :key="message.id">
         <span
           class="primary--text message"
           @click="clickMessage(message, $event)"
-          >{{ message.username }}</span
-        >
+        >{{ message.username }}</span>
         <span>: {{ message.message }}</span>
-      </div>
-    </div>
-    <div class="ma-2 h100" id="users" v-if="showUsers">
-      <div class="font-weight-thin" style="color: #9e9e9e">Current Users</div>
-      <div v-for="user in currentViewers" :key="user.id">
-        <span class="primary--text">{{ user.currentViewers.username }}</span>
       </div>
     </div>
     <div class="ma-2">
@@ -41,118 +30,56 @@
         append-icon="mdi-send"
         full-width
         v-model="message"
-        @click:append="addMessage"
-        @keydown.enter="addMessage"
+        @click:append="sendMessage"
+        @keydown.enter="sendMessage"
       ></v-text-field>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'Chat',
+  name: "Chat",
   data() {
     return {
-      message: '',
-      messages: [
-        {
-          id: 1,
-          username: "legendarysoviet",
-          message: "hello"
-        },
-        {
-          id: 2,
-          username: "AnthonyKings",
-          message: "hello"
-        },
-        {
-          id: 3,
-          username: "Foil80",
-          message: "Dolor veniam in consequat ut."
-        },
-        {
-          id: 4,
-          username: "Justin",
-          message: "Proident aliquip ex ullamco fugiat. Officia ea velit magna aute laboris aliqua aliqua. Sit do dolor ad amet. Laborum duis aute qui adipisicing aliqua duis fugiat dolore nisi. Nulla aliquip mollit nisi elit est ipsum et ex adipisicing. Ad exercitation ex laboris reprehenderit labore voluptate esse minim non irure magna deserunt."
-        },
-        {
-          id: 5,
-          username: "legendarysoviet",
-          message: "Reprehenderit consequat anim nostrud deserunt excepteur culpa. Officia eiusmod tempor sunt cillum esse. Cupidatat anim consequat minim cillum dolore quis dolore occaecat consequat eu anim eiusmod."
-        },
-      ],
-      currentViewers: [],
-      video: '',
-      hideChat: false,
-      showUsers: false
+      message: "",
+      messages: [],
+      hideChat: false
+    };
+  },
+  sockets: {
+    newMessage: function(message) {
+      console.log("newmessage");
+      this.messages.push(message);
     }
   },
   methods: {
-    getVideoID(name, url) {
-      if (url.includes('youtu.be')) {
-        let index = 0
-        //Mobile Link
-        let firstCheck = url.split('/')[url.split('/').length - 1]
-        if (firstCheck.length > 0) {
-          index = url.split('/').length - 1
-        } else {
-          index = url.split('/').length - 2
-        }
-        let videoID = url.split('/')[index]
-        return videoID
-      }
-      if (!url) url = window.location.href
-      name = name.replace(/[\[\]]/g, '\\$&')
-      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url)
-      if (!results) return null
-      if (!results[2]) return ''
-      return decodeURIComponent(results[2].replace(/\+/g, ' '))
-    },
-    addMessage() {
-      if (!this.loggedIn) {
-        this.SHOW_LOGIN_FORM()
-        return
-      }
-      if (this.message) {
+    sendMessage() {
+      if (this.message && this.loggedIn) {
         let newMessage = {
           message: this.message,
           roomID: this.$route.params.id,
-          user: this.$store.state.user
-        }
-        this.message = ''
-        let container = document.querySelector('#messages')
-        container.scrollTop = container.scrollHeight
+          user: this.user
+        };
+        this.$socket.emit("sendMessage", newMessage);
+        this.message = "";
+        let container = document.querySelector("#messages");
+        container.scrollTop = container.scrollHeight;
       }
     },
     toggleChat() {
-      this.$emit('toggleChat')
-    },
-    clickMessage(chat, event) {
-      let info = document.getElementById('userInfo')
-      console.log(chat);
-      // info.style.display = 'block'
-      // info.style.top = event.layerY + 20 + 'px'
-    },
+      this.$emit("toggleChat");
+    }
   },
   computed: {
-    chatSize: function() {
-      if (this.hideChat) {
-        return 'd-none pa-0'
-      } else {
-        return 'col-lg-2 pa-0'
-      }
-    },
-    chatTooltip() {
-      if (this.hideChat) {
-        return 'Show Chat'
-      } else {
-        return 'Hide Chat'
-      }
-    }
+    ...mapGetters({
+      loggedIn: "user/loggedIn",
+      user: "user/user"
+    })
   }
-}
+};
 </script>
 
 <style scoped>

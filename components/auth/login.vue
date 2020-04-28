@@ -1,6 +1,6 @@
 <template>
-  <section class="d-flex h100 align-center justify-center">
-    <v-form @keyup.native.enter="signIn" class="login-card">
+  <v-form @keyup.native.enter="signIn">
+    <v-card flat color="transparent">
       <v-card-text>
         <label for="username">Username/Email</label>
         <v-text-field
@@ -27,14 +27,14 @@
       <v-card-actions>
         <v-btn block color="primary" @click="signIn()" :loading="loading">Login</v-btn>
       </v-card-actions>
-    </v-form>
-  </section>
+    </v-card>
+  </v-form>
 </template>
 
 <script>
-import UserService from "@/services/UserService";
 import { mapActions } from "vuex";
 import { required, username, minLength } from "vuelidate/lib/validators";
+
 export default {
   name: "Login",
   data() {
@@ -50,8 +50,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      UPDATE_SNACKBAR: "utilities/UPDATE_SNACKBAR",
-      ADD_USER: "auth/ADD_USER",
+      notificationAdd: "notification/add",
+      login: "user/login"
     }),
     signIn: function() {
       this.$v.$touch();
@@ -60,22 +60,14 @@ export default {
         this.loading = false;
         return;
       } else {
-        UserService.login(this.user)
-          .then(response => {
+        this.login(this.user)
+          .then(() => {
             this.loading = false;
-            if (response.data.message) {
-              // this.$store.dispatch("utilities/UPDATE_SNACKBAR");
-              this.UPDATE_SNACKBAR(response.data);
-            } else {
-              this.ADD_USER({
-                user: response.data.user,
-                token: response.data.token
-              });
-              this.UPDATE_SNACKBAR({
-                type: "success",
-                message: "Signed In!"
-              });
-            }
+            this.notificationAdd({
+              type: 'success',
+              message: 'Logged in'
+            })
+            // this.$router.push("/");
           })
           .catch(error => {
             console.log(error);

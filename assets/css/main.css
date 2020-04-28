@@ -1,6 +1,15 @@
-.h100 {
+html, body, #__nuxt {
   height: 100%;
 }
-* {
-  font-family: "Poppins";
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Poppins', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.h100 {
+  height: 100%;
 }

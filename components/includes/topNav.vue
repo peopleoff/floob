@@ -1,33 +1,52 @@
 <template>
-  <v-app-bar fixed flat class="transparent" color="transparent">
+  <v-app-bar fixed flat class="transparent pa-4" color="transparent">
     <nuxt-link
       to="/"
       tag="img"
-      :src="require('@/assets/images/logo.svg')"
+      :src="require('@/assets/images/placeholder.png')"
       class="logo"
       alt="Floob Logo"
     ></nuxt-link>
-
     <v-spacer></v-spacer>
-    <v-btn icon>
-      <v-icon>mdi-reddit</v-icon>
-    </v-btn>
+    <v-btn color="legendary_mint" rounded outlined nuxt to="/login" v-if="!loggedIn">Sign In</v-btn>
+    <v-menu offset-y v-else>
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">{{user.username}}</v-btn>
+      </template>
 
-    <v-btn icon>
-      <v-icon>mdi-twitter</v-icon>
-    </v-btn>
-
-    <v-btn icon>
-      <v-icon>mdi-instagram</v-icon>
-    </v-btn>
-    <v-btn color="legendary_mint" rounded outlined nuxt to="/login">
-      Sign In
-    </v-btn>
+      <v-list>
+        <v-list-item>
+          <v-list-item-title>1</v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>1</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="logout">SignOut</v-list-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>
 
 <script>
-export default {};
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  methods: {
+    ...mapActions({
+      logout: "user/logout"
+    })
+  },
+  computed: {
+    ...mapGetters({
+      user: "user/user",
+      loggedIn: "user/loggedIn"
+    })
+  }
+};
 </script>
 
-<style></style>
+<style scoped>
+.logo {
+  height: 100%;
+}
+</style>
