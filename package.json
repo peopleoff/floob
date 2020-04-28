@@ -12,14 +12,18 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/axios": "^5.9.7",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
+    "normalize.css": "^8.0.1",
     "nuxt": "^2.0.0",
+    "v-mask": "^2.1.0",
     "videojs-youtube": "^2.6.1",
     "vue-click-outside": "^1.0.7",
+    "vue-socket.io": "^3.0.7",
     "vue-video-player": "^5.0.2",
-    "vuelidate": "^0.7.5"
+    "vuelidate": "^0.7.5",
+    "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.0.0"

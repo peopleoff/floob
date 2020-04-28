@@ -1,8 +1,8 @@
 import Api from "@/services/Api";
 
 export default {
-  Register(data) {
-    return Api().post("users/register", data);
+  register(data) {
+    return Api().post("users/signUp", data);
   },
   login(data) {
     return Api().post("users/login", data);

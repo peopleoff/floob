@@ -33,17 +33,31 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["video.js/dist/video-js.css", "~/assets/css/main.css"],
+  css: [
+    "normalize.css/normalize.css",
+    "video.js/dist/video-js.css",
+    "~/assets/css/main.css"
+  ],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
     {
-      src: "~plugins/videoPlayer.js",
-      ssr: false
+      src: "~plugins/videoPlayer.js"
     },
     {
       src: "~plugins/vuelidate.js"
+    },
+    {
+      src: "~plugins/vMask.js"
+    },
+    {
+      src: "~plugins/socket.js",
+      ssr: false
+    },
+    {
+      src: "~/plugins/vuex-persist",
+      ssr: false
     }
   ],
   /*
@@ -69,6 +83,9 @@ export default {
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
    */
+  env: {
+    baseUrl: process.env.BASE_URL || "http://localhost:4000"
+  },
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
     theme: {

@@ -4,17 +4,18 @@
     <v-content>
       <nuxt />
     </v-content>
-    <snackBar />
+    <Snackbar />
   </v-app>
 </template>
 
 <script>
 import topNav from "@/components/includes/topNav";
-import snackBar from '@/components/includes/snackBar'
+import Snackbar from '@/components/includes/Snackbar'
+
 export default {
   components: {
     topNav,
-    snackBar
+    Snackbar
   },
   data: () => ({
   })

@@ -4,17 +4,15 @@
       <v-container fluid>
         <v-row class="pa-12 justify-center align-center h100">
           <v-col sm="6">
-            <h3 class="display-3 font-weight-medium pb-9">
-              The best way to watch videos with your friends when you're too scared to go outside
-            </h3>
-            <v-btn color="legendary_mint" id="cta" nuxt to="/room/25">Create A Room</v-btn>
+            <h3
+              class="display-3 font-weight-medium pb-9"
+            >The best way to watch videos with your friends when you're too scared to go outside</h3>
+            <v-btn color="legendary_mint" id="cta" @click="createRoom()">Create A Room</v-btn>
           </v-col>
           <v-col sm="6">
             <!-- <v-img :src="require('~/assets/images/landing.svg')"></v-img> -->
             <object type="image/svg+xml" :data="require('~/assets/images/landing.svg')">
-
-            <img :src="require('~/assets/images/landing.svg')" />
-
+              <img :src="require('~/assets/images/landing.svg')" />
             </object>
           </v-col>
         </v-row>
@@ -28,8 +26,7 @@
           </v-col>
           <v-col sm="6">
             <h1 class="display-2">
-              <v-icon x-large>mdi-home</v-icon>
-              Look at this neat gif of floob working for you!
+              <v-icon x-large>mdi-home</v-icon>Look at this neat gif of floob working for you!
             </h1>
             <h3 class="headline">
               Officia enim occaecat voluptate qui duis amet in pariatur
@@ -47,9 +44,7 @@
             <v-sheet height="300" class="pa-5">
               <div class="d-flex flex-column justify-space-around">
                 <div>
-                  <v-icon>
-                    mid-play
-                  </v-icon>
+                  <v-icon>mid-play</v-icon>
                   <h1>Test</h1>
                 </div>
                 <div>
@@ -63,7 +58,7 @@
                   nostrum repellat?
                 </div>
                 <div>
-                  <a href="">Start Here</a>
+                  <a href>Start Here</a>
                 </div>
               </div>
             </v-sheet>
@@ -72,9 +67,7 @@
             <v-sheet height="300" color="white" class="black--text pa-5">
               <div class="d-flex flex-column justify-space-around">
                 <div>
-                  <v-icon>
-                    mid-play
-                  </v-icon>
+                  <v-icon>mid-play</v-icon>
                   <h1>Test</h1>
                 </div>
                 <div>
@@ -88,7 +81,7 @@
                   nostrum repellat?
                 </div>
                 <div>
-                  <a href="">Start Here</a>
+                  <a href>Start Here</a>
                 </div>
               </div>
             </v-sheet>
@@ -100,8 +93,47 @@
 </template>
 
 
+<script>
+import { mapGetters } from "vuex";
+import RoomService from "@/services/RoomService";
+
+export default {
+  data() {
+    return {
+      tab: 0
+    };
+  },
+  methods: {
+    createRoom() {
+      //If user is not logged in redirect to login page
+      if(!this.loggedIn){
+        this.$router.push('/login')
+      }else{
+        RoomService.register(this.user)
+        .then(response => {
+          console.log(response);
+          if(!response.data.error){
+            this.$router.push('/room/' + response.data.room)
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        })
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'user/user',
+      loggedIn: "user/loggedIn"
+    })
+  }
+};
+</script>
+
+
 <style>
-#cta{
+#cta {
   color: white;
   width: 50%;
   height: 50px;
@@ -133,7 +165,6 @@ section#sharing {
   position: absolute;
   top: 25%;
 }
-
 
 .floob-display {
   position: absolute;
