@@ -16,7 +16,7 @@
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
     "normalize.css": "^8.0.1",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.12.2",
     "v-mask": "^2.1.0",
     "videojs-youtube": "^2.6.1",
     "vue-click-outside": "^1.0.7",
