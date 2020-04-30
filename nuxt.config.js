@@ -24,6 +24,11 @@ export default {
         href:
           "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
       }
+    ],
+    script: [
+      {
+        src: '~/assets/js/youtube.min.js'
+      }
     ]
   },
   /*
@@ -43,7 +48,8 @@ export default {
    */
   plugins: [
     {
-      src: "~plugins/videoPlayer.js"
+      src: "~plugins/videoPlayer.js",
+      ssr: false
     },
     {
       src: "~plugins/vuelidate.js"

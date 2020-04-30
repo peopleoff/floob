@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueVideoPlayer from "vue-video-player/dist/ssr";
 
-
-Vue.use(VueVideoPlayer);
 require("videojs-youtube");
+Vue.use(VueVideoPlayer);
