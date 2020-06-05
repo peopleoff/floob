@@ -51,7 +51,6 @@ export default {
   },
   sockets: {
     newMessage: function(message) {
-      console.log("newmessage");
       this.messages.push(message);
     }
   },

@@ -7,7 +7,14 @@
             <h3
               class="display-3 font-weight-medium pb-9"
             >The best way to watch videos with your friends when you're too scared to go outside</h3>
-            <v-btn color="legendary_mint" id="cta" @click="createRoom()">Create A Room</v-btn>
+            <v-row>
+              <v-col>
+                <v-btn block color="legendary_mint" id="cta" @click="createRoom()">Create A Room</v-btn>
+              </v-col>
+              <v-col>
+                <v-btn block outlined color="legendary_mint" @click="joinRoom()">Join A Room</v-btn>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col sm="6">
             <!-- <v-img :src="require('~/assets/images/landing.svg')"></v-img> -->
@@ -89,6 +96,7 @@
         </v-row>
       </v-container>
     </section>
+    <JoinRoom v-bind:joinDialog="joinDialog" />
   </div>
 </template>
 
@@ -96,35 +104,42 @@
 <script>
 import { mapGetters } from "vuex";
 import RoomService from "@/services/RoomService";
+import JoinRoom from "@/components/JoinRoom";
 
 export default {
+  components: {
+    JoinRoom
+  },
   data() {
     return {
-      tab: 0
+      joinDialog: false
     };
   },
   methods: {
     createRoom() {
       //If user is not logged in redirect to login page
-      if(!this.loggedIn){
-        this.$router.push('/login')
-      }else{
+      if (!this.loggedIn) {
+        this.$router.push("/login");
+      } else {
         RoomService.register(this.user)
-        .then(response => {
-          console.log(response);
-          if(!response.data.error){
-            this.$router.push('/room/' + response.data.room)
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        })
+          .then(response => {
+            console.log(response);
+            if (!response.data.error) {
+              this.$router.push("/room/" + response.data.room);
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
       }
+    },
+    joinRoom() {
+      this.joinDialog = !this.joinDialog;
     }
   },
   computed: {
     ...mapGetters({
-      user: 'user/user',
+      user: "user/user",
       loggedIn: "user/loggedIn"
     })
   }

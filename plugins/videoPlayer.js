@@ -1,5 +1,16 @@
 import Vue from "vue";
-import VueVideoPlayer from "vue-video-player/dist/ssr";
+import VuePlyr from "vue-plyr/dist/vue-plyr.ssr.js";
 
-require("videojs-youtube");
-Vue.use(VueVideoPlayer);
+/*
+ ** vue-plyr configuration
+ ** See  https://github.com/redxtech/vue-plyr
+ */
+
+// The second argument is optional and sets the default config values for every player.
+Vue.use(VuePlyr, {
+  plyr: {
+    fullscreen: { enabled: false },
+    muted: true
+  },
+  emit: ["ended", "seeked", "ready"]
+});

@@ -39,7 +39,6 @@
 
 <script>
 import _ from 'lodash'
-import ClickOutside from 'vue-click-outside'
 import { mapMutations } from 'vuex'
 
 export default {
@@ -60,10 +59,6 @@ export default {
   },
   methods: {
     ...mapMutations(['UPDATE_SNACKBAR']),
-    clickOffSearch: function() {
-      this.searchResult = null
-      this.searchCriteria = ''
-    },
     getVideoID(name, url) {
       if (url.includes('youtu.be')) {
         let index = 0

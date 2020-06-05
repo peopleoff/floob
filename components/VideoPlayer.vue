@@ -1,91 +1,99 @@
 <template>
-  <section id="playerContainer">
-    <div
-      id="player"
-      v-video-player:myVideoPlayer="playerOptions"
-      @play="onPlayerPlay($event)"
-      @pause="onPlayerPause($event)"
-      @ended="onPlayerEnded($event)"
-      @loadeddata="onPlayerLoadeddata($event)"
-      @waiting="onPlayerWaiting($event)"
-      @playing="onPlayerPlaying($event)"
-      @timeupdate="onPlayerTimeupdate($event)"
-      @canplay="onPlayerCanplay($event)"
-      @canplaythrough="onPlayerCanplaythrough($event)"
-      @ready="playerReadied"
-      @statechanged="playerStateChanged($event)"
-    ></div>
+  <section>
+    <vue-plyr ref="plyr" @seeked="seekedEvent" @ended="endedEvent" @ready="readyEvent">
+      <div :data-plyr-provider="video.provider" :data-plyr-embed-id="video.src"></div>
+    </vue-plyr>
+    <div class="d-flex justify-space-between align-center pa-5">
+      <div class="roomName">
+        <div class="title">{{video.title}}</div>
+        <div class="subtitle-1">
+          <v-icon>mdi-{{video.provider}}</v-icon>
+          {{video.channel}}
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
+
 <script>
 export default {
-  data() {
-    return {
-      // component options
-      playsinline: true,
-
-      // videojs options
-      playerOptions: {
-        autoplay: true,
-        language: "en",
-        techOrder: ["youtube"],
-        sources: [
-          {
-            type: "video/youtube",
-            src: "https://www.youtube.com/watch?v=96VId8Tj92M"
-          }
-        ]
-        // poster: "/static/images/author.jpg",
-      }
-    };
+  name: "VideoPlayer",
+  props: {
+    video: {
+      type: Object,
+      required: true
+    }
   },
-  mounted() {
-    console.log("this is current player instance object", this.myVideoPlayer);
+  sockets: {
+    syncVideo: function(payload) {
+      console.log(payload);
+      // this.player.forward(payload);
+    }
   },
   methods: {
-    // listen event
-    onPlayerPlay(player) {
-      // console.log('player play!', player)
+    seekedEvent(event) {
+      console.log(event);
+      let payload = {
+        roomID: this.$route.params.id,
+        seconds: event.timeStamp
+      };
+      this.$socket.emit("seekVideo", payload);
     },
-    onPlayerPause(player) {
-      // console.log('player pause!', player)
+    endedEvent(event) {
+      console.log(event);
+      this.$emit("ended", this.video);
     },
-    onPlayerEnded(player) {
-      // console.log('player ended!', player)
+    readyEvent(event) {
+      console.log(event);
+      this.player.play();
     },
-    onPlayerLoadeddata(player) {
-      // console.log('player Loadeddata!', player)
-    },
-    onPlayerWaiting(player) {
-      // console.log('player Waiting!', player)
-    },
-    onPlayerPlaying(player) {
-      // console.log('player Playing!', player)
-    },
-    onPlayerTimeupdate(player) {
-      // console.log('player Timeupdate!', player.currentTime())
-    },
-    onPlayerCanplay(player) {
-      // console.log('player Canplay!', player)
-    },
-    onPlayerCanplaythrough(player) {
-      // console.log('player Canplaythrough!', player)
-    },
-    // or listen state event
-    playerStateChanged(playerCurrentState) {
-      console.log("player current update state", playerCurrentState);
-    },
-    // player is ready
-    playerReadied(player) {
-      console.log("example 01: the player is readied", player);
+    playNextVideo(newVideo) {
+      console.log(newVideo);
+      this.player.source = {
+        type: "video",
+        sources: [
+          {
+            src: newVideo.src,
+            provider: newVideo.provider
+          }
+        ]
+      };
+    }
+  },
+  watch: {
+    video: {
+      // immediate: true,
+      deep: true,
+      handler(newValue, oldValue) {
+        console.log(newValue);
+        console.log(oldValue);
+        // //If new array is empty, remove video Player
+        // if (newValue.length == 0) {
+        //   // return document.getElementById("player").remove();
+        // }
+        // //If video queue was empty, play new video
+        // if (oldValue.length == 0) {
+        //   // return this.onYouTubeIframeAPIReady(this.videoQueue[0]);
+        // }
+        // //New video added to non-empty array. Do nothing
+        // if (newValue.length > oldValue.length) {
+        //   return;
+        // }
+        this.playNextVideo(newValue);
+      }
+    }
+  },
+  computed: {
+    player() {
+      return this.$refs.plyr.player;
     }
   }
 };
 </script>
 
 <style>
-#playerContainer {
+/* #playerContainer {
   height: 60vh;
   width: 100%;
 }
@@ -102,5 +110,5 @@ export default {
   #playerContainer {
     height: 193px;
   }
-}
+} */
 </style>
