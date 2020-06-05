@@ -4,6 +4,9 @@
   "description": "My magnificent Nuxt.js project",
   "author": "rbelyy",
   "private": true,
+  "engines": {
+    "node": "13.x"
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
