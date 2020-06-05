@@ -6,24 +6,7 @@
         <div class="player">
           <div class="d-flex flex-column h100">
             <!-- Video Player -->
-            <div>
-              <VideoPlayer :videoQueue="videoQueue" />
-            </div>
-            <!-- Video Actions -->
-            <div class="d-flex justify-space-between align-center pa-5">
-              <div class="roomName">
-                <div class="title">
-                  The LUCKIEST Jump I've Ever Had in Versus Mode (Super Mario Maker
-                  2 Multiplayer)
-                </div>
-                <div class="subtitle-1">
-                  <v-icon>mdi-youtube</v-icon>raysfire
-                </div>
-              </div>
-              <div>
-                <v-btn>Vote To Skip</v-btn>
-              </div>
-            </div>
+            <VideoPlayer v-if="nextVideo" :video="nextVideo" @ended="ended" />
             <!-- Video Que -->
             <div class="px-5">
               <videoQueue :videoQueue="videoQueue" />
@@ -40,7 +23,6 @@
 
 <script>
 import videoQueue from "@/components/VideoQueue";
-import videoSearch from "@/components/videoSearch";
 import VideoPlayer from "@/components/VideoPlayer";
 import VideoSearchBar from "@/components/VideoSearchBar";
 import Chat from "@/components/Chat";
@@ -53,23 +35,22 @@ export default {
   layout: "app",
   components: {
     videoQueue,
-    videoSearch,
     VideoPlayer,
     VideoSearchBar,
     Chat
   },
   data() {
     return {
-      videoQueue: [],
+      allVideos: [],
       showChat: true
     };
   },
   sockets: {
     getVideos: function(payload) {
-      this.videoQueue = payload;
+      this.allVideos = payload;
     }
   },
-  created() {
+  mounted() {
     this.joinedRoom();
   },
   methods: {
@@ -81,13 +62,20 @@ export default {
         id: this.$route.params.id,
         user: this.user
       };
+      this.$socket.emit('joinedRoom', payload)
       this.enterRoom(payload)
         .then(result => {
-          console.log(result);
+          this.log(result);
+          // console.log(result);
         })
         .catch(error => {
           console.error(error);
         });
+    },
+    ended(event){
+      console.log(event);
+      this.$socket.emit('removeVideo', event)
+      this.allVideos.shift();
     },
     toggleChat() {
       this.showChat = !this.showChat;
@@ -102,6 +90,12 @@ export default {
       } else {
         return "d-none pa-0";
       }
+    },
+    nextVideo(){
+      return this.allVideos[0];
+    },
+    videoQueue(){
+      return this.allVideos.filter((video, index) => index != 0)
     }
   }
 };

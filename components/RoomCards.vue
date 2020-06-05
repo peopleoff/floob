@@ -86,6 +86,7 @@ export default {
           this.$emit('toggledRoom', 'carrier')
         })
         .catch(error => {
+          this.$sentry.captureException(new Error(error))
           console.error(error)
         })
     }, 500),

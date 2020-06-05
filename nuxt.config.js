@@ -25,11 +25,6 @@ export default {
           "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
       }
     ],
-    script: [
-      {
-        src: '~/assets/js/youtube.min.js'
-      }
-    ]
   },
   /*
    ** Customize the progress-bar color
@@ -40,7 +35,7 @@ export default {
    */
   css: [
     "normalize.css/normalize.css",
-    "video.js/dist/video-js.css",
+    'plyr/dist/plyr.css',
     "~/assets/css/main.css"
   ],
   /*
@@ -48,11 +43,13 @@ export default {
    */
   plugins: [
     {
-      src: "~plugins/videoPlayer.js",
-      ssr: false
+      src: "~plugins/videoPlayer.js"
     },
     {
       src: "~plugins/vuelidate.js"
+    },
+    {
+      src: "~plugins/logging.js"
     },
     {
       src: "~plugins/vMask.js"
@@ -78,8 +75,18 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/pwa",
     // Doc: https://github.com/nuxt-community/dotenv-module
-    "@nuxtjs/dotenv"
+    "@nuxtjs/dotenv",
+    // Doc: https://github.com/nuxt-community/sentry-module#readme
+    '@nuxtjs/sentry',
   ],
+    /*
+   ** Sentry module configuration
+   ** See  https://docs.sentry.io/error-reporting/configuration/?platform=browser
+   */
+  sentry: {
+    dsn: 'https://95d647b1ecad4b54b46182bc9bf8fc09@o330708.ingest.sentry.io/1851159',
+    disabled: true,
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
