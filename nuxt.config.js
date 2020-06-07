@@ -96,9 +96,6 @@ export default {
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
    */
-  env: {
-    baseUrl: process.env.BASE_URL || "http://localhost:4000"
-  },
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
     theme: {
