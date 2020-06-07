@@ -4,14 +4,10 @@
   "description": "My magnificent Nuxt.js project",
   "author": "rbelyy",
   "private": true,
-  "engines": {
-    "node": "13.x"
-  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "tunnel": "./ngrok http 3000",
     "generate": "nuxt generate"
   },
   "dependencies": {

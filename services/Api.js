@@ -47,7 +47,7 @@ function requestHandler(request) {
 
 export default () => {
   const connection = axios.create({
-    baseURL: process.env.baseUrl
+    baseURL: process.env.BASE_URL
   });
 
   connection.interceptors.request.use(request => requestHandler(request));
