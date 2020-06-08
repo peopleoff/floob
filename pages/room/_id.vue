@@ -1,20 +1,18 @@
 <template>
-  <v-container fluid class="h100 pa-0">
-    <v-row class="h100 ma-0">
-      <v-col class="pa-0">
+  <v-container fluid>
+    <v-row>
+      <v-col>
         <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
         <div class="player">
-          <div class="d-flex flex-column h100">
+          <div class="d-flex flex-column">
             <!-- Video Player -->
             <VideoPlayer v-if="nextVideo" :video="nextVideo" @ended="ended" />
             <!-- Video Que -->
-            <div class="px-5">
-              <videoQueue :videoQueue="videoQueue" />
-            </div>
+            <videoQueue :videoQueue="videoQueue" />
           </div>
         </div>
       </v-col>
-      <v-col :class="chatSize" class="h100">
+      <v-col :class="chatSize">
         <Chat @toggleChat="toggleChat" />
       </v-col>
     </v-row>
@@ -62,7 +60,7 @@ export default {
         id: this.$route.params.id,
         user: this.user
       };
-      this.$socket.emit('joinedRoom', payload)
+      this.$socket.emit("joinedRoom", payload);
       this.enterRoom(payload)
         .then(result => {
           this.log(result);
@@ -72,9 +70,9 @@ export default {
           console.error(error);
         });
     },
-    ended(event){
+    ended(event) {
       console.log(event);
-      this.$socket.emit('removeVideo', event)
+      this.$socket.emit("removeVideo", event);
       this.allVideos.shift();
     },
     toggleChat() {
@@ -82,20 +80,20 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['user']),
-    ...mapState('room', ['room']),
+    ...mapState("user", ["user"]),
+    ...mapState("room", ["room"]),
     chatSize: function() {
       if (this.showChat) {
-        return "col-lg-3 pa-0";
+        return "col-lg-3 px-0";
       } else {
-        return "d-none pa-0";
+        return "d-none px-0";
       }
     },
-    nextVideo(){
+    nextVideo() {
       return this.allVideos[0];
     },
-    videoQueue(){
-      return this.allVideos.filter((video, index) => index != 0)
+    videoQueue() {
+      return this.allVideos.filter((video, index) => index != 0);
     }
   }
 };
