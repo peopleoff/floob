@@ -1,13 +1,13 @@
 <template>
   <section>
     <vue-plyr ref="plyr" @seeked="seekedEvent" @ended="endedEvent" @ready="readyEvent">
-      <div :data-plyr-provider="video.provider" :data-plyr-embed-id="video.src"></div>
+      <div :data-plyr-provider="formatProvider(video.provider)" :data-plyr-embed-id="video.src"></div>
     </vue-plyr>
-    <div class="d-flex justify-space-between align-center pa-5">
+    <div class="d-flex justify-space-between align-center">
       <div class="roomName">
         <div class="title">{{video.title}}</div>
         <div class="subtitle-1">
-          <v-icon>mdi-{{video.provider}}</v-icon>
+          <v-icon>mdi-{{formatProvider(video.provider)}}</v-icon>
           {{video.channel}}
         </div>
       </div>
@@ -49,13 +49,13 @@ export default {
       this.player.play();
     },
     playNextVideo(newVideo) {
-      console.log(newVideo);
+      let provider = formatProvider(newVideo.provider);
       this.player.source = {
         type: "video",
         sources: [
           {
             src: newVideo.src,
-            provider: newVideo.provider
+            provider: provider
           }
         ]
       };
@@ -66,6 +66,7 @@ export default {
       // immediate: true,
       deep: true,
       handler(newValue, oldValue) {
+        console.log("test");
         console.log(newValue);
         console.log(oldValue);
         // //If new array is empty, remove video Player

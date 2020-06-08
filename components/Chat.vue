@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column justify-space-around h100">
+  <div class="d-flex flex-column justify-space-around">
     <!-- Video Search -->
     <div class="d-flex flex-row justify-space-between align-center">
       <v-btn icon tile @click="toggleChat" class="hidden-sm-and-down">
