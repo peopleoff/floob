@@ -4,13 +4,13 @@
       <div :data-plyr-provider="formatProvider(video.provider)" :data-plyr-embed-id="video.src"></div>
     </vue-plyr>
     <div class="d-flex justify-space-between align-center">
-      <div class="roomName">
+      <!-- <div class="roomName">
         <div class="title">{{video.title}}</div>
         <div class="subtitle-1">
           <v-icon>mdi-{{formatProvider(video.provider)}}</v-icon>
           {{video.channel}}
         </div>
-      </div>
+      </div>-->
     </div>
   </section>
 </template>
@@ -19,21 +19,28 @@
 <script>
 export default {
   name: "VideoPlayer",
-  props: {
-    video: {
-      type: Object,
-      required: true
-    }
-  },
+  props: ["video"],
   sockets: {
     syncVideo: function(payload) {
-      console.log(payload);
+      // console.log(payload);
       // this.player.forward(payload);
     }
   },
+  mounted() {
+    console.log(this.player);
+    this.player.source = {
+      type: "video",
+      sources: [
+        {
+          src: "E8VbytwTXWA",
+          provider: "youtube"
+        }
+      ]
+    };
+    console.log(this.player);
+  },
   methods: {
     seekedEvent(event) {
-      console.log(event);
       let payload = {
         roomID: this.$route.params.id,
         seconds: event.timeStamp
@@ -41,15 +48,14 @@ export default {
       this.$socket.emit("seekVideo", payload);
     },
     endedEvent(event) {
-      console.log(event);
       this.$emit("ended", this.video);
     },
     readyEvent(event) {
-      console.log(event);
+      console.log("ready");
       this.player.play();
     },
     playNextVideo(newVideo) {
-      let provider = formatProvider(newVideo.provider);
+      let provider = this.formatProvider(newVideo.provider);
       this.player.source = {
         type: "video",
         sources: [
@@ -59,30 +65,6 @@ export default {
           }
         ]
       };
-    }
-  },
-  watch: {
-    video: {
-      // immediate: true,
-      deep: true,
-      handler(newValue, oldValue) {
-        console.log("test");
-        console.log(newValue);
-        console.log(oldValue);
-        // //If new array is empty, remove video Player
-        // if (newValue.length == 0) {
-        //   // return document.getElementById("player").remove();
-        // }
-        // //If video queue was empty, play new video
-        // if (oldValue.length == 0) {
-        //   // return this.onYouTubeIframeAPIReady(this.videoQueue[0]);
-        // }
-        // //New video added to non-empty array. Do nothing
-        // if (newValue.length > oldValue.length) {
-        //   return;
-        // }
-        this.playNextVideo(newValue);
-      }
     }
   },
   computed: {

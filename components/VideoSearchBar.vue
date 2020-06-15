@@ -20,37 +20,45 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-text-field
-      hide-details
-      outlined
-      prepend-inner-icon="mdi-magnify"
-      label="Search or Add Videos"
-      width="50"
-      clearable
-      @input="searchVideos"
-      @keydown.enter="addVideoLink"
-      v-model="searchCriteria"
-    ></v-text-field>
+    <div ref="searchInput" class="flex-grow-1">
+      <v-text-field
+        hide-details
+        outlined
+        prepend-inner-icon="mdi-magnify"
+        label="Search or Add Videos"
+        width="50"
+        clearable
+        @input="searchVideos"
+        @keydown.enter="addVideoLink"
+        v-model="searchCriteria"
+      ></v-text-field>
+
+      <v-list
+        id="searchResults"
+        v-if="clearResults"
+        class="elevation-10 my-3"
+        :width="searchResultWidth"
+      >
+        <v-list-item v-for="result in searchResult" :key="result.src">
+          <v-list-item-icon class="mr-0">
+            <v-btn icon class="pointer secondary--text" @click="addSearchedVideo(result)">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-list-item-icon>
+          <v-list-item-avatar tile size="80">
+            <v-img :src="result.image"></v-img>
+          </v-list-item-avatar>
+
+          <v-list-item-content class="ml-2">
+            <v-list-item-title>{{result.title}}</v-list-item-title>
+            <v-list-item-subtitle>{{result.channel}}</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </div>
     <v-btn icon tile v-if="!showChat" @click="toggleChat">
       <v-icon>mdi-arrow-collapse-left</v-icon>
     </v-btn>
-    <v-list id="searchResults" v-if="clearResults" class="elevation-10 my-3" :width="videoWidth()">
-      <v-list-item v-for="result in searchResult" :key="result.src">
-        <v-list-item-icon class="mr-0">
-          <v-btn icon class="pointer secondary--text" @click="addVideoLink(this, result)">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </v-list-item-icon>
-        <v-list-item-avatar tile size="80">
-          <v-img :src="result.image"></v-img>
-        </v-list-item-avatar>
-
-        <v-list-item-content class="ml-2">
-          <v-list-item-title>{{result.title}}</v-list-item-title>
-          <v-list-item-subtitle>{{result.channel}}</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
   </section>
 </template>
 
@@ -60,11 +68,6 @@ import VideoService from "@/services/VideoService";
 
 export default {
   props: ["showChat"],
-  methods: {
-    toggleChat() {
-      this.$emit("toggleChat");
-    }
-  },
   data() {
     return {
       searchCriteria: "",
@@ -78,7 +81,10 @@ export default {
   },
   methods: {
     searchVideos: _.debounce(function() {
-      if (this.validURL(this.searchCriteria)) {
+      if (
+        this.validURL(this.searchCriteria) ||
+        this.searchCriteria.length < 2
+      ) {
         return;
       }
       console.log("searched");
@@ -93,6 +99,21 @@ export default {
     videoWidth() {
       let widths = document.getElementById("videoSearch");
       return widths.offsetWidth;
+    },
+    toggleChat() {
+      this.$emit("toggleChat");
+    },
+    addSearchedVideo(video) {
+      video.room = 1;
+      video.user = 1;
+      console.log(video);
+      VideoService.postVideo(video)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(error => {
+          console.erro(error);
+        });
     },
     addVideoLink(event, searchedVideo) {
       //Not a valid URL and enter key was pressed
@@ -134,6 +155,8 @@ export default {
         default:
           break;
       }
+      this.searchCriteria = null;
+      this.searchResult = [];
     },
     changeSearchPlatform(platformID) {
       switch (platformID) {
@@ -159,10 +182,21 @@ export default {
   },
   computed: {
     clearResults: function() {
-      if (this.searchCriteria.length !== 0 && this.searchResult) {
+      if (this.searchCriteria && this.searchResult) {
         return true;
       }
       return false;
+    },
+    searchResultWidth: function() {
+      return this.$refs.searchInput.offsetWidth;
+      return "200";
+    }
+  },
+  watch: {
+    searchCriteria(newValue, oldValue) {
+      if (!newValue) {
+        this.searchResult = [];
+      }
     }
   }
 };
@@ -173,7 +207,6 @@ export default {
   overflow: auto;
   max-height: 85vh;
   position: absolute;
-  width: 100%;
   z-index: 10000;
 }
 </style>

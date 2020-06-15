@@ -6,7 +6,8 @@
         <div class="player">
           <div class="d-flex flex-column">
             <!-- Video Player -->
-            <VideoPlayer v-if="nextVideo" :video="nextVideo" @ended="ended" />
+            <VideoPlayer v-if="nextVideo" :video="nextVideo" :key="nextVideo.id" @ended="ended" />
+            <v-sheet v-else height="500px"></v-sheet>
             <!-- Video Que -->
             <videoQueue :videoQueue="videoQueue" />
           </div>
@@ -45,6 +46,7 @@ export default {
   },
   sockets: {
     getVideos: function(payload) {
+      console.log(payload);
       this.allVideos = payload;
     }
   },
@@ -84,7 +86,7 @@ export default {
     ...mapState("room", ["room"]),
     chatSize: function() {
       if (this.showChat) {
-        return "col-lg-3 px-0";
+        return "col-sm-3 px-0";
       } else {
         return "d-none px-0";
       }
