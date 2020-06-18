@@ -5,17 +5,17 @@ export const state = () => ({
 });
 
 export const mutations = {
-  SET_ROOM_DATA: (state, payload) => {
-    state.room = payload;
-  },
+  SET_ROOM_DATA(state, room) {
+    console.log(room);
+    state.room = room;
+  }
 };
 
 export const actions = {
-  enterRoom: ({ commit }, payload) => {
-    return RoomService.getInfo(payload)
-      .then(({ data }) => {
-        commit("SET_ROOM_DATA", data);
-      })
+  enterRoom: ({ commit }, id) => {
+    return RoomService.getInfo({ id }).then(({ data }) => {
+      commit("SET_ROOM_DATA", data);
+    });
   }
 };
 

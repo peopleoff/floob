@@ -32,6 +32,10 @@ Vue.mixin({
         "i"
       ); // fragment locator
       return !!pattern.test(str);
+    },
+    getHostname(url){
+      var urlObject = new URL(url);
+      return urlObject.host;
     }
   }
 });

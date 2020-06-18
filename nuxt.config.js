@@ -1,4 +1,5 @@
 import colors from "vuetify/es5/util/colors";
+require("dotenv").config();
 
 export default {
   mode: "universal",
@@ -24,18 +25,18 @@ export default {
         href:
           "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
       }
-    ],
+    ]
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: "#fff" },
+  loading: { color: "#00CCC2", throttle: 0 },
   /*
    ** Global CSS
    */
   css: [
     "normalize.css/normalize.css",
-    'plyr/dist/plyr.css',
+    "plyr/dist/plyr.css",
     "~/assets/css/main.css"
   ],
   /*
@@ -58,10 +59,6 @@ export default {
       src: "~plugins/socket.js",
       ssr: false
     },
-    {
-      src: "~/plugins/vuex-persist",
-      ssr: false
-    }
   ],
   /*
    ** Nuxt.js dev-modules
@@ -77,21 +74,45 @@ export default {
     // Doc: https://github.com/nuxt-community/dotenv-module
     "@nuxtjs/dotenv",
     // Doc: https://github.com/nuxt-community/sentry-module#readme
-    '@nuxtjs/sentry',
+    "@nuxtjs/sentry",
+    // Doc: https://auth.nuxtjs.org/guide/setup.html
+    "@nuxtjs/auth"
   ],
-    /*
+  /*
    ** Sentry module configuration
    ** See  https://docs.sentry.io/error-reporting/configuration/?platform=browser
    */
   sentry: {
-    dsn: 'https://95d647b1ecad4b54b46182bc9bf8fc09@o330708.ingest.sentry.io/1851159',
-    disabled: true,
+    dsn:
+      "https://95d647b1ecad4b54b46182bc9bf8fc09@o330708.ingest.sentry.io/1851159",
+    disabled: true
   },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: process.env.BASE_URL
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "/users/login",
+            method: "post",
+            propertyName: "token"
+          },
+          logout: false,
+          user: { url: "/users/getUser", method: "post", propertyName: "user" }
+        }
+        // tokenRequired: true,
+        // tokenType: 'bearer',
+        // globalToken: true,
+        // autoFetchUser: true
+      }
+    }
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module

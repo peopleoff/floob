@@ -26,12 +26,12 @@ import VideoPlayer from "@/components/VideoPlayer";
 import VideoSearchBar from "@/components/VideoSearchBar";
 import Chat from "@/components/Chat";
 import RoomService from "@/services/RoomService";
+import VideoService from "@/services/VideoService";
 
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "Room",
-  layout: "app",
   components: {
     videoQueue,
     VideoPlayer,
@@ -50,28 +50,31 @@ export default {
       this.allVideos = payload;
     }
   },
+  async fetch({ error, params, store }) {
+    try {
+      await store.dispatch("room/enterRoom", params.id);
+    } catch (e) {
+      error({
+        statusCode: 503,
+        message: e
+      });
+    }
+  },
+  asyncData({ error, params, store }) {
+    return VideoService.getVideos({ roomID: params.id }).then(result => {
+      return {
+        allVideos: result.data
+      };
+    });
+  },
   mounted() {
-    this.joinedRoom();
+    let payload = {
+      id: this.$route.params.id,
+      user: this.$auth.user
+    };
+    this.$socket.emit("enterRoom", payload);
   },
   methods: {
-    ...mapActions({
-      enterRoom: "room/enterRoom"
-    }),
-    joinedRoom() {
-      let payload = {
-        id: this.$route.params.id,
-        user: this.user
-      };
-      this.$socket.emit("joinedRoom", payload);
-      this.enterRoom(payload)
-        .then(result => {
-          this.log(result);
-          // console.log(result);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    },
     ended(event) {
       console.log(event);
       this.$socket.emit("removeVideo", event);
@@ -82,8 +85,10 @@ export default {
     }
   },
   computed: {
-    ...mapState("user", ["user"]),
-    ...mapState("room", ["room"]),
+    ...mapState({
+      room: state => state.room.room,
+      user: state => state.user.user
+    }),
     chatSize: function() {
       if (this.showChat) {
         return "col-sm-3 px-0";

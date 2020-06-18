@@ -4,8 +4,10 @@ export default {
   add(data) {
     return Api().post("register", data);
   },
-  getAll(data) {
-    return Api().post("videos/getAll", data);
+  getVideos(data) {
+    return Api().get("videos/getVideos", {
+      params: data
+    });
   },
   search(data) {
     return Api().post("videos/search", data);

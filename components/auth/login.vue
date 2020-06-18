@@ -53,25 +53,24 @@ export default {
       notificationAdd: "notification/add",
       login: "user/login"
     }),
-    signIn: function() {
+    async signIn() {
       this.$v.$touch();
       this.loading = true;
       if (this.$v.$invalid) {
         this.loading = false;
         return;
-      } else {
-        this.login(this.user)
-          .then(() => {
-            this.loading = false;
-            this.notificationAdd({
-              type: 'success',
-              message: 'Logged in'
-            })
-            // this.$router.push("/");
-          })
-          .catch(error => {
-            console.log(error);
-          });
+      }
+      try {
+        let response = await this.$auth.loginWith("local", {
+          data: this.user
+        });
+        console.log(response);
+      } catch (error) {
+        this.loading = false;
+        this.notificationAdd({
+          type: "error",
+          message: error
+        });
       }
     }
   },

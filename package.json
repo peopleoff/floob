@@ -11,6 +11,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.9.7",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
@@ -19,6 +20,7 @@
     "nuxt": "^2.12.2",
     "plyr": "^3.6.2",
     "v-mask": "^2.1.0",
+    "vue-click-outside": "^1.1.0",
     "vue-plyr": "^6.0.4",
     "vue-socket.io": "^3.0.7",
     "vuelidate": "^0.7.5",
