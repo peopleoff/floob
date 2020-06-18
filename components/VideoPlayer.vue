@@ -4,13 +4,13 @@
       <div :data-plyr-provider="formatProvider(video.provider)" :data-plyr-embed-id="video.src"></div>
     </vue-plyr>
     <div class="d-flex justify-space-between align-center">
-      <!-- <div class="roomName">
+      <div class="roomName">
         <div class="title">{{video.title}}</div>
         <div class="subtitle-1">
           <v-icon>mdi-{{formatProvider(video.provider)}}</v-icon>
           {{video.channel}}
         </div>
-      </div>-->
+      </div>
     </div>
   </section>
 </template>
@@ -25,19 +25,6 @@ export default {
       // console.log(payload);
       // this.player.forward(payload);
     }
-  },
-  mounted() {
-    console.log(this.player);
-    this.player.source = {
-      type: "video",
-      sources: [
-        {
-          src: "E8VbytwTXWA",
-          provider: "youtube"
-        }
-      ]
-    };
-    console.log(this.player);
   },
   methods: {
     seekedEvent(event) {

@@ -105,7 +105,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      registerUser: "user/register"
+      notificationAdd: "notification/add",
+      registerUser: "user/register",
     }),
     getAge(DOB) {
       var today = new Date();
@@ -127,10 +128,19 @@ export default {
       } else {
         this.registerUser(this.user)
           .then(() => {
-            console.log("registered");
+            this.loading = false;
+            this.notificationAdd({
+              type: "success",
+              message: "Registered"
+            });
+            this.$router.push("/");
           })
           .catch(error => {
-            console.log(error);
+            this.loading = false;
+            this.notificationAdd({
+              type: "error",
+              message: error
+            });
           });
       }
     }

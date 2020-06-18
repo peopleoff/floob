@@ -1,24 +1,26 @@
 <template>
   <v-app dark>
-    <topNav />
     <v-content>
+      <topNav />
       <nuxt />
     </v-content>
     <Snackbar />
+    <loginDialog />
   </v-app>
 </template>
 
 <script>
 import topNav from "@/components/includes/topNav";
-import Snackbar from '@/components/includes/Snackbar'
+import Snackbar from "@/components/includes/Snackbar";
+import loginDialog from "@/components/auth/loginDialog";
 
 export default {
   components: {
     topNav,
-    Snackbar
+    Snackbar,
+    loginDialog
   },
-  data: () => ({
-  })
+  data: () => ({})
 };
 </script>
 

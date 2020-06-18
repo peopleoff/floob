@@ -1,5 +1,5 @@
 <template>
-  <section class="d-flex align-center">
+  <section class="d-flex align-center" v-click-outside="clearInput">
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
         <div v-on="on">
@@ -28,6 +28,7 @@
         label="Search or Add Videos"
         width="50"
         clearable
+        :loading="loading"
         @input="searchVideos"
         @keydown.enter="addVideoLink"
         v-model="searchCriteria"
@@ -50,8 +51,8 @@
           </v-list-item-avatar>
 
           <v-list-item-content class="ml-2">
-            <v-list-item-title>{{result.title}}</v-list-item-title>
-            <v-list-item-subtitle>{{result.channel}}</v-list-item-subtitle>
+            <v-list-item-title v-html="result.title"></v-list-item-title>
+            <v-list-item-subtitle v-html="result.channel"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -64,13 +65,17 @@
 
 <script>
 import _ from "lodash";
+import ClickOutside from "vue-click-outside";
 import VideoService from "@/services/VideoService";
-
+import { mapState } from "vuex";
 export default {
   props: ["showChat"],
+  directives: {
+    ClickOutside
+  },
   data() {
     return {
-      searchCriteria: "",
+      searchCriteria: null,
       searchResult: null,
       searchPlatform: {
         id: 1,
@@ -81,21 +86,39 @@ export default {
   },
   methods: {
     searchVideos: _.debounce(function() {
-      if (
-        this.validURL(this.searchCriteria) ||
-        this.searchCriteria.length < 2
-      ) {
+      if (!this.searchCriteria) {
         return;
       }
-      console.log("searched");
-      let search = {
-        query: this.searchCriteria,
-        provider: this.searchPlatform.id
-      };
-      VideoService.search(search).then(response => {
-        this.searchResult = response.data;
-      });
+      //If user enters a url change the provider icons
+      if (this.validURL(this.searchCriteria)) {
+        let providerID = null;
+        let linkHostname = this.getHostname(this.searchCriteria);
+        if (linkHostname.includes("youtu")) {
+          providerID = 1;
+        } else if (linkHostname.includes("vimeo")) {
+          providerID = 2;
+        } else {
+          providerID = 3;
+        }
+        this.changeSearchPlatform(providerID);
+      }
+      if (
+        !this.validURL(this.searchCriteria) &&
+        this.searchCriteria.length > 2
+      ) {
+        let search = {
+          query: this.searchCriteria,
+          provider: this.searchPlatform.id
+        };
+        VideoService.search(search).then(response => {
+          this.searchResult = response.data;
+        });
+      }
     }, 500),
+    clearInput() {
+      this.searchCriteria = null;
+      this.searchResult = null;
+    },
     videoWidth() {
       let widths = document.getElementById("videoSearch");
       return widths.offsetWidth;
@@ -104,9 +127,8 @@ export default {
       this.$emit("toggleChat");
     },
     addSearchedVideo(video) {
-      video.room = 1;
-      video.user = 1;
-      console.log(video);
+      video.room = this.$route.params.id;
+      video.user = this.$auth.user.id;
       VideoService.postVideo(video)
         .then(result => {
           console.log(result);
@@ -114,28 +136,29 @@ export default {
         .catch(error => {
           console.erro(error);
         });
+      this.clearInput();
     },
-    addVideoLink(event, searchedVideo) {
+    addVideoLink() {
       //Not a valid URL and enter key was pressed
-      if (!this.validURL(this.searchCriteria) && !searchedVideo) {
+      if (!this.validURL(this.searchCriteria)) {
         return;
       }
-      let video;
-      if (searchedVideo) {
-        video = {
-          video: searchedVideo.src,
-          provider: searchedVideo.provider,
-          roomID: 1,
-          userID: 1
-        };
+      let providerID = null;
+      let linkHostname = this.getHostname(this.searchCriteria);
+      if (linkHostname.includes("youtu")) {
+        providerID = 1;
+      } else if (linkHostname.includes("vimeo")) {
+        providerID = 2;
       } else {
-        video = {
-          video: this.searchCriteria,
-          provider: this.searchPlatform.id,
-          roomID: 1,
-          userID: 1
-        };
+        providerID = 3;
       }
+      this.changeSearchPlatform(providerID);
+      const video = {
+        src: this.searchCriteria,
+        provider: providerID,
+        room: this.$route.params.id,
+        user: this.$auth.user.id
+      };
       // video, provider, roomID, userID
       switch (video.provider) {
         case 1:
@@ -155,10 +178,10 @@ export default {
         default:
           break;
       }
-      this.searchCriteria = null;
-      this.searchResult = [];
+      this.clearInput();
     },
     changeSearchPlatform(platformID) {
+      console.log(platformID);
       switch (platformID) {
         case 1:
           this.searchPlatform = {
@@ -181,8 +204,17 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      room: state => state.room.room
+    }),
     clearResults: function() {
-      if (this.searchCriteria && this.searchResult) {
+      if (this.searchResult) {
+        return true;
+      }
+      return false;
+    },
+    loading: function() {
+      if (this.searchCriteria && !this.searchResult) {
         return true;
       }
       return false;
@@ -195,7 +227,7 @@ export default {
   watch: {
     searchCriteria(newValue, oldValue) {
       if (!newValue) {
-        this.searchResult = [];
+        this.clearInput();
       }
     }
   }

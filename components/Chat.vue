@@ -10,7 +10,7 @@
         <v-icon>mdi-account-group</v-icon>
       </v-btn>
     </div>
-    <div class="flex-grow-1">
+    <div id="message-window" class="flex-grow-1">
       <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
       <div v-for="message in messages" :key="message.id">
         <span class="primary--text message">{{ message.username }}</span>
@@ -34,8 +34,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
   name: "Chat",
   data() {
@@ -52,33 +50,35 @@ export default {
   },
   methods: {
     sendMessage() {
-      if (this.message && this.loggedIn) {
+      if (this.message && this.$auth.loggedIn) {
         let newMessage = {
           message: this.message,
           roomID: this.$route.params.id,
-          user: this.user
+          user: this.$auth.user
         };
         this.$socket.emit("sendMessage", newMessage);
         this.message = "";
-        let container = document.querySelector("#messages");
+        let container = document.querySelector("#message-window");
         container.scrollTop = container.scrollHeight;
       }
     },
     toggleChat() {
       this.$emit("toggleChat");
     }
-  },
-  computed: {
-    ...mapGetters({
-      loggedIn: "user/loggedIn",
-      user: "user/user"
-    })
   }
 };
 </script>
 
 <style scoped>
-#chat-window{
-  height: 95vh;
+#chat-window {
+  height: 90vh;
+}
+#message-window {
+  overflow-y: scroll;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+#message-window::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
 }
 </style>

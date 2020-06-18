@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar fixed flat class="transparent pa-4" color="transparent">
+  <v-app-bar flat app class="transparent" id="top-nav">
     <nuxt-link
       to="/"
       tag="img"
@@ -8,41 +8,21 @@
       alt="Floob Logo"
     ></nuxt-link>
     <v-spacer></v-spacer>
-    <v-btn color="legendary_mint" rounded outlined nuxt to="/login" v-if="!loggedIn">Sign In</v-btn>
-    <v-menu offset-y v-else>
+    <v-btn outlined nuxt to="/login" v-if="!$auth.loggedIn">Sign In</v-btn>
+    <v-menu offset-y v-else transition="scale-transition">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">{{user.username}}</v-btn>
+        <v-btn color="primary" dark v-on="on">{{$auth.user.username}}</v-btn>
       </template>
 
       <v-list>
-        <v-list-item>
-          <v-list-item-title>1</v-list-item-title>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-title>1</v-list-item-title>
-        </v-list-item>
-        <v-list-item @click="logout">SignOut</v-list-item>
+        <v-list-item @click="$auth.logout()">Log Out</v-list-item>
       </v-list>
     </v-menu>
   </v-app-bar>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-
-export default {
-  methods: {
-    ...mapActions({
-      logout: "user/logout"
-    })
-  },
-  computed: {
-    ...mapGetters({
-      user: "user/user",
-      loggedIn: "user/loggedIn"
-    })
-  }
-};
+export default {};
 </script>
 
 <style scoped>

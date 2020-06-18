@@ -1,32 +1,37 @@
 <template>
   <div id="landing-page">
     <section id="hero">
+      <div class="block">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <v-container fluid>
-        <v-row class="pa-12 justify-center align-center h100">
-          <v-col sm="6">
-            <h3
-              class="display-3 font-weight-medium pb-9"
-            >The best way to watch videos with your friends when you're too scared to go outside</h3>
-            <v-row>
-              <v-col>
-                <v-btn block color="legendary_mint" id="cta" @click="createRoom()">Create A Room</v-btn>
-              </v-col>
-              <v-col>
-                <v-btn block outlined color="legendary_mint" @click="joinRoom()">Join A Room</v-btn>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col sm="6">
+        <v-row class="pa-12 justify-center align-center banner">
+          <v-col class="d-none d-sm-block">
             <!-- <v-img :src="require('~/assets/images/landing.svg')"></v-img> -->
             <object type="image/svg+xml" :data="require('~/assets/images/landing.svg')">
               <img :src="require('~/assets/images/landing.svg')" />
             </object>
           </v-col>
+          <v-col>
+            <p class="display-1">Share your favorite moments</p>
+            <p class="display-2 font-weight-bold">In a Floob Room</p>
+            <v-row>
+              <v-col>
+                <v-btn elevation="24" height="50" block @click="createRoom()">Create A Room</v-btn>
+              </v-col>
+              <v-col>
+                <v-btn height="50" color="#272727" block outlined @click="joinRoom()">Join A Room</v-btn>
+              </v-col>
+            </v-row>
+          </v-col>
         </v-row>
       </v-container>
     </section>
     <section id="explain">
-      <v-container class="topNav pl-12">
+      <v-container class="pl-12">
         <v-row class="pb-5">
           <v-col sm="3">
             <v-img src="https://via.placeholder.com/1024x683"></v-img>
@@ -48,7 +53,7 @@
       <v-container class="pl-12">
         <v-row align-content="center" justify="center" class="text-center">
           <v-col>
-            <v-sheet height="300" class="pa-5">
+            <v-sheet class="pa-5">
               <div class="d-flex flex-column justify-space-around">
                 <div>
                   <v-icon>mid-play</v-icon>
@@ -71,7 +76,7 @@
             </v-sheet>
           </v-col>
           <v-col>
-            <v-sheet height="300" color="white" class="black--text pa-5">
+            <v-sheet color="white" class="black--text pa-5">
               <div class="d-flex flex-column justify-space-around">
                 <div>
                   <v-icon>mid-play</v-icon>
@@ -102,7 +107,7 @@
 
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import RoomService from "@/services/RoomService";
 import JoinRoom from "@/components/JoinRoom";
 
@@ -116,17 +121,17 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      toggleForm: "user/toggleForm"
+    }),
     createRoom() {
       //If user is not logged in redirect to login page
-      if (!this.loggedIn) {
-        this.$router.push("/login");
+      if (!this.$auth.loggedIn) {
+        this.toggleForm();
       } else {
-        RoomService.register(this.user)
-          .then(response => {
-            console.log(response);
-            if (!response.data.error) {
-              this.$router.push("/room/" + response.data.room);
-            }
+        RoomService.register(this.$auth.user)
+          .then(({ data }) => {
+            this.$router.push("/room/" + data.room);
           })
           .catch(error => {
             console.error(error);
@@ -137,27 +142,16 @@ export default {
       this.joinDialog = !this.joinDialog;
     }
   },
-  computed: {
-    ...mapGetters({
-      user: "user/user",
-      loggedIn: "user/loggedIn"
-    })
-  }
 };
 </script>
 
 
 <style>
-#cta {
-  color: white;
-  width: 50%;
-  height: 50px;
-}
 section#hero {
-  background-color: #634fd6;
   height: 100vh;
   position: relative;
   padding-top: 15vh;
+  background-color: #424242;
 }
 
 section#explain {
@@ -176,16 +170,51 @@ section#sharing {
   position: relative;
 }
 
-.topNav {
-  position: absolute;
-  top: 25%;
+.banner > div {
+  z-index: 1;
 }
-
-.floob-display {
+/* STRIPE BG */
+.block {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(150deg, #634fd6 15%, #05d5ff 70%, #a6ffcb 94%);
+  transform: skewY(-10deg);
+  transform-origin: 0;
   position: absolute;
-  bottom: 5%;
-  right: 5%;
-  width: 50%;
-  height: 50%;
+  top: -65px;
+}
+.block span {
+  height: 190px;
+  position: absolute;
+}
+.block span:nth-child(1) {
+  width: 33.3%;
+  width: calc(100% / 3);
+  left: -16.66666%;
+  left: calc(calc(calc(100% / 3) / 2) * -1);
+  background: #634fd6;
+}
+.block span:nth-child(2) {
+  width: 33.33333%;
+  width: calc(100% / 3);
+  top: 0;
+  left: 16.66666%;
+  left: calc(calc(100% / 3) / 2);
+  right: auto;
+  background: #2f64eb;
+}
+.block span:nth-child(3) {
+  width: 33.33333%;
+  width: calc(100% / 3);
+  left: 49.99999%;
+  left: calc(calc(calc(100% / 3) / 2) + calc(100% / 3));
+  bottom: auto;
+  background: #00ccc2;
+}
+.block span:nth-child(4) {
+  width: 33.33333%;
+  width: calc(100% / 3);
+  bottom: 0;
+  background: #00ccc2;
 }
 </style>
