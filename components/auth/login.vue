@@ -51,7 +51,7 @@ export default {
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      login: "user/login"
+      toggleForm: "user/toggleForm"
     }),
     async signIn() {
       this.$v.$touch();
@@ -64,7 +64,8 @@ export default {
         let response = await this.$auth.loginWith("local", {
           data: this.user
         });
-        console.log(response);
+        this.loading = false;
+        this.toggleForm();
       } catch (error) {
         this.loading = false;
         this.notificationAdd({
