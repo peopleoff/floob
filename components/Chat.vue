@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "Chat",
   data() {
@@ -49,7 +50,29 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      notificationAdd: "notification/add",
+      toggleForm: "user/toggleForm"
+    }),
     sendMessage() {
+      //Prompt user to login if chatting
+      if (!this.$auth.loggedIn) {
+        this.toggleForm();
+        this.notificationAdd({
+          type: "info",
+          message: "Please Login To Chat"
+        });
+        return;
+      }
+
+      if (this.message.length > 256) {
+        this.notificationAdd({
+          type: "error",
+          message: "Message too long"
+        });
+        return;
+      }
+
       if (this.message && this.$auth.loggedIn) {
         let newMessage = {
           message: this.message,
