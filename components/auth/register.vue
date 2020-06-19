@@ -72,10 +72,10 @@ export default {
   data() {
     return {
       user: {
-        username: "123456",
-        password: "123456",
-        date_of_birth: "11/11/1994",
-        email: "test@aol.com"
+        username: "",
+        password: "",
+        date_of_birth: "",
+        email: ""
       },
       dobMask: "##/##/####",
       loading: false,
