@@ -72,10 +72,10 @@ export default {
   data() {
     return {
       user: {
-        username: "",
-        password: "",
-        date_of_birth: "",
-        email: ""
+        username: "123456",
+        password: "123456",
+        date_of_birth: "11/11/1994",
+        email: "test@aol.com"
       },
       dobMask: "##/##/####",
       loading: false,
@@ -106,7 +106,7 @@ export default {
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      registerUser: "user/register",
+      toggleForm: "user/toggleForm"
     }),
     getAge(DOB) {
       var today = new Date();
@@ -126,20 +126,29 @@ export default {
         this.loading = false;
         return;
       } else {
-        this.registerUser(this.user)
-          .then(() => {
+        UserService.register(this.user)
+          .then(({ data }) => {
             this.loading = false;
-            this.notificationAdd({
-              type: "success",
-              message: "Registered"
-            });
-            this.$router.push("/");
+            let token = data.token;
+            this.$auth
+              .setUserToken(token)
+              .then(() => {
+                this.notificationAdd({
+                  type: "success",
+                  message: "Registered"
+                });
+                this.toggleForm();
+              })
+              .catch(error => {
+                console.log("ERror");
+                console.log(error.response);
+              });
           })
           .catch(error => {
             this.loading = false;
             this.notificationAdd({
               type: "error",
-              message: error
+              message: error.response.data.message
             });
           });
       }
