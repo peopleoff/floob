@@ -8,7 +8,7 @@
         <div class="title">{{video.title}}</div>
         <div class="subtitle-1">
           <v-icon>mdi-{{formatProvider(video.provider)}}</v-icon>
-          {{video.channel}}
+          <a :href="video.channelLink" target="_blank">{{video.channel}}</a>
         </div>
       </div>
     </div>
