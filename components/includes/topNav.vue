@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar flat app class="transparent" id="top-nav">
+  <v-app-bar flat app hide-on-scroll class="transparent" id="top-nav">
     <nuxt-link
       to="/"
       tag="img"
@@ -8,7 +8,7 @@
       alt="Floob Logo"
     ></nuxt-link>
     <v-spacer></v-spacer>
-    <v-btn outlined nuxt to="/login" v-if="!$auth.loggedIn">Sign In</v-btn>
+    <v-btn outlined @click="toggleForm" v-if="!$auth.loggedIn">Sign In</v-btn>
     <v-menu offset-y v-else transition="scale-transition">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" dark v-on="on">{{$auth.user.username}}</v-btn>
@@ -22,7 +22,14 @@
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+export default {
+  methods: {
+    ...mapActions({
+      toggleForm: "user/toggleForm"
+    })
+  }
+};
 </script>
 
 <style scoped>

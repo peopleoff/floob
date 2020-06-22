@@ -66,6 +66,10 @@ export default {
         });
         this.loading = false;
         this.toggleForm();
+        this.notificationAdd({
+          type: "success",
+          message: "Logged In"
+        });
       } catch (error) {
         this.loading = false;
         this.notificationAdd({

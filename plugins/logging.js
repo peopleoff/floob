@@ -36,6 +36,9 @@ Vue.mixin({
     getHostname(url){
       var urlObject = new URL(url);
       return urlObject.host;
+    },
+    validateLogin(){
+
     }
   }
 });

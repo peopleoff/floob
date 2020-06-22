@@ -20,10 +20,18 @@
             <p class="display-2 font-weight-bold">In a Floob Room</p>
             <v-row>
               <v-col>
-                <v-btn elevation="24" height="50" block @click="createRoom()">Create A Room</v-btn>
+                <v-btn
+                  v-if="$auth.user && $auth.user.room"
+                  elevation="24"
+                  height="50"
+                  block
+                  nuxt
+                  :to="'/room/' + $auth.user.room"
+                >Join My Room</v-btn>
+                <v-btn v-else elevation="24" height="50" block @click="createRoom">Create A Room</v-btn>
               </v-col>
               <v-col>
-                <v-btn height="50" color="#272727" block outlined @click="joinRoom()">Join A Room</v-btn>
+                <v-btn height="50" color="#272727" block outlined @click="joinRoom">Join A Room</v-btn>
               </v-col>
             </v-row>
           </v-col>
@@ -132,6 +140,7 @@ export default {
         RoomService.register(this.$auth.user)
           .then(({ data }) => {
             this.$router.push("/room/" + data.room);
+            this.$auth.user.room = data.room;
           })
           .catch(error => {
             console.error(error);
@@ -141,7 +150,7 @@ export default {
     joinRoom() {
       this.joinDialog = !this.joinDialog;
     }
-  },
+  }
 };
 </script>
 
