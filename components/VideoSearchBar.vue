@@ -67,7 +67,7 @@
 import _ from "lodash";
 import ClickOutside from "vue-click-outside";
 import VideoService from "@/services/VideoService";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   props: ["showChat"],
   directives: {
@@ -85,6 +85,10 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      notificationAdd: "notification/add",
+      toggleForm: "user/toggleForm"
+    }),
     searchVideos: _.debounce(function() {
       if (!this.searchCriteria) {
         return;
@@ -127,6 +131,15 @@ export default {
       this.$emit("toggleChat");
     },
     addSearchedVideo(video) {
+      //Prompt user to login
+      if (!this.$auth.loggedIn) {
+        this.toggleForm();
+        this.notificationAdd({
+          type: "info",
+          message: "Please Login To Add Videos"
+        });
+        return;
+      }
       video.room = this.$route.params.id;
       video.user = this.$auth.user.id;
       VideoService.postVideo(video)
@@ -139,6 +152,15 @@ export default {
       this.clearInput();
     },
     addVideoLink() {
+      //Prompt user to login
+      if (!this.$auth.loggedIn) {
+        this.toggleForm();
+        this.notificationAdd({
+          type: "info",
+          message: "Please Login To Add Videos"
+        });
+        return;
+      }
       //Not a valid URL and enter key was pressed
       if (!this.validURL(this.searchCriteria)) {
         return;
@@ -239,6 +261,6 @@ export default {
   overflow: auto;
   max-height: 85vh;
   position: absolute;
-  z-index: 10000;
+  z-index: 100;
 }
 </style>

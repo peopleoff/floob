@@ -6,7 +6,6 @@ export const state = () => ({
 
 export const mutations = {
   SET_ROOM_DATA(state, room) {
-    console.log(room);
     state.room = room;
   }
 };

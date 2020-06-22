@@ -1,9 +1,12 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col>
+      <v-col cols="12" md="9">
         <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
         <div class="player">
+          <div>
+            <span class="body-1">Room: {{room.name}}</span>
+          </div>
           <div class="d-flex flex-column">
             <!-- Video Player -->
             <VideoPlayer v-if="nextVideo" :video="nextVideo" :key="nextVideo.id" @ended="ended" />

@@ -23,16 +23,23 @@ export default {
   sockets: {
     syncVideo: function(payload) {
       // console.log(payload);
+      // this.player.seekTime = payload;
+      const currentTime = this.player.currentTime;
+      const seekedTime = payload;
+      const newTime = seekedTime - currentTime;
+      console.log(newTime);
+      this.player.forward(1);
       // this.player.forward(payload);
     }
   },
   methods: {
     seekedEvent(event) {
+      console.log(event);
       let payload = {
         roomID: this.$route.params.id,
         seconds: event.timeStamp
       };
-      this.$socket.emit("seekVideo", payload);
+      // this.$socket.emit("seekVideo", payload);
     },
     endedEvent(event) {
       this.$emit("ended", this.video);
@@ -58,6 +65,9 @@ export default {
     player() {
       return this.$refs.plyr.player;
     }
+  },
+  destroyed(){
+    this.player.destroy();
   }
 };
 </script>

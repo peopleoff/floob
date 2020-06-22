@@ -96,6 +96,9 @@ export default {
 #chat-window {
   height: 90vh;
 }
+#message-window div {
+  word-break: break-all;
+}
 #message-window {
   overflow-y: scroll;
 }

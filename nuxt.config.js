@@ -58,7 +58,7 @@ export default {
     {
       src: "~plugins/socket.js",
       ssr: false
-    },
+    }
   ],
   /*
    ** Nuxt.js dev-modules
@@ -95,6 +95,12 @@ export default {
     baseURL: process.env.BASE_URL
   },
   auth: {
+    redirect: {
+      login: false,
+      logout: "/",
+      callback: false,
+      home: false
+    },
     strategies: {
       local: {
         endpoints: {
