@@ -6,6 +6,7 @@
     </v-content>
     <Snackbar />
     <loginDialog />
+    <joinRoom />
   </v-app>
 </template>
 
@@ -13,12 +14,14 @@
 import topNav from "@/components/includes/topNav";
 import Snackbar from "@/components/includes/Snackbar";
 import loginDialog from "@/components/auth/loginDialog";
+import joinRoom from "@/components/modals/joinRoom";
 
 export default {
   components: {
     topNav,
     Snackbar,
-    loginDialog
+    loginDialog,
+    joinRoom
   },
   data: () => ({})
 };

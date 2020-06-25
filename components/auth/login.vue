@@ -22,7 +22,7 @@
           filled
           outlined
         ></v-text-field>
-        <nuxt-link to="/password-reset">Forgot Password?</nuxt-link>
+        <nuxt-link to="/user/reset">Forgot Password?</nuxt-link>
       </v-card-text>
       <v-card-actions>
         <v-btn block color="primary" @click="signIn()" :loading="loading">Login</v-btn>
@@ -51,7 +51,7 @@ export default {
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      toggleForm: "user/toggleForm"
+      toggleLoginModal: "modal/toggleLoginModal"
     }),
     async signIn() {
       this.$v.$touch();
@@ -65,11 +65,16 @@ export default {
           data: this.user
         });
         this.loading = false;
-        this.toggleForm();
+        this.user = {
+          username: "",
+          password: ""
+        }
+        this.toggleLoginModal();
         this.notificationAdd({
           type: "success",
           message: "Logged In"
         });
+
       } catch (error) {
         this.loading = false;
         this.notificationAdd({

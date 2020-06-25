@@ -39,21 +39,24 @@
         v-if="clearResults"
         class="elevation-10 my-3"
         :width="searchResultWidth"
+        three-line
       >
         <v-list-item v-for="result in searchResult" :key="result.src">
-          <v-list-item-icon class="mr-0">
-            <v-btn icon class="pointer secondary--text" @click="addSearchedVideo(result)">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-list-item-icon>
-          <v-list-item-avatar tile size="80">
+          <v-list-item-avatar tile size="60">
             <v-img :src="result.image"></v-img>
           </v-list-item-avatar>
 
-          <v-list-item-content class="ml-2">
+          <v-list-item-content>
             <v-list-item-title v-html="result.title"></v-list-item-title>
             <v-list-item-subtitle v-html="result.channel"></v-list-item-subtitle>
+            <v-list-item-subtitle>{{ result.publishTime | moment("from", "now", true) }} ago</v-list-item-subtitle>
           </v-list-item-content>
+
+          <v-list-item-action>
+            <v-btn icon  @click="addSearchedVideo(result)">
+              <v-icon color="success lighten-1">mdi-plus</v-icon>
+            </v-btn>
+          </v-list-item-action>
         </v-list-item>
       </v-list>
     </div>
@@ -87,7 +90,7 @@ export default {
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      toggleForm: "user/toggleForm"
+      toggleLoginModal: "modal/toggleLoginModal"
     }),
     searchVideos: _.debounce(function() {
       if (!this.searchCriteria) {
@@ -130,17 +133,24 @@ export default {
     toggleChat() {
       this.$emit("toggleChat");
     },
+    formatDate(ISODate){
+      const date = new Date(ISODate);
+      const mm = date.getMonth();
+      const dd = date.getUTCDate();
+      const yy = date.getFullYear();
+      return mm + '/' + dd + '/' + yy;
+    },
     addSearchedVideo(video) {
       //Prompt user to login
       if (!this.$auth.loggedIn) {
-        this.toggleForm();
+        this.toggleLoginModal();
         this.notificationAdd({
           type: "info",
           message: "Please Login To Add Videos"
         });
         return;
       }
-      video.room = this.$route.params.id;
+      video.room = this.room.id;
       video.user = this.$auth.user.id;
       VideoService.postVideo(video)
         .then(result => {
@@ -154,7 +164,7 @@ export default {
     addVideoLink() {
       //Prompt user to login
       if (!this.$auth.loggedIn) {
-        this.toggleForm();
+        this.toggleLoginModal();
         this.notificationAdd({
           type: "info",
           message: "Please Login To Add Videos"
@@ -178,7 +188,7 @@ export default {
       const video = {
         src: this.searchCriteria,
         provider: providerID,
-        room: this.$route.params.id,
+        room: this.room.id,
         user: this.$auth.user.id
       };
       // video, provider, roomID, userID

@@ -1,23 +1,25 @@
 <template>
-  <v-dialog v-model="showLoginForm" @click:outside="toggleForm" max-width="600px">
+  <v-dialog v-model="showLoginModal" @click:outside="toggleLoginModal" max-width="600px">
     <authTabs />
   </v-dialog>
 </template>
 
 <script>
 import authTabs from "@/components/auth/authTabs";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters  } from "vuex";
 export default {
   components: {
     authTabs
   },
   methods: {
     ...mapActions({
-      toggleForm: "user/toggleForm"
+      toggleLoginModal: "modal/toggleLoginModal"
     })
   },
   computed: {
-    ...mapState("user", ["showLoginForm"])
+    ...mapGetters({
+      showLoginModal: 'modal/showLoginModal'
+    })
   }
 };
 </script>
