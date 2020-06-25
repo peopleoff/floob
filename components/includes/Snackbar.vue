@@ -1,6 +1,6 @@
 <template>
   <div v-if="notification">
-    <v-snackbar v-model="notification" :color="notification.type" top @input="this.remove">
+    <v-snackbar v-model="notification" :color="notification.type" bottom @input="this.remove">
       {{ notification.message }}
       <v-btn text @click="this.remove">Close</v-btn>
     </v-snackbar>

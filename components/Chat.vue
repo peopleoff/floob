@@ -6,9 +6,6 @@
         <v-icon>mdi-arrow-collapse-right</v-icon>
       </v-btn>
       <div>Chat</div>
-      <v-btn icon tile>
-        <v-icon>mdi-account-group</v-icon>
-      </v-btn>
     </div>
     <div id="message-window" class="flex-grow-1">
       <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
@@ -34,7 +31,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "Chat",
   data() {
@@ -52,12 +49,12 @@ export default {
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      toggleForm: "user/toggleForm"
+      toggleLoginModal: "modal/toggleLoginModal"
     }),
     sendMessage() {
       //Prompt user to login if chatting
       if (!this.$auth.loggedIn) {
-        this.toggleForm();
+        this.toggleLoginModal();
         this.notificationAdd({
           type: "info",
           message: "Please Login To Chat"
@@ -76,7 +73,7 @@ export default {
       if (this.message && this.$auth.loggedIn) {
         let newMessage = {
           message: this.message,
-          roomID: this.$route.params.id,
+          roomID: this.room.id,
           user: this.$auth.user
         };
         this.$socket.emit("sendMessage", newMessage);
@@ -88,6 +85,11 @@ export default {
     toggleChat() {
       this.$emit("toggleChat");
     }
+  },
+  computed: {
+    ...mapState({
+      room: state => state.room.room
+    })
   }
 };
 </script>

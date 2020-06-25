@@ -12,9 +12,14 @@ export const mutations = {
 
 export const actions = {
   enterRoom: ({ commit }, id) => {
-    return RoomService.getInfo({ id }).then(({ data }) => {
-      commit("SET_ROOM_DATA", data);
-    });
+    return RoomService.getInfo({ id })
+      .then(({ data }) => {
+        commit("SET_ROOM_DATA", data);
+        return data;
+      })
+      .catch(error => {
+        return error;
+      });
   }
 };
 

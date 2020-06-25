@@ -15,5 +15,5 @@ Vue.use(VuePlyr, {
       noCookie: true
     }
   },
-  emit: ["ended", "seeked", "ready"]
+  emit: ["ended", "ready"]
 });

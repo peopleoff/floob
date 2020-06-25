@@ -1,14 +1,8 @@
 <template>
-  <v-app-bar flat app hide-on-scroll class="transparent" id="top-nav">
-    <nuxt-link
-      to="/"
-      tag="img"
-      :src="require('@/assets/images/placeholder.png')"
-      class="logo"
-      alt="Floob Logo"
-    ></nuxt-link>
+  <v-app-bar flat fixed hide-on-scroll color="transparent">
+    <nuxt-link to="/" class="logo">Floob</nuxt-link>
     <v-spacer></v-spacer>
-    <v-btn outlined @click="toggleForm" v-if="!$auth.loggedIn">Sign In</v-btn>
+    <v-btn outlined @click="toggleLoginModal" v-if="!$auth.loggedIn">Sign In</v-btn>
     <v-menu offset-y v-else transition="scale-transition">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" dark v-on="on">{{$auth.user.username}}</v-btn>
@@ -26,14 +20,22 @@ import { mapActions } from "vuex";
 export default {
   methods: {
     ...mapActions({
-      toggleForm: "user/toggleForm"
+      toggleLoginModal: "modal/toggleLoginModal"
     })
   }
 };
 </script>
 
 <style scoped>
+#top-nav {
+  background: #00ccc2;
+}
 .logo {
-  height: 100%;
+  color: white;
+  text-decoration: none;
+  letter-spacing: 2px;
+  font-size: 3rem;
+  font-family: "Poppins", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 </style>

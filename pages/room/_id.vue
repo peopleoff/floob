@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="pt-12">
     <v-row>
       <v-col cols="12" md="9">
         <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
@@ -53,9 +53,12 @@ export default {
       this.allVideos = payload;
     }
   },
-  async fetch({ error, params, store }) {
+  async fetch({ error, params, store, redirect }) {
     try {
-      await store.dispatch("room/enterRoom", params.id);
+      let room = await store.dispatch("room/enterRoom", params.id);
+      if (!room) {
+        redirect("/404");
+      }
     } catch (e) {
       error({
         statusCode: 503,
@@ -72,14 +75,13 @@ export default {
   },
   mounted() {
     let payload = {
-      id: this.$route.params.id,
+      id: this.room.id,
       user: this.$auth.user
     };
     this.$socket.emit("enterRoom", payload);
   },
   methods: {
     ended(event) {
-      console.log(event);
       this.$socket.emit("removeVideo", event);
       this.allVideos.shift();
     },
@@ -89,8 +91,7 @@ export default {
   },
   computed: {
     ...mapState({
-      room: state => state.room.room,
-      user: state => state.user.user
+      room: state => state.room.room
     }),
     chatSize: function() {
       if (this.showChat) {

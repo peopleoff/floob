@@ -31,7 +31,13 @@
                 <v-btn v-else elevation="24" height="50" block @click="createRoom">Create A Room</v-btn>
               </v-col>
               <v-col>
-                <v-btn height="50" color="#272727" block outlined @click="joinRoom">Join A Room</v-btn>
+                <v-btn
+                  height="50"
+                  color="#272727"
+                  block
+                  outlined
+                  @click="toggleJoinModal"
+                >Join A Room</v-btn>
               </v-col>
             </v-row>
           </v-col>
@@ -109,7 +115,6 @@
         </v-row>
       </v-container>
     </section>
-    <JoinRoom v-bind:joinDialog="joinDialog" />
   </div>
 </template>
 
@@ -130,14 +135,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      toggleForm: "user/toggleForm"
+      toggleLoginModal: "modal/toggleLoginModal",
+      toggleJoinModal: "modal/toggleJoinModal"
     }),
     createRoom() {
       //If user is not logged in redirect to login page
       if (!this.$auth.loggedIn) {
-        this.toggleForm();
+        this.toggleLoginModal();
       } else {
-        RoomService.register(this.$auth.user)
+        RoomService.register({
+          user: this.$auth.user.id
+        })
           .then(({ data }) => {
             this.$router.push("/room/" + data.room);
             this.$auth.user.room = data.room;

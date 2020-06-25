@@ -56,6 +56,9 @@ export default {
       src: "~plugins/vMask.js"
     },
     {
+      src: "~plugins/moment.js"
+    },
+    {
       src: "~plugins/socket.js",
       ssr: false
     }

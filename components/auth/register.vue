@@ -106,7 +106,7 @@ export default {
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      toggleForm: "user/toggleForm"
+      toggleLoginModal: "modal/toggleLoginModal"
     }),
     getAge(DOB) {
       var today = new Date();
@@ -137,7 +137,7 @@ export default {
                   type: "success",
                   message: "Registered"
                 });
-                this.toggleForm();
+                this.toggleLoginModal();
               })
               .catch(error => {
                 console.log("ERror");

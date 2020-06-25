@@ -1,6 +1,6 @@
 <template>
   <section>
-    <vue-plyr ref="plyr" @seeked="seekedEvent" @ended="endedEvent" @ready="readyEvent">
+    <vue-plyr ref="plyr" @ended="endedEvent" @ready="readyEvent">
       <div :data-plyr-provider="formatProvider(video.provider)" :data-plyr-embed-id="video.src"></div>
     </vue-plyr>
     <div class="d-flex justify-space-between align-center">
@@ -17,6 +17,7 @@
 
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "VideoPlayer",
   props: ["video"],
@@ -27,19 +28,21 @@ export default {
       const currentTime = this.player.currentTime;
       const seekedTime = payload;
       const newTime = seekedTime - currentTime;
-      console.log(newTime);
-      this.player.forward(1);
+      console.log(this.player);
+      // this.player.forward(1);
+      this.player.currentTime = 500;
       // this.player.forward(payload);
     }
   },
   methods: {
     seekedEvent(event) {
       console.log(event);
+      event.preventDefault();
       let payload = {
-        roomID: this.$route.params.id,
+        roomID: this.room.id,
         seconds: event.timeStamp
       };
-      // this.$socket.emit("seekVideo", payload);
+      this.$socket.emit("seekVideo", payload);
     },
     endedEvent(event) {
       this.$emit("ended", this.video);
@@ -62,11 +65,17 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      room: state => state.room.room
+    }),
     player() {
       return this.$refs.plyr.player;
     }
   },
-  destroyed(){
+  mounted() {
+    this.player.on("seeked", () => this.seekedEvent());
+  },
+  destroyed() {
     this.player.destroy();
   }
 };
