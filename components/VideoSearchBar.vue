@@ -22,6 +22,7 @@
     </v-menu>
     <div ref="searchInput" class="flex-grow-1">
       <v-text-field
+      class="rounded-lg"
         hide-details
         outlined
         prepend-inner-icon="mdi-magnify"
@@ -29,6 +30,7 @@
         width="50"
         clearable
         :loading="loading"
+        color="legendary_mint"
         @input="searchVideos"
         @keydown.enter="addVideoLink"
         v-model="searchCriteria"

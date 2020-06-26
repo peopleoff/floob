@@ -79,7 +79,7 @@ export default {
         this.loading = false;
         this.notificationAdd({
           type: "error",
-          message: error
+          message: "Invalid Username or Password"
         });
       }
     }
