@@ -10,8 +10,8 @@
     <div id="message-window" class="flex-grow-1">
       <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
       <div v-for="message in messages" :key="message.id">
-        <span class="primary--text message">{{ message.username }}</span>
-        <span>: {{ message.message }}</span>
+        <span class="message" :style="'color:' + message.color">{{ message.username }}</span>:
+        <span v-html="message.message"></span>
       </div>
     </div>
     <div>
@@ -23,6 +23,7 @@
         append-icon="mdi-send"
         full-width
         v-model="message"
+        color="legendary_mint"
         @click:append="sendMessage"
         @keydown.enter="sendMessage"
       ></v-text-field>
@@ -99,7 +100,9 @@ export default {
   height: 90vh;
 }
 #message-window div {
-  word-break: break-all;
+  word-break: break-word;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 #message-window {
   overflow-y: scroll;

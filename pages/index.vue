@@ -48,7 +48,7 @@
       <v-container class="pl-12">
         <v-row class="pb-5">
           <v-col sm="3">
-            <v-img src="https://via.placeholder.com/1024x683"></v-img>
+            <v-img :src="require('~/assets/images/remote_video.svg')"></v-img>
           </v-col>
           <v-col sm="6">
             <h1 class="display-2">

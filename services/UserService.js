@@ -17,7 +17,7 @@ export default {
     return Api().post("users/getUsers", data);
   },
   getUser(data) {
-    return Api().post("getUser", data);
+    return Api().post("users/getUser", data);
   },
   requestPasswordChange(data) {
     return Api().post("users/requestPasswordChange", data);

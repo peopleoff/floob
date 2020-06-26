@@ -10,7 +10,6 @@ import VuePlyr from "vue-plyr/dist/vue-plyr.ssr.js";
 Vue.use(VuePlyr, {
   plyr: {
     fullscreen: { enabled: false },
-    ratio: "16:9",
     youtube: {
       noCookie: true
     }

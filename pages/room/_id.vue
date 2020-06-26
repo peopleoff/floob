@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pt-12">
     <v-row>
-      <v-col cols="12" md="9">
+      <v-col>
         <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
         <div class="player">
           <div>
@@ -67,11 +67,13 @@ export default {
     }
   },
   asyncData({ error, params, store }) {
-    return VideoService.getVideos({ roomID: params.id }).then(result => {
-      return {
-        allVideos: result.data
-      };
-    });
+    return VideoService.getVideos({ roomID: params.id }).then(
+      result => {
+        return {
+          allVideos: result.data
+        };
+      }
+    );
   },
   mounted() {
     let payload = {
@@ -95,9 +97,9 @@ export default {
     }),
     chatSize: function() {
       if (this.showChat) {
-        return "col-sm-3 px-0";
+        return "col-sm-12 col-md-3 pl-0";
       } else {
-        return "d-none px-0";
+        return "d-none pl-0";
       }
     },
     nextVideo() {

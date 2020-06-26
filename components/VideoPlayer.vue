@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section id="video-player">
     <vue-plyr ref="plyr" @ended="endedEvent" @ready="readyEvent">
       <div :data-plyr-provider="formatProvider(video.provider)" :data-plyr-embed-id="video.src"></div>
     </vue-plyr>
@@ -11,6 +11,7 @@
           <a :href="video.channelLink" target="_blank">{{video.channel}}</a>
         </div>
       </div>
+      <v-btn outlined color="legendary_mint">Vote To Skip(0)</v-btn>
     </div>
   </section>
 </template>
@@ -82,22 +83,7 @@ export default {
 </script>
 
 <style>
-/* #playerContainer {
-  height: 60vh;
-  width: 100%;
+#video-player {
+  /* height: 20vh; */
 }
-#player {
-  height: 100%;
-  width: 100%;
-}
-
-#vjs_video_3 {
-  height: 100%;
-  width: 100%;
-}
-@media only screen and (max-width: 959px) {
-  #playerContainer {
-    height: 193px;
-  }
-} */
 </style>

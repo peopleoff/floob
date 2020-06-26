@@ -2,8 +2,8 @@
   <section>
     <h3>Queue ({{videoQueue.length}})</h3>
     <hr />
-    <div class="d-flex flex-wrap">
-      <v-card v-for="video in videoQueue" :key="video.id" width="300" class="ma-2">
+    <div id="video-list" class="d-flex flex-wrap">
+      <v-card v-for="video in videoQueue" :key="video.id" width="300" class="ma-3 video-card">
         <v-img class="white--text align-end" height="150px" :src="video.image"></v-img>
 
         <v-card-subtitle>
@@ -28,4 +28,8 @@ export default {
 </script>
 
 <style>
+#video-list .video-card{
+  margin-left: 0 !important;
+  background: #432b5e;
+}
 </style>
