@@ -6,8 +6,9 @@
         <v-icon>mdi-arrow-collapse-right</v-icon>
       </v-btn>
       <div>Chat</div>
+      <div></div>
     </div>
-    <div id="message-window" class="flex-grow-1">
+    <div id="message-window" class="flex-grow-1 py-3">
       <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
       <div v-for="message in messages" :key="message.id">
         <span class="message" :style="'color:' + message.color">{{ message.username }}</span>:
@@ -97,7 +98,9 @@ export default {
 
 <style scoped>
 #chat-window {
-  height: 90vh;
+  height: 100%;
+  background: #1e142d;
+  border-radius: 8px;
 }
 #message-window div {
   word-break: break-word;

@@ -1,7 +1,6 @@
 <template>
-  <section>
+  <section class="py-3">
     <h3>Queue ({{videoQueue.length}})</h3>
-    <hr />
     <div id="video-list" class="d-flex flex-wrap">
       <v-card v-for="video in videoQueue" :key="video.id" width="300" class="ma-3 video-card">
         <v-img class="white--text align-end" height="150px" :src="video.image"></v-img>
@@ -30,6 +29,6 @@ export default {
 <style>
 #video-list .video-card{
   margin-left: 0 !important;
-  background: #432b5e;
+  background: #1e142d;
 }
 </style>

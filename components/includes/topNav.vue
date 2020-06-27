@@ -2,6 +2,11 @@
   <v-app-bar flat fixed hide-on-scroll color="transparent">
     <nuxt-link to="/" class="logo">Floob</nuxt-link>
     <v-spacer></v-spacer>
+    <p class="ma-0" v-if="room">
+      Room: {{room.name}}
+      <v-icon>mdi-share</v-icon>
+    </p>
+    <v-spacer></v-spacer>
     <v-btn outlined @click="toggleLoginModal" v-if="!$auth.loggedIn">Sign In</v-btn>
     <v-menu offset-y v-else transition="scale-transition">
       <template v-slot:activator="{ on }">
@@ -16,11 +21,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   methods: {
     ...mapActions({
       toggleLoginModal: "modal/toggleLoginModal"
+    })
+  },
+  computed: {
+    ...mapState({
+      room: state => state.room.room
     })
   }
 };

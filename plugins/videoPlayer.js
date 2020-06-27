@@ -9,10 +9,32 @@ import VuePlyr from "vue-plyr/dist/vue-plyr.ssr.js";
 // The second argument is optional and sets the default config values for every player.
 Vue.use(VuePlyr, {
   plyr: {
-    fullscreen: { enabled: false },
+    controls: [
+      "play-large",
+      "play",
+      "progress",
+      "current-time",
+      "mute",
+      "volume",
+      "captions",
+      "settings",
+      "pip",
+      "airplay",
+      "fullscreen"
+    ],
     youtube: {
       noCookie: true
-    }
+    },
+    ratio: "w:h",
+    muted: true
   },
-  emit: ["ended", "ready"]
+  emit: [
+    "ended",
+    "ready",
+    "seeked",
+    "play",
+    "pause",
+    "ratechange",
+    "timeupdate"
+  ]
 });

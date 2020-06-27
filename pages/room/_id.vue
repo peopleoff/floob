@@ -3,21 +3,16 @@
     <v-row>
       <v-col>
         <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
-        <div class="player">
-          <div>
-            <span class="body-1">Room: {{room.name}}</span>
-          </div>
-          <div class="d-flex flex-column">
-            <!-- Video Player -->
-            <VideoPlayer v-if="nextVideo" :video="nextVideo" :key="nextVideo.id" @ended="ended" />
-            <v-sheet v-else height="500px"></v-sheet>
-            <!-- Video Que -->
-            <videoQueue :videoQueue="videoQueue" />
-          </div>
-        </div>
+        <VideoPlayer v-if="nextVideo" :video="nextVideo" :key="nextVideo.id" @ended="ended" />
+        <v-sheet v-else height="500px"></v-sheet>
       </v-col>
       <v-col :class="chatSize">
         <Chat @toggleChat="toggleChat" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <videoQueue :videoQueue="videoQueue" />
       </v-col>
     </v-row>
   </v-container>
@@ -67,13 +62,11 @@ export default {
     }
   },
   asyncData({ error, params, store }) {
-    return VideoService.getVideos({ roomID: params.id }).then(
-      result => {
-        return {
-          allVideos: result.data
-        };
-      }
-    );
+    return VideoService.getVideos({ roomID: params.id }).then(result => {
+      return {
+        allVideos: result.data
+      };
+    });
   },
   mounted() {
     let payload = {
