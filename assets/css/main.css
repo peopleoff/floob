@@ -1,15 +1,20 @@
-html, body, #__nuxt {
-  height: 100%;
-}
-
-html {
-  font-size: 62.5%;
-}
-
 body {
-  font-family: 'Poppins', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Poppins", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 }
 
 .h100 {
   height: 100%;
+}
+
+.mdi-youtube {
+  color: #ff0000 !important;
+}
+
+.mdi-vimeo {
+  color: #1ab7ea !important;
+}
+
+.theme--dark.v-application {
+  background-color: #0f0816 !important;
 }

@@ -1,5 +1,5 @@
 <template>
-  <section class="d-flex align-center" v-click-outside="clearInput">
+  <section class="d-flex align-center pb-3" v-click-outside="clearInput">
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
         <div v-on="on">
