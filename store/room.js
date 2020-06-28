@@ -7,6 +7,9 @@ export const state = () => ({
 export const mutations = {
   SET_ROOM_DATA(state, room) {
     state.room = room;
+  },
+  CLEAR_ROOM(state, room) {
+    state.room = null;
   }
 };
 
@@ -20,6 +23,9 @@ export const actions = {
       .catch(error => {
         return error;
       });
+  },
+  clearRoom: ({ commit }) => {
+    return commit("CLEAR_ROOM");
   }
 };
 
