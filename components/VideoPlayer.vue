@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div id="video-size">
     <section class="video-background">
       <div id="video-wrapper">
         <vue-plyr
           ref="plyr"
           @ended="endedEvent"
           @ready="readyEvent"
-          @seeked="seekedEvent"
           @play="playEvent"
           @pause="pauseEvent"
           @ratechange="rateChangeEvent"
+          @seeked="seekedEvent"
         >
           <div :data-plyr-provider="formatProvider(video.provider)" :data-plyr-embed-id="video.src"></div>
         </vue-plyr>
@@ -37,52 +37,41 @@ export default {
   props: ["video"],
   sockets: {
     syncVideo: function(payload) {
-      // this.player.currentTime = payload;
-      console.log(payload);
+      //Round floats into ints for better compare
+      let currentTime = Math.round(this.player.currentTime);
+      let newTime = Math.round(payload.seconds);
+      //Only seek if time is different
+      if (newTime !== currentTime) {
+        this.player.currentTime = newTime;
+      }
     },
     playVideo: function(payload) {
-      this.player.play();
+      let playerID = this.player.id;
+      let eventPlayerID = payload.playerID;
+      if (playerID !== eventPlayerID) {
+        this.player.play("test");
+      }
     },
     pauseVideo: function(payload) {
-      this.player.pause();
+      let playerID = this.player.id;
+      let eventPlayerID = payload.playerID;
+      if (playerID !== eventPlayerID) {
+        this.player.pause();
+      }
     }
   },
-  data() {
-    return {
-      userSeeked: true
-    };
-  },
   methods: {
-    seekedEvent: _.debounce(async function(event) {
-      let plyr = this.$refs.plyr.player;
-      let input = plyr.elements.inputs.seek;
-      console.log(plyr);
-      let time = await this.getCurrentTime(plyr, input);
-      this.seek(time);
-      // let payload = {
-      //   roomID: this.room.id,
-      //   seconds: event.timeStamp
-      // };
-      // this.$socket.emit("seekVideo", payload);
-      // console.log(component);
-    }, 30),
+    seekedEvent(event) {
+      let time = this.player.currentTime;
+      let payload = {
+        playerID: this.player.id,
+        roomID: this.room.id,
+        seconds: time
+      };
+      this.$socket.emit("seekVideo", payload);
+    },
     endedEvent(event) {
       this.$emit("ended", this.video);
-    },
-    async seek(pos) {
-      if (pos !== (await this.currentTime())) {
-        this.player.currentTime = pos / 1000.0;
-      }
-    },
-    async getCurrentTime(plyr, input) {
-      if (typeof input === "object") {
-        return (input.value / input.max) * (await plyr.duration);
-      } else {
-        return Number(input) / 1e3;
-      }
-    },
-    async currentTime() {
-      return (await this.player.currentTime) * 1000.0;
     },
     readyEvent(event) {
       console.log("ready");
@@ -95,6 +84,7 @@ export default {
       console.log(event.detail.plyr.speed);
     },
     pauseEvent(event) {
+      // console.log(event);
       this.$socket.emit("pauseVideo", this.room.id);
     },
     playNextVideo(newVideo) {
@@ -138,5 +128,9 @@ export default {
 
 .video-background {
   background-color: black;
+}
+
+.ytp-pause-overlay {
+  display: none;
 }
 </style>

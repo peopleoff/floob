@@ -1,10 +1,10 @@
 <template>
   <v-container fluid class="pt-12">
     <v-row>
-      <v-col>
+      <v-col id="video-section">
         <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
         <VideoPlayer v-if="nextVideo" :video="nextVideo" :key="nextVideo.id" @ended="ended" />
-        <v-sheet v-else height="500px"></v-sheet>
+        <v-sheet v-else height="500px" id="video-size"></v-sheet>
       </v-col>
       <v-col :class="chatSize">
         <Chat @toggleChat="toggleChat" />
@@ -26,7 +26,7 @@ import Chat from "@/components/Chat";
 import RoomService from "@/services/RoomService";
 import VideoService from "@/services/VideoService";
 
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Room",
@@ -76,6 +76,9 @@ export default {
     this.$socket.emit("enterRoom", payload);
   },
   methods: {
+    ...mapActions({
+      clearRoom: "room/clearRoom"
+    }),
     ended(event) {
       this.$socket.emit("removeVideo", event);
       this.allVideos.shift();
@@ -101,6 +104,9 @@ export default {
     videoQueue() {
       return this.allVideos.filter((video, index) => index != 0);
     }
+  },
+  destroyed() {
+    this.clearRoom();
   }
 };
 </script>

@@ -1,9 +1,9 @@
 <template>
   <v-app dark>
-    <v-content>
+    <v-main>
       <topNav />
       <nuxt />
-    </v-content>
+    </v-main>
     <Snackbar />
     <loginDialog />
     <JoinRoom />

@@ -1,5 +1,5 @@
 <template>
-  <div id="chat-window" class="d-flex flex-column justify-space-around">
+  <div id="chat-window" class="d-flex flex-column justify-space-around pa-2">
     <!-- Video Search -->
     <div class="d-flex flex-row justify-space-between align-center">
       <v-btn icon tile @click="toggleChat" class="hidden-sm-and-down">
@@ -45,8 +45,19 @@ export default {
   },
   sockets: {
     newMessage: function(message) {
+      let messages = document.querySelector("#message-window");
+      // Prior to getting your messages.
       this.messages.push(message);
+      // After getting your messages.
+      setTimeout(function() {
+        messages.scrollTop = messages.scrollHeight;
+      }, 50);
     }
+  },
+  mounted() {
+    // Register an event listener when the Vue component is ready
+    window.addEventListener("resize", this.resizeChat);
+    this.resizeChat();
   },
   methods: {
     ...mapActions({
@@ -80,8 +91,16 @@ export default {
         };
         this.$socket.emit("sendMessage", newMessage);
         this.message = "";
-        let container = document.querySelector("#message-window");
-        container.scrollTop = container.scrollHeight;
+      }
+    },
+    resizeChat() {
+      if (process.browser) {
+        let videoHeight = document.querySelector("#video-size");
+        let chatWindow = document.querySelector("#chat-window");
+        if (videoHeight) {
+          let newHeight = videoHeight.offsetHeight + 45 + "px";
+          chatWindow.style.height = newHeight;
+        }
       }
     },
     toggleChat() {
@@ -92,15 +111,19 @@ export default {
     ...mapState({
       room: state => state.room.room
     })
+  },
+  beforeDestroy() {
+    // Unregister the event listener before destroying this Vue instance
+    window.removeEventListener("resize", this.onResize);
   }
 };
 </script>
 
 <style scoped>
 #chat-window {
-  height: 100%;
   background: #1e142d;
   border-radius: 8px;
+  height: 80vh;
 }
 #message-window div {
   word-break: break-word;
