@@ -9,7 +9,6 @@
           @play="playEvent"
           @pause="pauseEvent"
           @ratechange="rateChangeEvent"
-          @seeked="seekedEvent"
         >
           <div :data-plyr-provider="formatProvider(video.provider)" :data-plyr-embed-id="video.src"></div>
         </vue-plyr>
@@ -41,7 +40,8 @@ export default {
       let currentTime = Math.round(this.player.currentTime);
       let newTime = Math.round(payload.seconds);
       //Only seek if time is different
-      if (newTime !== currentTime) {
+      let playerID = this.player.id;
+      if (playerID !== payload.playerID) {
         this.player.currentTime = newTime;
       }
     },
@@ -49,7 +49,7 @@ export default {
       let playerID = this.player.id;
       let eventPlayerID = payload.playerID;
       if (playerID !== eventPlayerID) {
-        this.player.play("test");
+        this.player.play();
       }
     },
     pauseVideo: function(payload) {
@@ -58,34 +58,62 @@ export default {
       if (playerID !== eventPlayerID) {
         this.player.pause();
       }
+    },
+    playSpeed: function(payload) {
+      let playerID = this.player.id;
+      let eventPlayerID = payload.playerID;
+      if (playerID !== eventPlayerID) {
+        this.player.speed = payload.speed;
+      }
     }
   },
   methods: {
-    seekedEvent(event) {
-      let time = this.player.currentTime;
-      let payload = {
-        playerID: this.player.id,
-        roomID: this.room.id,
-        seconds: time
-      };
-      this.$socket.emit("seekVideo", payload);
-    },
     endedEvent(event) {
       this.$emit("ended", this.video);
     },
     readyEvent(event) {
-      console.log("ready");
       this.player.play();
     },
-    playEvent(event) {
-      this.$socket.emit("playVideo", this.room.id);
+    async playEvent(event) {
+      let plyr = event.detail.plyr;
+      let lastSeekTime = new Date(plyr.lastSeekTime);
+      let nowTimestamp = new Date();
+
+      let timeDifference = (nowTimestamp - lastSeekTime) / 10000;
+      if (timeDifference < 0.0005) {
+        let time = await this.getCurrentTime();
+        let payload = {
+          playerID: this.player.id,
+          roomID: this.room.id,
+          seconds: time
+        };
+        this.$socket.emit("syncVideo", payload);
+      } else {
+        this.$socket.emit("playVideo", this.room.id);
+      }
+    },
+    getCurrentTime() {
+      return this.player.currentTime;
     },
     rateChangeEvent(event) {
-      console.log(event.detail.plyr.speed);
+      let payload = {
+        playerID: this.player.id,
+        roomID: this.room.id,
+        speed: event.detail.plyr.speed
+      };
+      this.$socket.emit("playSpeed", payload);
     },
     pauseEvent(event) {
-      // console.log(event);
-      this.$socket.emit("pauseVideo", this.room.id);
+      let plyr = event.detail.plyr;
+      let lastSeekTime = new Date(plyr.lastSeekTime);
+      let nowTimestamp = new Date();
+
+      let timeDifference = (nowTimestamp - lastSeekTime) / 10000;
+      if (timeDifference < 0.0005) {
+        return;
+      } else {
+        this.$socket.emit("pauseVideo", this.room.id);
+      }
     },
     playNextVideo(newVideo) {
       let provider = this.formatProvider(newVideo.provider);
