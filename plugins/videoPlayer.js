@@ -28,7 +28,7 @@ Vue.use(VuePlyr, {
     //   },
     // },
     ratio: "16:9",
-    muted: true
+    muted: false
   },
   emit: [
     "ended",
