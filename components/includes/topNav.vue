@@ -1,6 +1,6 @@
 <template>
   <v-app-bar flat fixed hide-on-scroll color="transparent">
-    <nuxt-link to="/" class="logo">Floob</nuxt-link>
+    <nuxt-link to="/" tag="img" :src="require('@/assets/images/logo.svg')" class="logo"></nuxt-link>
     <v-spacer></v-spacer>
     <p class="ma-0" v-if="room">
       Room: {{room.name}}
@@ -41,11 +41,13 @@ export default {
   background: #00ccc2;
 }
 .logo {
-  color: white;
+  height: 50%;
+  cursor: pointer;
+  /* color: white;
   text-decoration: none;
   letter-spacing: 2px;
   font-size: 3rem;
   font-family: "Poppins", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
-    sans-serif;
+    sans-serif; */
 }
 </style>

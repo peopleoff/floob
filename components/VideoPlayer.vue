@@ -22,7 +22,7 @@
           <a :href="video.channelLink" target="_blank">{{video.channel}}</a>
         </div>
       </div>
-      <v-btn outlined color="legendary_mint">Vote To Skip(0)</v-btn>
+      <!-- <v-btn outlined color="legendary_mint" @click="voteToSkip">Vote To Skip(0)</v-btn> -->
     </div>
   </div>
 </template>
@@ -30,7 +30,9 @@
 
 <script>
 import _ from "lodash";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+import VideoService from "@/services/VideoService";
+
 export default {
   name: "VideoPlayer",
   props: ["video"],
@@ -68,10 +70,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      notificationAdd: "notification/add"
+    }),
     endedEvent(event) {
       this.$emit("ended", this.video);
     },
     readyEvent(event) {
+      this.player.speed = parseInt(1);
       this.player.play();
     },
     async playEvent(event) {
@@ -87,10 +93,36 @@ export default {
           roomID: this.room.id,
           seconds: time
         };
+        let secondsRounded = Math.round(time);
+        let secondsFormatted = secondsRounded;
+
+        // var formatted = duration.format("hh:mm:ss");
+        this.sendActionToChat(
+          "skipped to " + this.formatTime(Math.round(time))
+        );
         this.$socket.emit("syncVideo", payload);
       } else {
+        let time = await this.getCurrentTime();
+        if (time > 1) {
+          this.sendActionToChat("played the video");
+        }
         this.$socket.emit("playVideo", this.room.id);
       }
+    },
+    formatTime(time) {
+      // Hours, minutes and seconds
+      var hrs = ~~(time / 3600);
+      var mins = ~~((time % 3600) / 60);
+      var secs = ~~time % 60;
+
+      // Output like "1:01" or "4:03:59" or "123:03:59"
+      var ret = "";
+      if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+      }
+      ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+      ret += "" + secs;
+      return ret;
     },
     getCurrentTime() {
       return this.player.currentTime;
@@ -101,7 +133,29 @@ export default {
         roomID: this.room.id,
         speed: event.detail.plyr.speed
       };
+      this.sendActionToChat("Changed speed to " + event.detail.plyr.speed);
       this.$socket.emit("playSpeed", payload);
+    },
+    voteToSkip() {
+      if (!this.$auth.loggedIn) {
+        this.notificationAdd({
+          type: "info",
+          message: "Please Login To Vote"
+        });
+        return;
+      }
+      let payload = {
+        videoID: this.video.id,
+        userID: this.$auth.user.id,
+        roomID: this.room.id
+      }
+      VideoService.voteToSkip(payload)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
     pauseEvent(event) {
       let plyr = event.detail.plyr;
@@ -112,6 +166,7 @@ export default {
       if (timeDifference < 0.0005) {
         return;
       } else {
+        this.sendActionToChat("paused the video");
         this.$socket.emit("pauseVideo", this.room.id);
       }
     },
@@ -126,6 +181,15 @@ export default {
           }
         ]
       };
+    },
+    sendActionToChat(message) {
+      let newMessage = {
+        eventMessage: true,
+        message: message,
+        roomID: this.room.id,
+        user: this.$auth.user
+      };
+      this.$socket.emit("sendMessage", newMessage);
     }
   },
   computed: {

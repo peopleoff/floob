@@ -15,6 +15,9 @@ export default {
   getThumbnail(data) {
     return Api().post("videos/getThumbnail", data);
   },
+  voteToSkip(data) {
+    return Api().post("videos/voteToSkip", data);
+  },
   postVideo(data) {
     return Api().post("videos/postVideo", data);
   }
