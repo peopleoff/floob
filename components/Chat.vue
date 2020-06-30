@@ -2,17 +2,47 @@
   <div id="chat-window" class="d-flex flex-column justify-space-around pa-2">
     <!-- Video Search -->
     <div class="d-flex flex-row justify-space-between align-center">
-      <v-btn icon tile @click="toggleChat" class="hidden-sm-and-down">
+      <v-btn icon tile @click="toggleChat">
         <v-icon>mdi-arrow-collapse-right</v-icon>
       </v-btn>
       <div>Chat</div>
-      <div></div>
+      <v-btn icon tile>
+        <v-icon>mdi-account-group</v-icon>
+      </v-btn>
+    </div>
+    <div class="chat-toolbar">
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLScfrbHBFPKsifOuqEmOOJoKPRz-f4Ucngbr85Xsm4m81cUH7A/viewform"
+        target="_blank"
+        rel="noreferrer"
+      >Feedback</a>
+      <div>|</div>
+      <a href="Help">Help</a>
     </div>
     <div id="message-window" class="flex-grow-1 py-3">
       <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
       <div v-for="message in messages" :key="message.id">
-        <span class="message" :style="'color:' + message.color">{{ message.username }}</span>:
-        <span v-html="message.message"></span>
+        <div v-if="message.eventMessage">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <span
+                v-bind="attrs"
+                v-on="on"
+                style="color: #9e9e9e"
+              >{{message.username}} {{message.message}}</span>
+            </template>
+            <span>{{ message.timestamp | moment("hh:mm a") }}</span>
+          </v-tooltip>
+        </div>
+        <div v-else>
+          <span class="message" :style="'color:' + message.color">{{ message.username }}</span>:
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <span v-bind="attrs" v-on="on" v-html="message.message"></span>
+            </template>
+            <span>{{ message.timestamp | moment("hh:mm a") }}</span>
+          </v-tooltip>
+        </div>
       </div>
     </div>
     <div>
@@ -137,5 +167,20 @@ export default {
 #message-window::-webkit-scrollbar {
   width: 0px;
   background: transparent; /* make scrollbar transparent */
+}
+
+.chat-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1em 1fr;
+  gap: 1px 1px;
+  grid-template-areas: ". . .";
+}
+
+.chat-toolbar > a:first-child {
+  justify-self: end;
+}
+
+.chat-toolbar div {
+  justify-self: center;
 }
 </style>

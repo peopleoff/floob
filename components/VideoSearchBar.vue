@@ -22,7 +22,7 @@
     </v-menu>
     <div ref="searchInput" class="flex-grow-1">
       <v-text-field
-      class="rounded-lg"
+        class="rounded-lg"
         hide-details
         outlined
         prepend-inner-icon="mdi-magnify"
@@ -55,7 +55,7 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <v-btn icon  @click="addSearchedVideo(result)">
+            <v-btn icon @click="addSearchedVideo(result)">
               <v-icon color="success lighten-1">mdi-plus</v-icon>
             </v-btn>
           </v-list-item-action>
@@ -135,12 +135,12 @@ export default {
     toggleChat() {
       this.$emit("toggleChat");
     },
-    formatDate(ISODate){
+    formatDate(ISODate) {
       const date = new Date(ISODate);
       const mm = date.getMonth();
       const dd = date.getUTCDate();
       const yy = date.getFullYear();
-      return mm + '/' + dd + '/' + yy;
+      return mm + "/" + dd + "/" + yy;
     },
     addSearchedVideo(video) {
       //Prompt user to login
@@ -157,9 +157,16 @@ export default {
       VideoService.postVideo(video)
         .then(result => {
           console.log(result);
+          this.notificationAdd({
+            type: "success",
+            message: "Video Added"
+          });
         })
         .catch(error => {
-          console.erro(error);
+          this.notificationAdd({
+            type: "info",
+            message: "Error adding video, please try again"
+          });
         });
       this.clearInput();
     },
@@ -199,10 +206,16 @@ export default {
           console.log("added youtube Video");
           VideoService.postVideo(video)
             .then(result => {
-              console.log(result);
+              this.notificationAdd({
+                type: "success",
+                message: "Video Added"
+              });
             })
             .catch(error => {
-              console.erro(error);
+              this.notificationAdd({
+                type: "info",
+                message: "Error adding video, please try again"
+              });
             });
           break;
         case 2:
@@ -215,7 +228,6 @@ export default {
       this.clearInput();
     },
     changeSearchPlatform(platformID) {
-      console.log(platformID);
       switch (platformID) {
         case 1:
           this.searchPlatform = {

@@ -87,8 +87,7 @@ export default {
    */
   sentry: {
     dsn:
-      "https://95d647b1ecad4b54b46182bc9bf8fc09@o330708.ingest.sentry.io/1851159",
-    disabled: (process.env.ENV = "DEVELOPMENT" ? true : false)
+      "https://95d647b1ecad4b54b46182bc9bf8fc09@o330708.ingest.sentry.io/1851159"
   },
   /*
    ** Axios module configuration
