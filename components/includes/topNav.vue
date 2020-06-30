@@ -7,7 +7,7 @@
       <v-icon>mdi-share</v-icon>
     </p>
     <v-spacer></v-spacer>
-    <v-btn outlined @click="toggleLoginModal" v-if="!$auth.loggedIn">Sign In</v-btn>
+    <v-btn outlined color="legendary_mint" @click="toggleLoginModal" v-if="!$auth.loggedIn">Sign In</v-btn>
     <v-menu offset-y v-else transition="scale-transition">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" dark v-on="on">{{$auth.user.username}}</v-btn>

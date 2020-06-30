@@ -1,17 +1,19 @@
 <template>
   <v-dialog v-model="showJoinModal" @click:outside="toggleJoinModal" max-width="600px">
     <v-form @keyup.native.enter="joinRoom">
-      <v-toolbar>
-        <v-toolbar-title>Sign Up</v-toolbar-title>
-        <v-spacer></v-spacer>
-      </v-toolbar>
-      <v-card-text>
-        <v-text-field v-model="roomCode" label="Room Code" required></v-text-field>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn @click="joinRoom">Sign Up</v-btn>
-      </v-card-actions>
+      <v-card>
+        <v-toolbar>
+          <v-toolbar-title>Join a room</v-toolbar-title>
+          <v-spacer></v-spacer>
+        </v-toolbar>
+        <v-card-text>
+          <v-text-field v-model="roomCode" label="Room Code" required></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="joinRoom">Join Room</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-form>
   </v-dialog>
 </template>
