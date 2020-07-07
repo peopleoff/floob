@@ -26,7 +26,7 @@
         hide-details
         outlined
         prepend-inner-icon="mdi-magnify"
-        label="Search or Add Videos"
+        :label="'Search or Add ' + searchPlatform.name + ' Link'"
         width="50"
         clearable
         :loading="loading"
@@ -123,7 +123,7 @@ export default {
           this.searchResult = response.data;
         });
       }
-    }, 500),
+    }, 1000),
     clearInput() {
       this.searchCriteria = null;
       this.searchResult = null;

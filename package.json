@@ -28,6 +28,7 @@
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
+    "@nuxtjs/google-analytics": "^2.3.0",
     "@nuxtjs/vuetify": "^1.0.0"
   }
 }

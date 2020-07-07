@@ -12,7 +12,7 @@
     </div>
     <div class="chat-toolbar">
       <a
-        href="https://docs.google.com/forms/d/e/1FAIpQLScfrbHBFPKsifOuqEmOOJoKPRz-f4Ucngbr85Xsm4m81cUH7A/viewform"
+        href="https://forms.gle/Ye2Zk8wZLkf9F7zD8"
         target="_blank"
         rel="noreferrer"
       >Feedback</a>
@@ -128,7 +128,7 @@ export default {
         let videoHeight = document.querySelector("#video-size");
         let chatWindow = document.querySelector("#chat-window");
         if (videoHeight) {
-          let newHeight = videoHeight.offsetHeight + 45 + "px";
+          let newHeight = videoHeight.offsetHeight - 15 + "px";
           chatWindow.style.height = newHeight;
         }
       }

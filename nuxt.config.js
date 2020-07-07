@@ -47,6 +47,10 @@ export default {
       src: "~plugins/videoPlayer.js"
     },
     {
+      src: "~plugins/tracking.js",
+      mode: "client"
+    },
+    {
       src: "~plugins/vuelidate.js"
     },
     {
@@ -66,7 +70,7 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ["@nuxtjs/vuetify"],
+  buildModules: ["@nuxtjs/vuetify", "@nuxtjs/google-analytics"],
   /*
    ** Nuxt.js modules
    */
@@ -88,6 +92,13 @@ export default {
   sentry: {
     dsn:
       "https://95d647b1ecad4b54b46182bc9bf8fc09@o330708.ingest.sentry.io/1851159"
+  },
+  /*
+   ** Google Analytics module configuration
+   ** See https://github.com/nuxt-community/analytics-module
+   */
+  googleAnalytics: {
+    id: "UA-151104834-1"
   },
   /*
    ** Axios module configuration

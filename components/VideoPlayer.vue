@@ -6,8 +6,8 @@
           ref="plyr"
           @ended="endedEvent"
           @ready="readyEvent"
-          @play="playEvent"
-          @pause="pauseEvent"
+          @play="togglePlayingEvent"
+          @pause="togglePlayingEvent"
           @ratechange="rateChangeEvent"
         >
           <div :data-plyr-provider="formatProvider(video.provider)" :data-plyr-embed-id="video.src"></div>
@@ -47,20 +47,34 @@ export default {
         this.player.currentTime = newTime;
       }
     },
-    playVideo: function(payload) {
-      let playerID = this.player.id;
-      let eventPlayerID = payload.playerID;
-      if (playerID !== eventPlayerID) {
-        this.player.play();
-      }
-    },
+    // playVideo: function(payload) {
+    //   console.log(this.player);
+    //   console.log(payload);
+    //   this.player.play();
+    // },
     pauseVideo: function(payload) {
-      let playerID = this.player.id;
-      let eventPlayerID = payload.playerID;
-      if (playerID !== eventPlayerID) {
-        this.player.pause();
-      }
+      console.log(this.player);
+      console.log(payload);
+      this.player.pause();
     },
+    // toggleVideo: function(payload) {
+    //   console.log(payload);
+    //   //If current time is 0, video was just started.
+    //   if (this.player.currentTime == 0) {
+    //     return false;
+    //   }
+    //   console.log(this.player);
+    //   // if(this.player.playing){
+    //   //   this.player.pause();
+    //   // }else{
+    //   //   this.player.play();
+    //   // }
+    //   // let playerID = this.player.id;
+    //   // let eventPlayerID = payload.playerID;
+    //   // if (playerID !== eventPlayerID) {
+    //   //   this.player.play();
+    //   // }
+    // },
     playSpeed: function(payload) {
       let playerID = this.player.id;
       let eventPlayerID = payload.playerID;
@@ -73,41 +87,75 @@ export default {
     ...mapActions({
       notificationAdd: "notification/add"
     }),
-    endedEvent(event) {
-      this.$emit("ended", this.video);
-    },
     readyEvent(event) {
       this.player.speed = parseInt(1);
       this.player.play();
     },
-    async playEvent(event) {
+    togglePlayingEvent(event) {
       let plyr = event.detail.plyr;
+      //Video was auto played on start
+      if (plyr.currentTime == 0) {
+        return false;
+      }
+
       let lastSeekTime = new Date(plyr.lastSeekTime);
       let nowTimestamp = new Date();
-
       let timeDifference = (nowTimestamp - lastSeekTime) / 10000;
-      if (timeDifference < 0.0005) {
-        let time = await this.getCurrentTime();
-        let payload = {
-          playerID: this.player.id,
-          roomID: this.room.id,
-          seconds: time
-        };
-        let secondsRounded = Math.round(time);
-        let secondsFormatted = secondsRounded;
+      let time = plyr.currentTime;
+      let payload = {
+        playerID: this.player.id,
+        roomID: this.room.id,
+        seconds: time
+      };
 
-        // var formatted = duration.format("hh:mm:ss");
-        this.sendActionToChat(
-          "skipped to " + this.formatTime(Math.round(time))
-        );
+      //If time between lastSeek and current time is small, user has seeked
+      if (timeDifference < 0.0005) {
         this.$socket.emit("syncVideo", payload);
-      } else {
-        let time = await this.getCurrentTime();
-        if (time > 1) {
-          this.sendActionToChat("played the video");
-        }
-        this.$socket.emit("playVideo", this.room.id);
       }
+      //Else user toggled play/pause
+      else {
+        //If playing == true, user has played a video
+        if (plyr.playing) {
+          this.$socket.emit("playVideo", payload);
+        } else {
+          this.$socket.emit("pauseVideo", payload);
+        }
+      }
+
+      // if (timeDifference < 0.0005) {
+      //   let time = plyr.currentTime;
+      //   let payload = {
+      //     playerID: this.player.id,
+      //     roomID: this.room.id,
+      //     seconds: time
+      //   };
+      //   let secondsRounded = Math.round(time);
+      //   let secondsFormatted = secondsRounded;
+
+      //   // var formatted = duration.format("hh:mm:ss");
+      //   this.sendActionToChat(
+      //     "skipped to " + this.formatTime(Math.round(time))
+      //   );
+      //   this.$socket.emit("syncVideo", payload);
+      // } else {
+      //   let time = plyr.currentTime;
+      //   if (time > 1) {
+      //     this.sendActionToChat("played the video");
+      //   }
+      //   this.$socket.emit("toggleVideo", this.room.id);
+      // }
+    },
+    rateChangeEvent(event) {
+      let payload = {
+        playerID: this.player.id,
+        roomID: this.room.id,
+        speed: event.detail.plyr.speed
+      };
+      this.sendActionToChat("Changed speed to " + event.detail.plyr.speed);
+      this.$socket.emit("playSpeed", payload);
+    },
+    endedEvent(event) {
+      this.$emit("ended", this.video);
     },
     formatTime(time) {
       // Hours, minutes and seconds
@@ -124,18 +172,6 @@ export default {
       ret += "" + secs;
       return ret;
     },
-    getCurrentTime() {
-      return this.player.currentTime;
-    },
-    rateChangeEvent(event) {
-      let payload = {
-        playerID: this.player.id,
-        roomID: this.room.id,
-        speed: event.detail.plyr.speed
-      };
-      this.sendActionToChat("Changed speed to " + event.detail.plyr.speed);
-      this.$socket.emit("playSpeed", payload);
-    },
     voteToSkip() {
       if (!this.$auth.loggedIn) {
         this.notificationAdd({
@@ -148,7 +184,7 @@ export default {
         videoID: this.video.id,
         userID: this.$auth.user.id,
         roomID: this.room.id
-      }
+      };
       VideoService.voteToSkip(payload)
         .then(result => {
           console.log(result);
@@ -156,19 +192,6 @@ export default {
         .catch(error => {
           console.error(error);
         });
-    },
-    pauseEvent(event) {
-      let plyr = event.detail.plyr;
-      let lastSeekTime = new Date(plyr.lastSeekTime);
-      let nowTimestamp = new Date();
-
-      let timeDifference = (nowTimestamp - lastSeekTime) / 10000;
-      if (timeDifference < 0.0005) {
-        return;
-      } else {
-        this.sendActionToChat("paused the video");
-        this.$socket.emit("pauseVideo", this.room.id);
-      }
     },
     playNextVideo(newVideo) {
       let provider = this.formatProvider(newVideo.provider);
@@ -197,7 +220,9 @@ export default {
       room: state => state.room.room
     }),
     player() {
-      return this.$refs.plyr.player;
+      if (this.$refs.plyr) {
+        return this.$refs.plyr.player;
+      }
     }
   },
   destroyed() {
