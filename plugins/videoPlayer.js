@@ -1,6 +1,12 @@
 import Vue from "vue";
 import VuePlyr from "vue-plyr/dist/vue-plyr.ssr.js";
 
+let muteVideo = false;
+
+if(process.env.ENV === "DEVELOPMENT"){
+  muteVideo = true;
+}
+
 /*
  ** vue-plyr configuration
  ** See  https://github.com/redxtech/vue-plyr
@@ -12,23 +18,18 @@ Vue.use(VuePlyr, {
     youtube: {
       noCookie: true
     },
-    // listeners: {
-    //   seek: function customSeekBehavior(e, test) {
-    //     console.log("seeked");
-    //   },
-    //   pause: function tester(e, test) {
-    //     console.log("paused");
-    //     console.log(e);
-    //     console.log(test);
-    //   },
-    //   play: function tester(e, test) {
-    //     console.log("play");
-    //     console.log(e);
-    //     console.log(test);
-    //   },
-    // },
+    listeners: {
+      seek: function customSeekBehavior(e) {
+        console.log(e);
+      },
+      // play: function tester(e, test) {
+      //   console.log("play");
+      //   console.log(e);
+      //   console.log(test);
+      // },
+    },
     ratio: "16:9",
-    muted: false
+    muted: muteVideo
   },
   emit: [
     "ended",

@@ -3,14 +3,18 @@
     <nuxt-link to="/" tag="img" :src="require('@/assets/images/logo.svg')" class="logo"></nuxt-link>
     <v-spacer></v-spacer>
     <p class="ma-0" v-if="room">
-      Room: {{room.name}}
-      <v-icon>mdi-share</v-icon>
+      Room Code: {{room.roomUUID}}
+      <v-icon @click="toggleShareModal">mdi-share</v-icon>
     </p>
     <v-spacer></v-spacer>
-    <v-btn outlined color="legendary_mint" @click="toggleLoginModal" v-if="!$auth.loggedIn">Sign In</v-btn>
-    <v-menu offset-y v-else transition="scale-transition">
+    <v-btn outlined color="legendary_mint" class="mx-3" @click="toggleJoinModal">Join a Room</v-btn>
+    <v-btn @click="toggleLoginModal" v-if="!$auth.loggedIn">Sign In</v-btn>
+    <v-menu offset-y open-on-hover v-else transition="scale-transition">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">{{$auth.user.username}}</v-btn>
+        <span v-on="on" class="mx-3 pointer">
+          {{$auth.user.username}}
+          <v-icon>mdi-chevron-down</v-icon>
+        </span>
       </template>
 
       <v-list>
@@ -25,7 +29,9 @@ import { mapActions, mapState } from "vuex";
 export default {
   methods: {
     ...mapActions({
-      toggleLoginModal: "modal/toggleLoginModal"
+      toggleLoginModal: "modal/toggleLoginModal",
+      toggleJoinModal: "modal/toggleJoinModal",
+      toggleShareModal: "modal/toggleShareModal"
     })
   },
   computed: {

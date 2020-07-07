@@ -4,7 +4,7 @@
       <v-col id="video-section">
         <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
         <VideoPlayer v-if="nextVideo" :video="nextVideo" :key="nextVideo.id" @ended="ended" />
-        <v-sheet v-else height="500px" id="video-size"></v-sheet>
+        <v-sheet v-else height="615px" id="video-size"></v-sheet>
       </v-col>
       <v-col :class="chatSize">
         <Chat @toggleChat="toggleChat" />
@@ -35,6 +35,19 @@ export default {
     VideoPlayer,
     VideoSearchBar,
     Chat
+  },
+  head() {
+    return {
+      title: this.room.name,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: "My custom description"
+        }
+      ]
+    };
   },
   data() {
     return {
@@ -112,4 +125,7 @@ export default {
 </script>
 
 <style scoped>
+.container{
+  min-height: 93vh;
+}
 </style>

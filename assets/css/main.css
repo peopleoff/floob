@@ -18,3 +18,7 @@ body {
 .theme--dark.v-application {
   background-color: #0f0816 !important;
 }
+
+.pointer{
+  cursor: pointer;
+}
