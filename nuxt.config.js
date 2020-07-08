@@ -70,7 +70,7 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ["@nuxtjs/vuetify", "@nuxtjs/google-analytics"],
+  buildModules: ["@nuxtjs/vuetify"],
   /*
    ** Nuxt.js modules
    */
@@ -83,7 +83,9 @@ export default {
     // Doc: https://github.com/nuxt-community/sentry-module#readme
     "@nuxtjs/sentry",
     // Doc: https://auth.nuxtjs.org/guide/setup.html
-    "@nuxtjs/auth"
+    "@nuxtjs/auth",
+    // Doc: https://github.com/nuxt-community/analytics-module
+    "@nuxtjs/google-analytics"
   ],
   /*
    ** Sentry module configuration
