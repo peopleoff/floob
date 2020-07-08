@@ -52,11 +52,11 @@ export default {
     //   console.log(payload);
     //   this.player.play();
     // },
-    pauseVideo: function(payload) {
-      console.log(this.player);
-      console.log(payload);
-      this.player.pause();
-    },
+    // pauseVideo: function(payload) {
+    //   console.log(this.player);
+    //   console.log(payload);
+    //   this.player.pause();
+    // },
     // toggleVideo: function(payload) {
     //   console.log(payload);
     //   //If current time is 0, video was just started.
@@ -226,7 +226,9 @@ export default {
     }
   },
   destroyed() {
-    this.player.destroy();
+    if (this.player) {
+      this.player.destroy();
+    }
   }
 };
 </script>
