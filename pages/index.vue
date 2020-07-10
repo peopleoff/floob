@@ -2,16 +2,17 @@
   <div id="landing-page">
     <section id="hero">
       <v-container>
-        <v-row class="justify-center align-center banner">
-          <v-col class="d-none d-sm-block">
-            <!-- <v-img :src="require('~/assets/images/landing.svg')"></v-img> -->
-            <object type="image/svg+xml" :data="require('~/assets/images/landing.svg')">
-              <img :src="require('~/assets/images/landing.svg')" />
-            </object>
-          </v-col>
-          <v-col>
-            <p class="headline text-h4">Share your favorite moments</p>
-            <p class="text-subtitle-1">Create a room and share moments in five clicks or less!</p>
+        <span class="circle circle-1"></span>
+        <span class="circle circle-2"></span>
+        <span class="circle circle-3"></span>
+        <span class="circle circle-4"></span>
+        <v-row class="align-center banner">
+          <v-col md="7">
+            <p class="headline">Share your favorite moments</p>
+            <span class="text-h6 font-weight-light">
+              Create a room and share some laughs in five clicks or less!
+              <br />Floob is built for sharing videos with your friends during gaming sessions or while hanging out in discord
+            </span>
             <v-row>
               <v-col>
                 <v-btn
@@ -19,15 +20,17 @@
                   elevation="24"
                   height="50"
                   block
+                  class="rounded-lg"
                   nuxt
                   :to="'/room/' + $auth.user.room"
-                >Join My Room</v-btn>
+                >Enter My Room</v-btn>
                 <v-btn v-else elevation="24" height="50" block @click="createRoom">Create A Room</v-btn>
               </v-col>
               <v-col>
                 <v-btn
                   height="50"
                   color="legendary_mint"
+                  class="rounded-lg"
                   block
                   outlined
                   @click="toggleJoinModal"
@@ -36,6 +39,11 @@
             </v-row>
           </v-col>
         </v-row>
+        <div id="sync-graphic" class="d-none d-sm-block">
+          <object type="image/svg+xml" :data="require('~/assets/images/landing.svg')">
+            <img :src="require('~/assets/images/landing.svg')" />
+          </object>
+        </div>
       </v-container>
     </section>
     <section id="explain">
@@ -152,6 +160,50 @@ export default {
 #hero {
   height: 100vh;
   background: linear-gradient(170deg, #662d91 70%, #432b5e calc(70% + 2px));
+  position: relative;
+}
+
+#hero .headline {
+  font-size: 5rem !important;
+  font-weight: bold;
+  line-height: 6rem;
+  letter-spacing: -0.015625em !important;
+  font-family: "Roboto", sans-serif !important;
+}
+
+#sync-graphic {
+  width: 63%;
+  position: absolute;
+  right: -6%;
+  bottom: 20%;
+}
+.circle {
+  height: 80px;
+  width: 80px;
+  background: rgba(67, 43, 94, 0.5);
+  border-radius: 50%;
+  position: absolute;
+}
+
+#hero .circle-1 {
+  top: 25%;
+  right: 89%;
+}
+#hero .circle-2 {
+  top: 11%;
+  right: 17%;
+}
+#hero .circle-3 {
+  top: 73%;
+  right: 63%;
+}
+#hero .circle-4 {
+  top: 04%;
+  right: 80%;
+}
+
+#hero .col {
+  z-index: 1;
 }
 
 #explain {
