@@ -2,12 +2,12 @@
   <v-dialog v-model="showShareModal" @click:outside="toggleShareModal" max-width="600px">
     <v-card>
       <v-card-title>
-        Share
+        Share Your Room
         <v-spacer></v-spacer>
         <v-icon @click="toggleShareModal">mdi-close</v-icon>
       </v-card-title>
       <v-card-text>
-        <p class="text-h6">Page Link</p>
+        <p class="text-subtitle-1">Page Link</p>
         <v-text-field
           id="share-code"
           color="legendary_mint"
@@ -54,12 +54,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      toggleShareModal: "modal/toggleShareModal"
+      toggleShareModal: "modal/toggleShareModal",
+      notificationAdd: "notification/add"
     }),
     ShareRoom() {
       let copyText = document.querySelector("#share-code");
       copyText.select();
       document.execCommand("copy");
+      this.notificationAdd({
+        type: "success",
+        message: "Link Copied!"
+      });
     }
   },
   computed: {

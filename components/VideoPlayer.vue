@@ -22,7 +22,7 @@
           <a :href="video.channelLink" target="_blank">{{video.channel}}</a>
         </div>
       </div>
-      <!-- <v-btn outlined color="legendary_mint" @click="voteToSkip">Vote To Skip(0)</v-btn> -->
+      <v-btn outlined color="legendary_mint" @click="skipVideo">Skip Video</v-btn>
     </div>
   </div>
 </template>
@@ -172,7 +172,7 @@ export default {
       ret += "" + secs;
       return ret;
     },
-    voteToSkip() {
+    skipVideo() {
       if (!this.$auth.loggedIn) {
         this.notificationAdd({
           type: "info",
@@ -185,12 +185,18 @@ export default {
         userID: this.$auth.user.id,
         roomID: this.room.id
       };
-      VideoService.voteToSkip(payload)
+      VideoService.skipVideo(payload)
         .then(result => {
-          console.log(result);
+          this.notificationAdd({
+            type: "success",
+            message: result.data.message
+          });
         })
         .catch(error => {
-          console.error(error);
+          this.notificationAdd({
+            type: "info",
+            message: error.data.message
+          });
         });
     },
     playNextVideo(newVideo) {

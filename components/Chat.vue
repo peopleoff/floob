@@ -10,14 +10,12 @@
         <v-icon>mdi-account-group</v-icon>
       </v-btn>
     </div>
-    <div class="chat-toolbar">
+    <div class="chat-toolbar pa-1">
       <a
         href="https://forms.gle/Ye2Zk8wZLkf9F7zD8"
         target="_blank"
         rel="noreferrer"
       >Feedback</a>
-      <div>|</div>
-      <a href="Help">Help</a>
     </div>
     <div id="message-window" class="flex-grow-1 py-3">
       <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
@@ -170,10 +168,8 @@ export default {
 }
 
 .chat-toolbar {
-  display: grid;
-  grid-template-columns: 1fr 1em 1fr;
-  gap: 1px 1px;
-  grid-template-areas: ". . .";
+  display: flex;
+    justify-content: center;
 }
 
 .chat-toolbar > a:first-child {

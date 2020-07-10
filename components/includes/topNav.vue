@@ -2,12 +2,12 @@
   <v-app-bar flat fixed hide-on-scroll color="transparent">
     <nuxt-link to="/" tag="img" :src="require('@/assets/images/logo.svg')" class="logo"></nuxt-link>
     <v-spacer></v-spacer>
-    <p class="ma-0" v-if="room">
+    <p class="ma-0 pointer" @click="toggleShareModal" v-if="room">
       Room Code: {{room.roomUUID}}
-      <v-icon @click="toggleShareModal">mdi-share</v-icon>
+      <v-icon>mdi-share</v-icon>
     </p>
     <v-spacer></v-spacer>
-    <v-btn outlined color="legendary_mint" class="mx-3" @click="toggleJoinModal">Join a Room</v-btn>
+    <v-btn outlined color="legendary_mint" class="mx-3" @click="toggleJoinModal" v-if="room">Join a Room</v-btn>
     <v-btn @click="toggleLoginModal" v-if="!$auth.loggedIn">Sign In</v-btn>
     <v-menu offset-y open-on-hover v-else transition="scale-transition">
       <template v-slot:activator="{ on }">
