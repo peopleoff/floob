@@ -6,9 +6,6 @@
           ref="plyr"
           @ended="endedEvent"
           @ready="readyEvent"
-          @play="togglePlayingEvent"
-          @pause="togglePlayingEvent"
-          @ratechange="rateChangeEvent"
         >
           <div class="plyr__video-embed">
             <iframe
