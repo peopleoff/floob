@@ -1,5 +1,5 @@
 <template>
-  <v-footer height="64px">
+  <v-footer color="#1e142d">
     <a href="https://www.patreon.com/bePatron?u=27400212">
       <img :src="require('@/assets/images/patron_logo.png')" alt />
     </a>

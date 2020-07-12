@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <h1>Terms of Service</h1>
+    <h1 class="text-h1">Terms of Service</h1>
     <p class="caption font-weight-light font-italic">last updated 11/11/2019</p>
     <section>
-      <h3>Agreement To Terms</h3>
+      <h4 class="text-h4">Agreement To Terms</h4>
       <div>
         <p>
           These Terms of Use constitute a legally binding agreement made between
@@ -52,7 +52,7 @@
       </div>
     </section>
     <section>
-      <h3>Intellectual Property Rights</h3>
+      <h4 class="text-h4">Intellectual Property Rights</h4>
       <div>
         <p>
           Unless otherwise indicated, the Site is our proprietary property and
@@ -82,7 +82,7 @@
       </div>
     </section>
     <section>
-      <h3>User Representations</h3>
+      <h4 class="text-h4">User Representations</h4>
       <div>
         <p>
           By using the Site, you represent and warrant that: (1) all
@@ -115,7 +115,7 @@
       </div>
     </section>
     <section>
-      <h3>User Registration</h3>
+      <h4 class="text-h4">User Registration</h4>
       <div>
         <p>
           You may be required to register with the Site. You agree to keep your
@@ -128,7 +128,7 @@
       </div>
     </section>
     <section>
-      <h3>Prohibited Activities</h3>
+      <h4 class="text-h4">Prohibited Activities</h4>
       <div>
         <p>
           You may not access or use the Site for any purpose other than that for
@@ -155,9 +155,7 @@
               Use a buying agent or purchasing agent to make purchases on the
               Site.
             </li>
-            <li>
-              Use the Site to advertise or offer to sell goods and services.
-            </li>
+            <li>Use the Site to advertise or offer to sell goods and services.</li>
             <li>
               Circumvent, disable, or otherwise interfere with security-related
               features of the Site, including features that prevent or restrict
@@ -255,7 +253,7 @@
       </div>
     </section>
     <section>
-      <h3>User Generated Contributions</h3>
+      <h4 class="text-h4">User Generated Contributions</h4>
       <div>
         <p>
           The Site may invite you to chat, contribute to, or participate in
@@ -295,9 +293,7 @@
               Contributions in any manner contemplated by the Site and these
               Terms of Use.
             </li>
-            <li>
-              Your Contributions are not false, inaccurate, or misleading.
-            </li>
+            <li>Your Contributions are not false, inaccurate, or misleading.</li>
             <li>
               Your Contributions are not unsolicited or unauthorized
               advertising, promotional materials, pyramid schemes, chain
@@ -345,15 +341,14 @@
               that violates, any provision of these Terms of Use, or any
               applicable law or regulation.
             </li>
-          </ul>
-          Any use of the Site in violation of the foregoing violates these Terms
+          </ul>Any use of the Site in violation of the foregoing violates these Terms
           of Use and may result in, among other things, termination or
           suspension of your rights to use the Site.
         </div>
       </div>
     </section>
     <section>
-      <h3>Contribution License</h3>
+      <h4 class="text-h4">Contribution License</h4>
       <div>
         <p>
           By posting your Contributions to any part of the Site or making
@@ -402,7 +397,7 @@
       </div>
     </section>
     <section>
-      <h3>Guidelines For Reviews</h3>
+      <h4 class="text-h4">Guidelines For Reviews</h4>
       <div>
         <p>
           We may provide you areas on the Site to leave reviews or ratings. When
@@ -435,11 +430,9 @@
       </div>
     </section>
     <section>
-      <h3>Mobile Application License</h3>
+      <h4 class="text-h4">Mobile Application License</h4>
       <div>
-        <p class="subtitle-1">
-          Use License
-        </p>
+        <p class="subtitle-1">Use License</p>
         <p>
           If you access the Site via a mobile application, then we grant you a
           revocable, non-exclusive, non-transferable, limited right to install
@@ -468,9 +461,7 @@
           licensing, or distribution of any applications, accessories, or
           devices for use with the application.
         </p>
-        <p class="subtitle-1">
-          Apple and Android Devices
-        </p>
+        <p class="subtitle-1">Apple and Android Devices</p>
         <p>
           The following terms apply when you use a mobile application obtained
           from either the Apple Store or Google Play (each an “App Distributor”)
@@ -511,7 +502,7 @@
       </div>
     </section>
     <section>
-      <h3>Social Media</h3>
+      <h4 class="text-h4">Social Media</h4>
       <div>
         <p>
           As part of the functionality of the Site, you may link your account
@@ -564,7 +555,7 @@
       </div>
     </section>
     <section>
-      <h3>Submissions</h3>
+      <h4 class="text-h4">Submissions</h4>
       <div>
         <p>
           You acknowledge and agree that any questions, comments, suggestions,
@@ -584,7 +575,7 @@
       </div>
     </section>
     <section>
-      <h3>Third-Party Websites and Content</h3>
+      <h4 class="text-h4">Third-Party Websites and Content</h4>
       <div>
         <p>
           The Site may contain (or you may be sent via the Site) links to other
@@ -622,7 +613,7 @@
       </div>
     </section>
     <section>
-      <h3>Advertisers</h3>
+      <h4 class="text-h4">Advertisers</h4>
       <div>
         <p>
           We allow advertisers to display their advertisements and other
@@ -640,7 +631,7 @@
       </div>
     </section>
     <section>
-      <h3>Site Management</h3>
+      <h4 class="text-h4">Site Management</h4>
       <div>
         <p>
           We reserve the right, but not the obligation, to: (1) monitor the Site
@@ -660,7 +651,7 @@
       </div>
     </section>
     <section>
-      <h3>Privacy Policy</h3>
+      <h4 class="text-h4">Privacy Policy</h4>
       <div>
         <p>
           We care about data privacy and security. Please review our Privacy
@@ -684,7 +675,7 @@
       </div>
     </section>
     <section>
-      <h3>Copyright Infringements</h3>
+      <h4 class="text-h4">Copyright Infringements</h4>
       <div>
         <p>
           We respect the intellectual property rights of others. If you believe
@@ -701,7 +692,7 @@
       </div>
     </section>
     <section>
-      <h3>Term and Termination</h3>
+      <h4 class="text-h4">Term and Termination</h4>
       <div>
         <p>
           These Terms of Use shall remain in full force and effect while you use
@@ -728,7 +719,7 @@
       </div>
     </section>
     <section>
-      <h3>MODIFICATIONS AND INTERRUPTIONS</h3>
+      <h4 class="text-h4">MODIFICATIONS AND INTERRUPTIONS</h4>
       <div>
         <p>
           We reserve the right to change, modify, or remove the contents of the
@@ -755,7 +746,7 @@
       </div>
     </section>
     <section>
-      <h3>GOVERNING LAW</h3>
+      <h4 class="text-h4">GOVERNING LAW</h4>
       <div>
         <p>
           These Terms of Use and your use of the Site are governed by and
@@ -766,7 +757,7 @@
       </div>
     </section>
     <section>
-      <h3>DISPUTE RESOLUTION</h3>
+      <h4 class="text-h4">DISPUTE RESOLUTION</h4>
       <div>
         <p class="subtitle-1">Informal Negotiations</p>
         <p>
@@ -839,9 +830,7 @@
           purported representative capacity on behalf of the general public or
           any other persons.
         </p>
-        <p class="subtitle-1">
-          Exceptions to Informal Negotiations and Arbitration
-        </p>
+        <p class="subtitle-1">Exceptions to Informal Negotiations and Arbitration</p>
         <p>
           The Parties agree that the following Disputes are not subject to the
           above provisions concerning informal negotiations and binding
@@ -860,7 +849,7 @@
       </div>
     </section>
     <section>
-      <h3>CORRECTIONS</h3>
+      <h4 class="text-h4">CORRECTIONS</h4>
       <div>
         <p>
           There may be information on the Site that contains typographical
@@ -872,7 +861,7 @@
       </div>
     </section>
     <section>
-      <h3>DISCLAIMER</h3>
+      <h4 class="text-h4">DISCLAIMER</h4>
       <div>
         <p>
           THE SITE IS PROVIDED ON AN AS-IS AND AS-AVAILABLE BASIS. YOU AGREE
@@ -908,7 +897,7 @@
       </div>
     </section>
     <section>
-      <h3>LIMITATIONS OF LIABILITY</h3>
+      <h4 class="text-h4">LIMITATIONS OF LIABILITY</h4>
       <div>
         <p>
           IN NO EVENT WILL WE OR OUR DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE
@@ -921,7 +910,7 @@
       </div>
     </section>
     <section>
-      <h3>INDEMNIFICATION</h3>
+      <h4 class="text-h4">INDEMNIFICATION</h4>
       <div>
         <p>
           You agree to defend, indemnify, and hold us harmless, including our
@@ -945,7 +934,7 @@
       </div>
     </section>
     <section>
-      <h3>USER DATA</h3>
+      <h4 class="text-h4">USER DATA</h4>
       <div>
         <p>
           We will maintain certain data that you transmit to the Site for the
@@ -960,7 +949,7 @@
       </div>
     </section>
     <section>
-      <h3>ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</h3>
+      <h4 class="text-h4">ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</h4>
       <div>
         <p>
           Visiting the Site, sending us emails, and completing online forms
@@ -981,7 +970,7 @@
       </div>
     </section>
     <section>
-      <h3>MISCELLANEOUS</h3>
+      <h4 class="text-h4">MISCELLANEOUS</h4>
       <div>
         <p>
           These Terms of Use and any policies or operating rules posted by us on
@@ -1008,7 +997,7 @@
       </div>
     </section>
     <section>
-      <h3>Entire Agreement</h3>
+      <h4 class="text-h4">Entire Agreement</h4>
       <div>
         <p>
           These Terms constitute the entire agreement between Floob and you in
@@ -1018,7 +1007,7 @@
       </div>
     </section>
     <section>
-      <h3>Severability</h3>
+      <h4 class="text-h4">Severability</h4>
       <div>
         <p>
           If any provision of these Terms is found to be unenforceable or
@@ -1030,23 +1019,17 @@
       </div>
     </section>
     <section>
-      <h3>CONTACT US</h3>
+      <h4 class="text-h4">CONTACT US</h4>
       <div>
         <p>
           In order to resolve a complaint regarding the Site or to receive
           further information regarding the use of the Site, please contact us
           at
         </p>
+        <p>Floob</p>
+        <p>United States</p>
         <p>
-          Floob
-        </p>
-        <p>
-          United States
-        </p>
-        <p>
-          <a href="mailto:Support@floob.gg?subject=Terms Of Service Concern"
-            >Support@Floob.gg</a
-          >
+          <a href="mailto:Support@floob.gg?subject=Terms Of Service Concern">Support@Floob.gg</a>
         </p>
       </div>
     </section>
@@ -1055,25 +1038,41 @@
 
 <script>
 export default {
-  name: 'terms_of_service',
+    head () {
+    return {
+      title: "Floob - Terms of Service"
+    }
+  },
+  name: "terms_of_service",
   data() {
-    return {}
+    return {};
   },
   methods: {
     formatString(string) {
-      return '#' + string.replace(/ /g, '_').toLowerCase()
+      return "#" + string.replace(/ /g, "_").toLowerCase();
     }
   }
-}
+};
 </script>
 
 <style scoped>
+.container {
+  padding-top: 100px;
+    max-width: 900px;
+}
+
 p {
   font-size: 12px;
 }
 section {
   border-top: 1px solid #00bcd4;
 }
+
+section > h4{
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
 .in-short {
   font-weight: 900;
 }

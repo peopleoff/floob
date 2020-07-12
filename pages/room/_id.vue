@@ -1,12 +1,12 @@
 <template>
-  <v-container fluid class="pt-12">
+  <v-container class="pt-12">
     <v-row>
       <v-col id="video-section">
         <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
         <VideoPlayer v-if="nextVideo" :video="nextVideo" :key="nextVideo.id" @ended="ended" />
         <v-sheet v-else height="615px" id="video-size"></v-sheet>
       </v-col>
-      <v-col :class="chatSize">
+      <v-col cols="12" md="3" :class="chatSize">
         <Chat @toggleChat="toggleChat" />
       </v-col>
     </v-row>
@@ -57,7 +57,6 @@ export default {
   },
   sockets: {
     getVideos: function(payload) {
-      console.log(payload);
       this.allVideos = payload;
     }
   },
@@ -106,9 +105,9 @@ export default {
     }),
     chatSize: function() {
       if (this.showChat) {
-        return "col-sm-12 col-md-3 pl-0";
+        return "pl-md-0";
       } else {
-        return "d-none pl-0";
+        return "d-none pl-md-0";
       }
     },
     nextVideo() {

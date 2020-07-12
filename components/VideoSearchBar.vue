@@ -22,15 +22,16 @@
     </v-menu>
     <div ref="searchInput" class="flex-grow-1">
       <v-text-field
-        class="rounded-lg"
+        flat
         hide-details
         outlined
-        prepend-inner-icon="mdi-magnify"
         :label="'Search or Add ' + searchPlatform.name + ' Link'"
-        width="50"
+        prepend-inner-icon="mdi-magnify"
+        full-width
         clearable
         :loading="loading"
         color="legendary_mint"
+        class="rounded-lg"
         @input="searchVideos"
         @keydown.enter="addVideoLink"
         v-model="searchCriteria"
@@ -43,7 +44,7 @@
         :width="searchResultWidth"
         three-line
       >
-        <v-list-item v-for="result in searchResult" :key="result.src">
+        <v-list-item v-for="result in searchResult" :key="result.src" @click="addSearchedVideo(result)" class="search-list-items">
           <v-list-item-avatar tile size="60">
             <v-img :src="result.image"></v-img>
           </v-list-item-avatar>
@@ -54,11 +55,11 @@
             <v-list-item-subtitle>{{ result.publishTime | moment("from", "now", true) }} ago</v-list-item-subtitle>
           </v-list-item-content>
 
-          <v-list-item-action>
+          <!-- <v-list-item-action>
             <v-btn icon @click="addSearchedVideo(result)">
               <v-icon color="success lighten-1">mdi-plus</v-icon>
             </v-btn>
-          </v-list-item-action>
+          </v-list-item-action> -->
         </v-list-item>
       </v-list>
     </div>
@@ -286,5 +287,12 @@ export default {
   max-height: 85vh;
   position: absolute;
   z-index: 100;
+  background-color: #0f0816;
+  padding: 0;
+}
+
+.search-list-items:hover{
+  cursor: pointer;
+  background: #1e142d;
 }
 </style>

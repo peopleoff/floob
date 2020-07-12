@@ -11,6 +11,7 @@
         <v-text-field
           id="share-code"
           color="legendary_mint"
+          class="rounded-pill"
           onkeypress="return false;"
           :value="host + '/room/' + this.room.roomUUID"
           @click:append="ShareRoom"

@@ -1,8 +1,10 @@
 <template>
   <div v-if="notification">
-    <v-snackbar v-model="notification" :color="notification.type" top @input="this.remove">
+    <v-snackbar v-model="notification" :color="notification.type" top rounded="pill" @input="this.remove">
       {{ notification.message }}
-      <v-btn text @click="this.remove">Close</v-btn>
+      <template v-slot:action="{ attrs }">
+        <v-btn color="#1e142d" text v-bind="attrs" @click="remove">Close</v-btn>
+      </template>
     </v-snackbar>
   </div>
 </template>
@@ -22,4 +24,7 @@ export default {
 </script>
 
 <style>
+.v-snack__content{
+  color: #1e142d;
+}
 </style>

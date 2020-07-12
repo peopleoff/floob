@@ -9,6 +9,7 @@
           hint="Hint: xXxFearlessFuhrerxXx"
           v-model="user.username"
           :error-messages="usernameErrors"
+          color="legendary_mint"
           filled
           outlined
         ></v-text-field>
@@ -19,6 +20,7 @@
           hint="Hint: MaesHughes@floob.gg"
           v-model="user.email"
           :error-messages="emailErrors"
+          color="legendary_mint"
           filled
           outlined
         ></v-text-field>
@@ -30,6 +32,7 @@
           v-model="user.date_of_birth"
           v-mask="'##/##/####'"
           :error-messages="date_of_birthErrors"
+          color="legendary_mint"
           filled
           outlined
         ></v-text-field>
@@ -42,21 +45,25 @@
           v-model="user.password"
           :error-messages="passwordErrors"
           hint="Hint: YesThe$e@reFullMetalReference$!"
+          color="legendary_mint"
           filled
           outlined
         ></v-text-field>
         <p class="caption">
           By clicking Sign Up, you are indicating that you have read and
           acknowledge the
-          <a
-            href="TermsOfService"
-            target="_blank"
-          >Terms of Service</a> and
-          <a href="PrivacyPolicy" target="_blank">Privacy Notice</a>
+          <nuxt-link to="/terms_of_service">Terms of Service</nuxt-link>and
+          <nuxt-link to="/privacy_policy">Privacy Policy</nuxt-link>
         </p>
       </v-card-text>
       <v-card-actions>
-        <v-btn block color="primary" :loading="loading" @click="register">Register</v-btn>
+        <v-btn
+          block
+          color="kings_purple"
+          class="rounded-pill"
+          :loading="loading"
+          @click="register"
+        >Register</v-btn>
       </v-card-actions>
     </v-card>
   </v-form>
