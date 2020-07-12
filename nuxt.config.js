@@ -7,15 +7,14 @@ export default {
    ** Headers of the page
    */
   head: {
-    titleTemplate: "%s - " + process.env.npm_package_name,
-    title: process.env.npm_package_name || "",
+    title: "Floob",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || ""
+        content: "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!"
       }
     ],
     link: [
@@ -37,7 +36,8 @@ export default {
   css: [
     "normalize.css/normalize.css",
     "plyr/dist/plyr.css",
-    "~/assets/css/main.css"
+    "~/assets/css/plyr.css",
+    "~/assets/css/main.css",
   ],
   /*
    ** Plugins to load before mounting the App
@@ -49,6 +49,9 @@ export default {
     {
       src: "~plugins/tracking.js",
       mode: "client"
+    },
+    {
+      src: "~plugins/vueTyped.js"
     },
     {
       src: "~plugins/vuelidate.js"
@@ -144,11 +147,10 @@ export default {
       dark: true,
       themes: {
         dark: {
-          royal_flue: "#2f64EB",
+          royal_flue: "#9cbaef",
           kings_purple: "#634FD6",
           legendary_mint: "#00CCC2",
           just_purple: "#BB67F5",
-          more_than_blue: "#161663",
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

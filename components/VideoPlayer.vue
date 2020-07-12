@@ -1,6 +1,6 @@
 <template>
   <div id="video-size">
-    <section class="video-background">
+    <section class="video-background rounded-lg">
       <div id="video-wrapper">
         <vue-plyr
           ref="plyr"
@@ -10,7 +10,11 @@
           @pause="togglePlayingEvent"
           @ratechange="rateChangeEvent"
         >
-          <div :data-plyr-provider="formatProvider(video.provider)" :data-plyr-embed-id="video.src"></div>
+          <div class="plyr__video-embed">
+            <iframe
+              :src="formatSource(video.src, video.provider)"
+            ></iframe>
+          </div>
         </vue-plyr>
       </div>
     </section>
@@ -22,7 +26,7 @@
           <a :href="video.channelLink" target="_blank">{{video.channel}}</a>
         </div>
       </div>
-      <v-btn outlined color="legendary_mint" @click="skipVideo">Skip Video</v-btn>
+      <v-btn outlined color="royal_flue" class="rounded-lg" @click="skipVideo">Skip Video</v-btn>
     </div>
   </div>
 </template>
@@ -46,7 +50,7 @@ export default {
       if (playerID !== payload.playerID) {
         this.player.currentTime = newTime;
       }
-    },
+    }
     // playVideo: function(payload) {
     //   console.log(this.player);
     //   console.log(payload);
@@ -75,13 +79,13 @@ export default {
     //   //   this.player.play();
     //   // }
     // },
-    playSpeed: function(payload) {
-      let playerID = this.player.id;
-      let eventPlayerID = payload.playerID;
-      if (playerID !== eventPlayerID) {
-        this.player.speed = payload.speed;
-      }
-    }
+    // playSpeed: function(payload) {
+    //   let playerID = this.player.id;
+    //   let eventPlayerID = payload.playerID;
+    //   if (playerID !== eventPlayerID) {
+    //     this.player.speed = payload.speed;
+    //   }
+    // }
   },
   methods: {
     ...mapActions({
@@ -156,6 +160,27 @@ export default {
     },
     endedEvent(event) {
       this.$emit("ended", this.video);
+    },
+    formatSource(videoID, videoProvider) {
+      switch (parseInt(videoProvider)) {
+        case 1:
+          return (
+            "https://www.youtube.com/embed/" +
+            videoID +
+            "?iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1"
+          );
+          break;
+        case 2:
+          return (
+            "https://player.vimeo.com/video/" +
+            videoID +
+            "?loop=false&byline=false&portrait=false&title=false&speed=true&transparent=0&gesture=media"
+          );
+          break;
+        default:
+          return videoID;
+          break;
+      }
     },
     formatTime(time) {
       // Hours, minutes and seconds

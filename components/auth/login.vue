@@ -9,6 +9,7 @@
           v-model="user.username"
           :error-messages="usernameErrors"
           hint="Hint: CrowbarKiller"
+          color="legendary_mint"
           filled
           outlined
         ></v-text-field>
@@ -19,13 +20,14 @@
           v-model="user.password"
           :error-messages="passwordErrors"
           hint="Hint: BlackMesaScientist"
+          color="legendary_mint"
           filled
           outlined
         ></v-text-field>
         <nuxt-link to="/user/reset">Forgot Password?</nuxt-link>
       </v-card-text>
       <v-card-actions>
-        <v-btn block color="primary" @click="signIn()" :loading="loading">Login</v-btn>
+        <v-btn block color="kings_purple" class="rounded-pill" @click="signIn()" :loading="loading">Login</v-btn>
       </v-card-actions>
     </v-card>
   </v-form>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-tabs v-model="tab">
+    <v-tabs v-model="tab" color="legendary_mint" grow>
       <v-tab>Login</v-tab>
       <v-tab>Sign-Up</v-tab>
     </v-tabs>

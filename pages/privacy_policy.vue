@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Privacy Policy</h1>
+    <h1 class="text-h1">Privacy Policy</h1>
     <p class="caption font-weight-light font-italic">last updated 11/11/2019</p>
     <p>
       Thank you for choosing to be part of our community at Floob (“Company”,
@@ -87,7 +87,7 @@
       </li>
     </ol>
     <section id="what_information_do_we_collect">
-      <h3>What Information Do We Collect?</h3>
+      <h4 class="text-h4">What Information Do We Collect?</h4>
       <div>
         <p class="title">Personal information you disclose to us</p>
         <p class="subtitle-1 font-weight-light font-italic">
@@ -146,7 +146,7 @@
       </div>
     </section>
     <section id="will_your_information_be_shared_with_anyone">
-      <h3>Will Your Information Be Shared With Anyone?</h3>
+      <h4 class="text-h4">Will Your Information Be Shared With Anyone?</h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> We only share information
@@ -248,7 +248,7 @@
       </div>
     </section>
     <section id="do_we_use_cookies_and_other_tracking_technologies">
-      <h3>Do We Use Cookies And Other Tracking Technologies?</h3>
+      <h4 class="text-h4">Do We Use Cookies And Other Tracking Technologies?</h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> We may use cookies and other
@@ -263,7 +263,7 @@
       </div>
     </section>
     <section id="is_your_information_transferred_internationally">
-      <h3>Is Your Information Transferred Internationally?</h3>
+      <h4 class="text-h4">Is Your Information Transferred Internationally?</h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> We may transfer, store, and
@@ -286,7 +286,7 @@
       </div>
     </section>
     <section id="what_is_our_stance_on_third">
-      <h3>What Is Our Stance On Third-party Websites?</h3>
+      <h4 class="text-h4">What Is Our Stance On Third-party Websites?</h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> We are not responsible for
@@ -308,7 +308,7 @@
       </div>
     </section>
     <section id="how_long_do_we_keep_your_information">
-      <h3>How Long Do We Keep Your Information?</h3>
+      <h4 class="text-h4">How Long Do We Keep Your Information?</h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> We keep your information for
@@ -334,7 +334,7 @@
       </div>
     </section>
     <section id="do_we_collect_information_from_minors">
-      <h3>Do We Collect Information From Minors?</h3>
+      <h4 class="text-h4">Do We Collect Information From Minors?</h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> We do not knowingly collect
@@ -358,7 +358,7 @@
       </div>
     </section>
     <section id="what_are_your_privacy_rights">
-      <h3>What Are Your Privacy Rights?</h3>
+      <h4 class="text-h4">What Are Your Privacy Rights?</h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> You may review, change, or
@@ -379,7 +379,7 @@
       </div>
     </section>
     <section id="controls_for_do-not-track_features">
-      <h3>Controls For Do-not-track Features</h3>
+      <h4 class="text-h4">Controls For Do-not-track Features</h4>
       <div>
         <p>
           Most web browsers and some mobile operating systems and mobile
@@ -396,7 +396,7 @@
       </div>
     </section>
     <section id="do_california_residents_have_specific_privacy_rights">
-      <h3>Do California Residents Have Specific Privacy Rights?</h3>
+      <h4 class="text-h4">Do California Residents Have Specific Privacy Rights?</h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> Yes, if you are a resident
@@ -426,7 +426,7 @@
       </div>
     </section>
     <section id="do_we_make_updates_to_this_policy">
-      <h3>Do We Make Updates To This Policy?</h3>
+      <h4 class="text-h4">Do We Make Updates To This Policy?</h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> Yes, we will update this
@@ -444,7 +444,7 @@
       </div>
     </section>
     <section id="how_can_you_contact_us_about_this_policy">
-      <h3>How Can You Contact Us About This Policy?</h3>
+      <h4 class="text-h4">How Can You Contact Us About This Policy?</h4>
       <div>
         <p>
           If you have questions or comments about this policy, you may email us
@@ -485,12 +485,23 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  padding-top: 100px;
+  max-width: 900px;
+}
+
 p {
   font-size: 12px;
 }
 section {
   border-top: 1px solid #00bcd4;
 }
+
+section > h4{
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
 .in-short {
   font-weight: 900;
 }

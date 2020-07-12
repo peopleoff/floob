@@ -2,6 +2,28 @@
   <v-dialog v-model="showJoinModal" @click:outside="toggleJoinModal" max-width="600px">
     <v-form @keyup.native.enter="joinRoom">
       <v-card>
+        <v-card-title>
+          Join a room
+          <v-spacer></v-spacer>
+          <v-icon @click="toggleJoinModal">mdi-close</v-icon>
+        </v-card-title>
+        <v-card-text>
+          <v-text-field
+            v-model="roomCode"
+            label="Room Code"
+            required
+            filled
+            outlined
+            :error-messages="roomCodeErrors"
+            color="legendary_mint"
+          ></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="joinRoom" color="kings_purple" :loading="loading">Join Room</v-btn>
+        </v-card-actions>
+      </v-card>
+      <!-- <v-card>
         <v-toolbar>
           <v-toolbar-title>Join a room</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -11,14 +33,17 @@
             v-model="roomCode"
             label="Room Code"
             required
+            filled
+            outlined
             :error-messages="roomCodeErrors"
+            color="legendary_mint"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="joinRoom" :loading="loading">Join Room</v-btn>
+          <v-btn @click="joinRoom" color="kings_purple" :loading="loading">Join Room</v-btn>
         </v-card-actions>
-      </v-card>
+      </v-card>-->
     </v-form>
   </v-dialog>
 </template>
