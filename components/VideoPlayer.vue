@@ -6,6 +6,8 @@
           ref="plyr"
           @ended="endedEvent"
           @ready="readyEvent"
+          @play="togglePlayingEvent"
+          @pause="togglePlayingEvent"
         >
           <div class="plyr__video-embed">
             <iframe
