@@ -2,11 +2,7 @@
   <v-app-bar flat fixed hide-on-scroll color="transparent">
     <nuxt-link to="/" tag="img" :src="require('@/assets/images/logo.svg')" class="logo"></nuxt-link>
     <v-spacer></v-spacer>
-    <div class="ma-0 pointer" @click="copyRoomCode(room.roomUUID)" v-if="room">
-      <span class="hidden-sm-and-down">Room Code: {{room.roomUUID}}</span>
-      <span class="hidden-md-and-up">Share Room</span>
-      <v-icon>mdi-content-copy</v-icon>
-    </div>
+    <RoomShare />
     <v-spacer></v-spacer>
     <v-btn
       outlined
@@ -37,27 +33,17 @@
 </template>
 
 <script>
+import RoomShare from '@/components/RoomShare'
 import { mapActions, mapState } from "vuex";
 export default {
+  components: {
+    RoomShare
+  },
   methods: {
     ...mapActions({
       toggleLoginModal: "modal/toggleLoginModal",
       toggleJoinModal: "modal/toggleJoinModal",
-      toggleShareModal: "modal/toggleShareModal",
-      notificationAdd: "notification/add"
     }),
-    copyRoomCode(text) {
-      var dummy = document.createElement("textarea");
-      document.body.appendChild(dummy);
-      dummy.value = location.host + "/room/" + text;
-      dummy.select();
-      document.execCommand("copy");
-      document.body.removeChild(dummy);
-      this.notificationAdd({
-        type: "success",
-        message: "Link Copied!"
-      });
-    }
   },
   computed: {
     ...mapState({

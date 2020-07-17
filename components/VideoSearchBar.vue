@@ -1,6 +1,6 @@
 <template>
   <section class="d-flex align-center pb-3" v-click-outside="clearInput">
-    <v-menu offset-y>
+    <!-- <v-menu offset-y>
       <template v-slot:activator="{ on }">
         <div v-on="on">
           <v-icon>{{searchPlatform.icon}}</v-icon>
@@ -19,7 +19,7 @@
           </v-list-item-title>
         </v-list-item>
       </v-list>
-    </v-menu>
+    </v-menu>-->
     <div ref="searchInput" class="flex-grow-1">
       <v-text-field
         flat
@@ -35,7 +35,20 @@
         @input="searchVideos"
         @keydown.enter="addVideoLink"
         v-model="searchCriteria"
-      ></v-text-field>
+      >
+        <template slot="append">
+          <v-icon
+            class="px-2 pointer"
+            :class="youtubeActive"
+            @click="changeSearchPlatform(1)"
+          >mdi-youtube</v-icon>
+          <v-icon
+            class="px-2 pointer"
+            :class="vimeoActive"
+            @click="changeSearchPlatform(2)"
+          >mdi-vimeo</v-icon>
+        </template>
+      </v-text-field>
 
       <v-list
         id="searchResults"
@@ -100,6 +113,9 @@ export default {
       notificationAdd: "notification/add",
       toggleLoginModal: "modal/toggleLoginModal"
     }),
+    alert(text) {
+      alert(text);
+    },
     searchVideos: _.debounce(function() {
       if (!this.searchCriteria) {
         return;
@@ -272,6 +288,16 @@ export default {
     ...mapState({
       room: state => state.room.room
     }),
+    youtubeActive: function() {
+      return {
+        "grey--text": this.searchPlatform.id !== 1
+      };
+    },
+    vimeoActive: function() {
+      return {
+        "grey--text": this.searchPlatform.id !== 2
+      };
+    },
     clearResults: function() {
       if (this.searchResult) {
         return true;

@@ -1321,7 +1321,10 @@ function initialState() {
       "https://media.giphy.com/media/xUPGcIJKL7XnQSW2vC/giphy.mp4",
       "https://media.giphy.com/media/TnMLyexfHe9lC/giphy.mp4",
       "https://media.giphy.com/media/GcSqyYa2aF8dy/giphy.mp4"
-    ]
+    ],
+    interval: null,
+    showTimeout: null,
+    deleteTimeout: null
   };
 }
 export default {
@@ -1330,37 +1333,46 @@ export default {
   },
   methods: {
     getGif() {
-      if(this.gifs.length == 0){
-         Object.assign(this.$data, initialState());
+      if (this.gifs.length == 0) {
+        Object.assign(this.$data, initialState());
       }
       let nextGifIndex = Math.floor(Math.random() * this.gifs.length);
       let nextGif = this.gifs[nextGifIndex];
       this.gifs.splice(nextGifIndex, 1);
       return nextGif;
     },
-    startGif() {
-      setTimeout(() => {
-        let iframe = document.createElement("video");
-        iframe.src = this.getGif();
-        iframe.autoplay = true;
-        iframe.loop = true;
-        iframe.style.height = "100%";
-        iframe.style.width = "100%";
-        document.querySelector("#gif-container").appendChild(iframe);
-      }, 2000);
-      setTimeout(() => {
-        document
-          .querySelector("#gif-container")
-          .removeChild(document.querySelector("#gif-container").childNodes[0]);
-      }, 9000);
-    },
-    endGif() {}
+    loopGif() {
+      if (this.interval) {
+        this.showTimeout = setTimeout(() => {
+          let video = document.createElement("video");
+          video.src = this.getGif();
+          video.autoplay = true;
+          video.loop = true;
+          video.style.height = "100%";
+          video.style.width = "100%";
+          document.querySelector("#gif-container").appendChild(video);
+        }, 2000);
+        this.deleteTimeout = setTimeout(() => {
+          document
+            .querySelector("#gif-container")
+            .removeChild(
+              document.querySelector("#gif-container").childNodes[0]
+            );
+        }, 9000);
+      }
+    }
   },
   mounted() {
-    this.startGif();
-    setInterval(() => {
-      this.startGif();
+    this.interval = setInterval(() => {
+      this.loopGif();
     }, 10000);
+    this.loopGif();
+  },
+
+  beforeDestroy() {
+    clearInterval(this.interval);
+    clearTimeout(this.showTimeout);
+    clearTimeout(this.deleteTimeout);
   }
 };
 </script>
