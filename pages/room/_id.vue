@@ -4,9 +4,9 @@
       <v-col id="video-section">
         <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
         <VideoPlayer v-if="nextVideo" :video="nextVideo" :key="nextVideo.id" @ended="ended" />
-        <v-sheet v-else height="615px" id="video-size">
-              <object type="image/svg+xml" :data="require('~/assets/images/pleasework.svg')">
-                <img :src="require('~/assets/images/pleasework.svg')" />
+        <v-sheet v-else id="video-size">
+              <object type="image/svg+xml" :data="require('~/assets/images/likethisornah.svg')">
+                <img :src="require('~/assets/images/likethisornah.svg')" />
               </object>
         </v-sheet>
       </v-col>

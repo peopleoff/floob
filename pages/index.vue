@@ -13,8 +13,8 @@
               <vue-typed-js
                 :strings="['Raid Guides', 'AMVs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Lets Plays', 'Trendy Videos&nbsp;&nbsp;' ]"
                 loop
-                :typeSpeed="100"
-                :backSpeed="100"
+                :typeSpeed="50"
+                :backSpeed="50"
                 :backDelay="3000"
                 :startDelay="1000"
                 :contentType="'html'"
@@ -28,8 +28,8 @@
               <vue-typed-js
                 :strings="['Guild.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Body Pillow.', 'Friends.&nbsp;&nbsp;', 'Discord Server.' ]"
                 loop
-                :typeSpeed="100"
-                :backSpeed="100"
+                :typeSpeed="50"
+                :backSpeed="50"
                 :backDelay="3000"
                 :startDelay="1000"
                 :contentType="'html'"
@@ -58,7 +58,7 @@
                   height="50"
                   block
                   color="kings_purple"
-                  class="rounded-pill"
+                  class="rounded-pill white--text"
                   nuxt
                   :to="'/room/' + $auth.user.room"
                   :loading="loading"
@@ -88,14 +88,10 @@
             </v-row>
           </v-col>
           <v-col cols="12" md="6" class="d-none d-md-block z-5">
-            <div>
-              <object type="image/svg+xml" :data="require('~/assets/images/share.svg')">
-                <img :src="require('~/assets/images/share.svg')" />
-              </object>
-            </div>
+            <herosvg />
           </v-col>
         </v-row>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="wave">
           <path
             fill="#432b5e"
             fill-opacity="1"
@@ -111,8 +107,12 @@
 <script>
 import { mapActions } from "vuex";
 import RoomService from "@/services/RoomService";
+import herosvg from "@/components/index/hero_svg";
 
 export default {
+  components: {
+    herosvg
+  },
   data() {
     return {
       loading: false
@@ -126,7 +126,7 @@ export default {
     createRoom() {
       //If user is not logged in redirect to login page
       if (!this.$auth.loggedIn) {
-        this.toggleLoginModal();
+        this.toggleLoginModal("createRoom");
       } else {
         this.loading = true;
         RoomService.register({
@@ -143,6 +143,11 @@ export default {
           });
       }
     }
+  },
+  mounted() {
+    this.$nuxt.$on("createRoom", () => {
+      this.createRoom();
+    });
   }
 };
 </script>
@@ -172,7 +177,7 @@ export default {
   position: relative;
 }
 
-#hero svg {
+#hero .wave {
   position: absolute;
   bottom: 0;
   width: 100%;

@@ -27,14 +27,20 @@
         <nuxt-link to="/user/reset">Forgot Password?</nuxt-link>
       </v-card-text>
       <v-card-actions>
-        <v-btn block color="kings_purple" class="rounded-pill" @click="signIn()" :loading="loading">Login</v-btn>
+        <v-btn
+          block
+          color="kings_purple"
+          class="rounded-pill"
+          @click="signIn()"
+          :loading="loading"
+        >Login</v-btn>
       </v-card-actions>
     </v-card>
   </v-form>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { required, username, minLength } from "vuelidate/lib/validators";
 
 export default {
@@ -70,13 +76,14 @@ export default {
         this.user = {
           username: "",
           password: ""
-        }
+        };
+        console.log(this.previousAction);
+        this.$nuxt.$emit(this.previousAction)
         this.toggleLoginModal();
         this.notificationAdd({
           type: "success",
           message: "Logged In"
         });
-
       } catch (error) {
         this.loading = false;
         this.notificationAdd({
@@ -99,6 +106,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      previousAction: state => state.modal.previousAction
+    }),
     usernameErrors() {
       const errors = [];
       if (!this.$v.user.username.$dirty) {
