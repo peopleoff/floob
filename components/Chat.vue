@@ -122,14 +122,14 @@ export default {
       }
     },
     resizeChat() {
-      if (process.browser) {
-        let videoHeight = document.querySelector("#video-size");
-        let chatWindow = document.querySelector("#chat-window");
-        if (videoHeight) {
-          let newHeight = videoHeight.offsetHeight - 15 + "px";
-          chatWindow.style.height = newHeight;
-        }
-      }
+      // if (process.browser) {
+      //   let videoHeight = document.querySelector("#video-size");
+      //   let chatWindow = document.querySelector("#chat-window");
+      //   if (videoHeight) {
+      //     let newHeight = videoHeight.offsetHeight - 15 + "px";
+      //     chatWindow.style.height = newHeight;
+      //   }
+      // }
     },
     toggleChat() {
       this.$emit("toggleChat");
@@ -151,7 +151,7 @@ export default {
 #chat-window {
   background: #1e142d;
   border-radius: 8px;
-  height: 80vh;
+  height: 600px;
 }
 #message-window div {
   word-break: break-word;

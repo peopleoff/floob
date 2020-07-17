@@ -44,7 +44,12 @@
         :width="searchResultWidth"
         three-line
       >
-        <v-list-item v-for="result in searchResult" :key="result.src" @click="addSearchedVideo(result)" class="search-list-items">
+        <v-list-item
+          v-for="result in searchResult"
+          :key="result.src"
+          @click="addSearchedVideo(result)"
+          class="search-list-items"
+        >
           <v-list-item-avatar tile size="60">
             <v-img :src="result.image"></v-img>
           </v-list-item-avatar>
@@ -59,7 +64,7 @@
             <v-btn icon @click="addSearchedVideo(result)">
               <v-icon color="success lighten-1">mdi-plus</v-icon>
             </v-btn>
-          </v-list-item-action> -->
+          </v-list-item-action>-->
         </v-list-item>
       </v-list>
     </div>
@@ -221,6 +226,19 @@ export default {
           break;
         case 2:
           console.log("Added vimeo video");
+          VideoService.postVideo(video)
+            .then(result => {
+              this.notificationAdd({
+                type: "success",
+                message: "Video Added"
+              });
+            })
+            .catch(error => {
+              this.notificationAdd({
+                type: "info",
+                message: "Error adding video, please try again"
+              });
+            });
           break;
 
         default:
@@ -291,7 +309,7 @@ export default {
   padding: 0;
 }
 
-.search-list-items:hover{
+.search-list-items:hover {
   cursor: pointer;
   background: #1e142d;
 }
