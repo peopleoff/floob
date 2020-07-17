@@ -25,7 +25,7 @@
           <a :href="video.channelLink" target="_blank">{{video.channel}}</a>
         </div>
       </div>
-      <v-btn outlined color="royal_flue" class="rounded-lg" @click="skipVideo">Skip Video</v-btn>
+      <v-btn outlined color="royal_flue" class="rounded-lg" @click="skipVideo">Hard Pass</v-btn>
     </div>
   </div>
 </template>

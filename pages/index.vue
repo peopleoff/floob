@@ -11,11 +11,11 @@
             <!-- type pausing -->
             <div>
               <vue-typed-js
-                :strings="['Raid Guides', 'AMVs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Lets Plays', 'Trendy Videos&nbsp;&nbsp;' ]"
+                :strings="shuffleArray(['Raid Guides', 'AMVs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Lets Plays', 'Trendy Videos&nbsp;&nbsp;' ])"
                 loop
                 :typeSpeed="50"
                 :backSpeed="50"
-                :backDelay="3000"
+                :backDelay="20000"
                 :startDelay="1000"
                 :contentType="'html'"
                 :showCursor="false"
@@ -26,11 +26,11 @@
                 </div>
               </vue-typed-js>
               <vue-typed-js
-                :strings="['Guild.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Body Pillow.', 'Friends.&nbsp;&nbsp;', 'Discord Server.' ]"
+                :strings="shuffleArray(['Guild.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Body Pillow.', 'Friends.&nbsp;&nbsp;', 'Discord Server.' ])"
                 loop
                 :typeSpeed="50"
                 :backSpeed="50"
-                :backDelay="3000"
+                :backDelay="20000"
                 :startDelay="1000"
                 :contentType="'html'"
                 :showCursor="false"
@@ -142,6 +142,25 @@ export default {
             console.error(error);
           });
       }
+    },
+    shuffleArray(array) {
+      var currentIndex = array.length,
+        temporaryValue,
+        randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
     }
   },
   mounted() {
