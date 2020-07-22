@@ -14,7 +14,8 @@ export default {
       {
         hid: "description",
         name: "description",
-        content: "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!"
+        content:
+          "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!"
       },
       {
         hid: "og:title",
@@ -39,7 +40,8 @@ export default {
       {
         hid: "og:description",
         name: "og:description",
-        content: "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!"
+        content:
+          "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!"
       }
     ],
     link: [
@@ -62,7 +64,7 @@ export default {
     "normalize.css/normalize.css",
     "plyr/dist/plyr.css",
     "~/assets/css/plyr.css",
-    "~/assets/css/main.css",
+    "~/assets/css/main.css"
   ],
   /*
    ** Plugins to load before mounting the App
@@ -115,6 +117,18 @@ export default {
     // Doc: https://github.com/nuxt-community/analytics-module
     "@nuxtjs/google-analytics"
   ],
+  /*
+   ** pwa module configuration
+   ** See https://pwa.nuxtjs.org/
+   */
+  pwa: {
+    manifest: {
+      name: "Floob",
+      short_name: "Floob",
+      description: "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!",
+      background_color: "#6d4496"
+    }
+  },
   /*
    ** Sentry module configuration
    ** See  https://docs.sentry.io/error-reporting/configuration/?platform=browser
