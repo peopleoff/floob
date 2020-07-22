@@ -24,12 +24,12 @@
         </div>
       </div>
       <div>
-        <v-btn text small>
+        <!-- <v-btn text small>
           <v-icon>mdi-cog</v-icon>
         </v-btn>
         <v-btn text small>
           <v-icon>mdi-sync</v-icon>
-        </v-btn>
+        </v-btn> -->
         <v-btn outlined color="royal_flue" class="rounded-lg" @click="skipVideo">Hard Pass</v-btn>
       </div>
     </div>
