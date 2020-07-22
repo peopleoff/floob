@@ -15,6 +15,31 @@ export default {
         hid: "description",
         name: "description",
         content: "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!"
+      },
+      {
+        hid: "og:title",
+        name: "og:title",
+        content: "Floob"
+      },
+      {
+        hid: "og:site_name",
+        name: "og:site_name",
+        content: "Floob"
+      },
+      {
+        hid: "og:url",
+        name: "og:url",
+        content: "https://Floob.gg"
+      },
+      {
+        hid: "og:image",
+        name: "og:image",
+        content: "https://floob.gg/images/og_image.png"
+      },
+      {
+        hid: "og:description",
+        name: "og:description",
+        content: "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!"
       }
     ],
     link: [

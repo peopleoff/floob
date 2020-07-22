@@ -10,9 +10,7 @@
           @pause="togglePlayingEvent"
         >
           <div class="plyr__video-embed">
-            <iframe
-              :src="formatSource(video.src, video.provider)"
-            ></iframe>
+            <iframe :src="formatSource(video.src, video.provider)"></iframe>
           </div>
         </vue-plyr>
       </div>
@@ -25,7 +23,15 @@
           <a :href="video.channelLink" target="_blank">{{video.channel}}</a>
         </div>
       </div>
-      <v-btn outlined color="royal_flue" class="rounded-lg" @click="skipVideo">Hard Pass</v-btn>
+      <div>
+        <v-btn text small>
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+        <v-btn text small>
+          <v-icon>mdi-sync</v-icon>
+        </v-btn>
+        <v-btn outlined color="royal_flue" class="rounded-lg" @click="skipVideo">Hard Pass</v-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -91,7 +97,6 @@ export default {
       notificationAdd: "notification/add"
     }),
     readyEvent(event) {
-      this.player.speed = parseInt(1);
       this.player.play();
     },
     togglePlayingEvent(event) {

@@ -133,6 +133,8 @@ export default {
         this.loading = false;
         return;
       } else {
+        this.user.tid = localStorage.getItem('tid');
+        this.user.s = localStorage.getItem('s');
         UserService.register(this.user)
           .then(({ data }) => {
             this.loading = false;

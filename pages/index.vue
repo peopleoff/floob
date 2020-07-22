@@ -48,7 +48,7 @@
 
             <span class="text-h6 font-weight-light">
               Create a room and share some laughs in five clicks or less!
-              <br />Floob is built for sharing moments with your friends during gaming sessions or while hanging out in discord
+              <br />Floob is built for sharing moments with your friends during gaming sessions or while hanging out in Discord.
             </span>
             <v-row class="pt-6">
               <v-col>

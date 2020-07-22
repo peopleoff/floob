@@ -38,7 +38,7 @@ export default {
     copyRoomCode(text) {
       var dummy = document.createElement("textarea");
       document.body.appendChild(dummy);
-      dummy.value = location.host + "/room/" + text;
+      dummy.value = "https://" + location.host + "/room/" + text;
       dummy.select();
       document.execCommand("copy");
       document.body.removeChild(dummy);
