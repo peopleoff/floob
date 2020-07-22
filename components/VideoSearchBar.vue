@@ -1,25 +1,5 @@
 <template>
   <section class="d-flex align-center pb-3" v-click-outside="clearInput">
-    <!-- <v-menu offset-y>
-      <template v-slot:activator="{ on }">
-        <div v-on="on">
-          <v-icon>{{searchPlatform.icon}}</v-icon>
-          <v-icon>mdi-chevron-down</v-icon>
-        </div>
-      </template>
-      <v-list>
-        <v-list-item @click="changeSearchPlatform(1)">
-          <v-list-item-title>
-            <v-icon>mdi-youtube</v-icon>YouTube
-          </v-list-item-title>
-        </v-list-item>
-        <v-list-item @click="changeSearchPlatform(2)">
-          <v-list-item-title>
-            <v-icon>mdi-vimeo</v-icon>Vimeo
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>-->
     <div ref="searchInput" class="flex-grow-1">
       <v-text-field
         flat
@@ -72,12 +52,6 @@
             <v-list-item-subtitle v-html="result.channel"></v-list-item-subtitle>
             <v-list-item-subtitle>{{ result.publishTime | moment("from", "now", true) }} ago</v-list-item-subtitle>
           </v-list-item-content>
-
-          <!-- <v-list-item-action>
-            <v-btn icon @click="addSearchedVideo(result)">
-              <v-icon color="success lighten-1">mdi-plus</v-icon>
-            </v-btn>
-          </v-list-item-action>-->
         </v-list-item>
       </v-list>
     </div>
