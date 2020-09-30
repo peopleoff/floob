@@ -1,16 +1,23 @@
 const params = new URLSearchParams(window.location.search);
-let gclid = params.get("gclid");
-let fbclid = params.get("fbclid");
-let s = params.get("s");
+const gclid = params.get("gclid");
+const fbclid = params.get("fbclid");
+const s = params.get("s");
 
-if(gclid){
-    localStorage.setItem('tid', gclid);
+
+// tid = tracking ID - gclid, fbglid, bclid, etc...
+// ts= tracking source - adwords, facebook, etc...
+// s = sub tracking ID - campaign 1, campaign 2
+
+if (gclid) {
+  localStorage.setItem("tid", gclid);
+  localStorage.setItem("ts", "adwords");
 }
 
-if(fbclid){
-    localStorage.setItem('tid', gclid);
+if (fbclid) {
+  localStorage.setItem("tid", fbclid);
+  localStorage.setItem("ts", "facebook");
 }
 
-if(fbclid){
-    localStorage.setItem('s', s);
+if (s) {
+  localStorage.setItem("s", s);
 }

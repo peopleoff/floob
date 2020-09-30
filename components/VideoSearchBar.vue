@@ -55,9 +55,14 @@
         </v-list-item>
       </v-list>
     </div>
-    <v-btn icon tile v-if="!showChat" @click="toggleChat">
-      <v-icon>mdi-arrow-collapse-left</v-icon>
-    </v-btn>
+    <v-tooltip bottom v-if="!showChat">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon tile v-bind="attrs" v-on="on" @click="toggleChat">
+          <v-icon>mdi-arrow-collapse-left</v-icon>
+        </v-btn>
+      </template>
+      <span>Expand</span>
+    </v-tooltip>
   </section>
 </template>
 
@@ -69,7 +74,7 @@ import { mapState, mapActions } from "vuex";
 export default {
   props: ["showChat"],
   directives: {
-    ClickOutside
+    ClickOutside,
   },
   data() {
     return {
@@ -78,19 +83,19 @@ export default {
       searchPlatform: {
         id: 1,
         icon: "mdi-youtube",
-        name: "YouTube"
-      }
+        name: "YouTube",
+      },
     };
   },
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      toggleLoginModal: "modal/toggleLoginModal"
+      toggleLoginModal: "modal/toggleLoginModal",
     }),
     alert(text) {
       alert(text);
     },
-    searchVideos: _.debounce(function() {
+    searchVideos: _.debounce(function () {
       if (!this.searchCriteria) {
         return;
       }
@@ -113,9 +118,9 @@ export default {
       ) {
         let search = {
           query: this.searchCriteria,
-          provider: this.searchPlatform.id
+          provider: this.searchPlatform.id,
         };
-        VideoService.search(search).then(response => {
+        VideoService.search(search).then((response) => {
           this.searchResult = response.data;
         });
       }
@@ -144,24 +149,24 @@ export default {
         this.toggleLoginModal();
         this.notificationAdd({
           type: "info",
-          message: "Please Login To Add Videos"
+          message: "Please Login To Add Videos",
         });
         return;
       }
       video.room = this.room.id;
       video.user = this.$auth.user.id;
       VideoService.postVideo(video)
-        .then(result => {
+        .then((result) => {
           console.log(result);
           this.notificationAdd({
             type: "success",
-            message: "Video Added"
+            message: "Video Added",
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.notificationAdd({
             type: "info",
-            message: "Error adding video, please try again"
+            message: "Error adding video, please try again",
           });
         });
       this.clearInput();
@@ -172,7 +177,7 @@ export default {
         this.toggleLoginModal();
         this.notificationAdd({
           type: "info",
-          message: "Please Login To Add Videos"
+          message: "Please Login To Add Videos",
         });
         return;
       }
@@ -194,39 +199,39 @@ export default {
         src: this.searchCriteria,
         provider: providerID,
         room: this.room.id,
-        user: this.$auth.user.id
+        user: this.$auth.user.id,
       };
       // video, provider, roomID, userID
       switch (video.provider) {
         case 1:
           console.log("added youtube Video");
           VideoService.postVideo(video)
-            .then(result => {
+            .then((result) => {
               this.notificationAdd({
                 type: "success",
-                message: "Video Added"
+                message: "Video Added",
               });
             })
-            .catch(error => {
+            .catch((error) => {
               this.notificationAdd({
                 type: "info",
-                message: "Error adding video, please try again"
+                message: "Error adding video, please try again",
               });
             });
           break;
         case 2:
           console.log("Added vimeo video");
           VideoService.postVideo(video)
-            .then(result => {
+            .then((result) => {
               this.notificationAdd({
                 type: "success",
-                message: "Video Added"
+                message: "Video Added",
               });
             })
-            .catch(error => {
+            .catch((error) => {
               this.notificationAdd({
                 type: "info",
-                message: "Error adding video, please try again"
+                message: "Error adding video, please try again",
               });
             });
           break;
@@ -242,60 +247,60 @@ export default {
           this.searchPlatform = {
             id: platformID,
             icon: "mdi-youtube",
-            name: "YouTube"
+            name: "YouTube",
           };
           break;
         case 2:
           this.searchPlatform = {
             id: platformID,
             icon: "mdi-vimeo",
-            name: "Vimeo"
+            name: "Vimeo",
           };
           break;
 
         default:
           break;
       }
-    }
+    },
   },
   computed: {
     ...mapState({
-      room: state => state.room.room
+      room: (state) => state.room.room,
     }),
-    youtubeActive: function() {
+    youtubeActive: function () {
       return {
-        "grey--text": this.searchPlatform.id !== 1
+        "grey--text": this.searchPlatform.id !== 1,
       };
     },
-    vimeoActive: function() {
+    vimeoActive: function () {
       return {
-        "grey--text": this.searchPlatform.id !== 2
+        "grey--text": this.searchPlatform.id !== 2,
       };
     },
-    clearResults: function() {
+    clearResults: function () {
       if (this.searchResult) {
         return true;
       }
       return false;
     },
-    loading: function() {
+    loading: function () {
       if (this.searchCriteria && !this.searchResult) {
         return true;
       }
       return false;
     },
-    searchResultWidth: function() {
+    searchResultWidth: function () {
       return this.$refs.searchInput.offsetWidth;
       return "200";
-    }
+    },
   },
   watch: {
     searchCriteria(newValue, oldValue) {
       if (!newValue) {
         this.clearInput();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

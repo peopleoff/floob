@@ -1,6 +1,16 @@
 <template>
-  <v-app-bar flat fixed hide-on-scroll color="transparent">
-    <nuxt-link to="/" tag="img" :src="require('@/assets/images/logo.svg')" class="logo"></nuxt-link>
+  <v-app-bar
+    flat
+    color="transparent"
+    v-bind:class="{ 'color-nav': $route.path == '/' }"
+  >
+    <nuxt-link
+      to="/"
+      tag="img"
+      alt="Floob Logo"
+      :src="require('@/assets/images/logo.svg')"
+      class="logo"
+    ></nuxt-link>
     <v-spacer></v-spacer>
     <RoomShare />
     <v-spacer></v-spacer>
@@ -10,34 +20,38 @@
       class="mx-3 hidden-sm-and-down"
       @click="toggleJoinModal"
       v-if="room"
-    >Join a Room</v-btn>
+      >Join a Room</v-btn
+    >
     <v-btn
       @click="toggleLoginModal"
       v-if="!$auth.loggedIn"
       color="kings_purple"
-      class="rounded-pill"
-    >Sign In</v-btn>
-    <v-menu offset-y open-on-hover v-else transition="scale-transition">
-      <template v-slot:activator="{ on }">
-        <span v-on="on" class="mx-3 pointer">
-          {{$auth.user.username}}
+      >Sign In</v-btn
+    >
+    <v-menu offset-y v-else transition="scale-transition">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn color="kings_purple" class="text-unset" v-bind="attrs" v-on="on">
+          {{ $auth.user.username }} 
           <v-icon>mdi-chevron-down</v-icon>
-        </span>
+        </v-btn>
       </template>
-
       <v-list>
-        <v-list-item @click="$auth.logout()">Log Out</v-list-item>
+        <v-list-item @click="$auth.logout()">
+          <v-list-item-content>
+            <v-list-item-title>Log Out</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-menu>
   </v-app-bar>
 </template>
 
 <script>
-import RoomShare from '@/components/RoomShare'
+import RoomShare from "@/components/RoomShare";
 import { mapActions, mapState } from "vuex";
 export default {
   components: {
-    RoomShare
+    RoomShare,
   },
   methods: {
     ...mapActions({
@@ -47,31 +61,34 @@ export default {
   },
   computed: {
     ...mapState({
-      room: state => state.room.room
-    })
-  }
+      room: (state) => state.room.room,
+    }),
+  },
 };
 </script>
 
-<style scoped>
-header {
+<style>
+.v-application--wrap header.color-nav {
+  background-color: #662d91 !important;
+}
+.v-toolbar__content {
   width: 100%;
   margin-right: auto;
   margin-left: auto;
 }
 
 @media (min-width: 960px) {
-  header {
+  .v-toolbar__content {
     max-width: 900px;
   }
 }
 @media (min-width: 1264px) {
-  header {
+  .v-toolbar__content {
     max-width: 1185px;
   }
 }
 @media (min-width: 1904px) {
-  header {
+  .v-toolbar__content {
     max-width: 1785px;
   }
 }

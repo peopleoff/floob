@@ -20,7 +20,7 @@ Vue.use(VuePlyr, {
     },
     listeners: {
       seek: function customSeekBehavior(e) {
-        console.log(e);
+        // console.log(e);
       },
       // play: function tester(e, test) {
       //   console.log("play");

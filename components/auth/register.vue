@@ -133,8 +133,9 @@ export default {
         this.loading = false;
         return;
       } else {
-        this.user.tid = localStorage.getItem('tid');
-        this.user.s = localStorage.getItem('s');
+        this.user.tracking_id = localStorage.getItem("tid");
+        this.user.tracking_source = localStorage.getItem("ts");
+        this.user.tracking_sub_source = localStorage.getItem("s");
         UserService.register(this.user)
           .then(({ data }) => {
             this.loading = false;
@@ -142,11 +143,12 @@ export default {
             this.$auth
               .setUserToken(token)
               .then(() => {
+                this.$nuxt.$emit(this.previousAction);
+                this.toggleLoginModal();
                 this.notificationAdd({
                   type: "success",
                   message: "Registered"
                 });
-                this.toggleLoginModal();
               })
               .catch(error => {
                 console.log("ERror");
