@@ -1,9 +1,20 @@
 <template>
-  <div class="ma-0 pointer" @click="copyRoomCode(room.roomUUID)" v-if="room">
-    <span class="hidden-sm-and-down">Room Code: {{room.roomUUID}}</span>
-    <span class="hidden-md-and-up">Share Room</span>
-    <lottie :options="options" :styles="styles" @animCreated="animCreated" />
-  </div>
+  <v-tooltip bottom>
+    <template v-slot:activator="{ on, attrs }">
+      <div
+        class="ma-0 pointer"
+        @click="copyRoomCode(room.roomUUID)"
+        v-if="room"
+        v-bind="attrs"
+        v-on="on"
+      >
+        <span class="hidden-sm-and-down">Room Code: {{room.roomUUID}}</span>
+        <span class="hidden-md-and-up">Share Room</span>
+        <lottie :options="options" :styles="styles" @animCreated="animCreated" />
+      </div>
+    </template>
+    <span>Copy Room Link</span>
+  </v-tooltip>
 </template>
 
 <script>
@@ -12,25 +23,25 @@ import lottie from "@/components/lottie";
 
 export default {
   components: {
-    lottie
+    lottie,
   },
   data() {
     return {
       styles: {
         width: "24px",
         height: "24px",
-        float: "right"
+        float: "right",
       },
       options: {
         path: "/images/lottie/copy-icon.json",
         autoplay: false,
-        loop: false
-      }
+        loop: false,
+      },
     };
   },
   methods: {
     ...mapActions({
-      notificationAdd: "notification/add"
+      notificationAdd: "notification/add",
     }),
     animCreated(event) {
       this.anim = event;
@@ -48,13 +59,13 @@ export default {
         this.anim.setDirection(-1);
         this.anim.play();
       }, 2000);
-    }
+    },
   },
   computed: {
     ...mapState({
-      room: state => state.room.room
-    })
-  }
+      room: (state) => state.room.room,
+    }),
+  },
 };
 </script>
 

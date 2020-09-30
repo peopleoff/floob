@@ -1,1296 +1,145 @@
 <template>
-  <svg
-    id="e91gzmp8e4he1"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    viewBox="0 100 2000.200000 1130.920000"
-    shape-rendering="geometricPrecision"
-    text-rendering="geometricPrecision"
-  >
-    <g
-      id="e91gzmp8e4he2"
-      transform="matrix(1.34484169625609 0 0 1.38951448382439 -404.58057570000017 -560.50118206000047)"
-    >
-      <g id="e91gzmp8e4he3">
-        <g id="e91gzmp8e4he4" />
-        <g id="e91gzmp8e4he5">
-          <g id="e91gzmp8e4he6">
-            <g id="e91gzmp8e4he7">
-              <path
-                id="e91gzmp8e4he8"
-                d="M1553.500000,1122.100000L1553.500000,527.700000C1553.500000,512.200000,1541.700000,499.700000,1527.100000,499.700000L543.600000,499.700000C529,499.700000,517.200000,512.200000,517.200000,527.700000L517.200000,1122.100000L1553.500000,1122.100000Z"
-                transform="matrix(-0.99999917946675 -0.00128104091376 0.00128104091376 -0.99999917946675 2069.77055478551665 1652.48045043406910)"
-                fill="rgb(42,42,42)"
-                stroke="none"
-                stroke-width="1"
-              />
-              <path
-                id="e91gzmp8e4he9"
-                d="M1553.500000,1122.100000L1553.500000,527.700000C1553.500000,512.200000,1541.700000,499.700000,1527.100000,499.700000L543.600000,499.700000C529,499.700000,517.200000,512.200000,517.200000,527.700000L517.200000,1122.100000L1553.500000,1122.100000Z"
-                transform="matrix(1 0 0 1 0 1.69662852200820)"
-                fill="rgb(42,42,42)"
-                stroke="none"
-                stroke-width="1"
-              />
-              <rect
-                id="e91gzmp8e4he10"
-                width="960.100000"
-                height="510.500000"
-                rx="0"
-                ry="0"
-                transform="matrix(1 0 0 1 555.29999999999995 541.39999999999998)"
-                fill="rgb(255,255,255)"
-                stroke="none"
-                stroke-width="1"
-              />
-            </g>
+<svg id="e91gzmp8e4he1" xmlns="http://www.w3.org/2000/svg" viewBox="0 100 2000.2 1130.92" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <g id="e91gzmp8e4he2" transform="matrix(1.34484 0 0 1.38951 -404.58 -560.501)">
+    <g id="e91gzmp8e4he3">
+      <g id="e91gzmp8e4he5">
+        <g id="e91gzmp8e4he6">
+          <g id="e91gzmp8e4he7" stroke="none" stroke-width="1">
+            <path id="e91gzmp8e4he8" d="M1553.5 1122.1V527.7c0-15.5-11.8-28-26.4-28H543.6c-14.6 0-26.4 12.5-26.4 28v594.4h1036.3z" transform="rotate(-179.927 1035.415 825.577)" fill="#2A2A2A"/>
+            <path id="e91gzmp8e4he9" d="M1553.5 1122.1V527.7c0-15.5-11.8-28-26.4-28H543.6c-14.6 0-26.4 12.5-26.4 28v594.4h1036.3z" transform="translate(0 1.697)" fill="#2A2A2A"/>
+            <rect id="e91gzmp8e4he10" width="960.1" height="510.5" rx="0" ry="0" transform="translate(555.3 541.4)" fill="#FFF"/>
           </g>
         </g>
-        <rect
-          id="e91gzmp8e4he11"
-          width="37.900000"
-          height="575.800000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 544.34999999614297 517.60000000000002)"
-          fill="rgb(36,15,51)"
-          stroke="none"
-          stroke-width="1"
-          stroke-opacity="0"
-        />
-        <rect
-          id="e91gzmp8e4he12"
-          width="956.259960"
-          height="569"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 575.34004028431184 524.39999999999998)"
-          fill="rgb(36,15,51)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <foreignObject
-          id="e91gzmp8e4he13"
-          width="716.950000"
-          height="371.800000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 582.25000000000023 587.39662851862408)"
-          fill="rgb(156,186,239)"
-          stroke="none"
-          stroke-width="1"
-        >
-          <div id="gif-container" />
-        </foreignObject>
-        <rect
-          id="e91gzmp8e4he14"
-          width="987.400000"
-          height="60.100000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 544.39999999999952 517.59999999999991)"
-          fill="rgb(36,15,51)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <rect
-          id="e91gzmp8e4he15"
-          width="200.300000"
-          height="371.800000"
-          rx="6.220000"
-          ry="6.220000"
-          transform="matrix(1 0 0 1 1315 589.70000000000005)"
-          fill="rgb(52,26,71)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <rect
-          id="e91gzmp8e4he16"
-          width="139.635504"
-          height="6.400000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 952.09659799999997 529.75111299999878)"
-          fill="rgb(47,100,235)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <rect
-          id="e91gzmp8e4he17"
-          width="55.903402"
-          height="6.400000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 1449.64659800000004 558.39999999999975)"
-          fill="rgb(255,255,255)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <g id="e91gzmp8e4he18" transform="matrix(1 0 0 1 6.49807099999998 -47.92701415999943)">
-          <rect
-            id="e91gzmp8e4he19"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1319.50000000000000 860.52364268000031)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he20"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1348 798.70337433000066)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he21"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1346.95000000000005 944.52701701000103)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he22"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1348 777.50337433000072)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he23"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1346.95000000000005 923.22701701000096)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he24"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1346.95000000000005 902.02701701000103)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he25"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1348 756.20337433000066)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he26"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1348 735.00337433000072)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he27"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1319.50000000000000 798.70337433000066)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he28"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1318.45000000000005 944.52701701000103)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he29"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1319.50000000000000 777.50337433000072)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he30"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1318.45000000000005 923.22701701000096)"
-            fill="rgb(234,234,234)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he31"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1319.50000000000000 756.20337433000066)"
-            fill="rgb(234,234,234)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he32"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1319.20000000000005 902.02701701000103)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he33"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1320.25000000000000 735.00337433000072)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he34"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1348 881.82364268000026)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he35"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1349.04999999999995 714.79999999999995)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he36"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1348 860.52364268000031)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he37"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1349.04999999999995 693.50000000000000)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he38"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1348 839.32364268000026)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he39"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1349.04999999999995 672.29999999999995)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he40"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1348 818.02364268000031)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he41"
-            width="112.400000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1349.04999999999995 651)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he42"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1319.50000000000000 881.82364268000026)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he43"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1320.54999999999995 714.79999999999995)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he44"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1320.54999999999995 693.50000000000000)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he45"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1319.50000000000000 839.32364268000026)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he46"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1320.54999999999995 672.29999999999995)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he47"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1319.50000000000000 818.02364268000031)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-          <rect
-            id="e91gzmp8e4he48"
-            width="19.500000"
-            height="6.400000"
-            rx="0"
-            ry="0"
-            transform="matrix(1 0 0 1 1320.54999999999995 651)"
-            fill="rgb(255,255,255)"
-            stroke="none"
-            stroke-width="1"
-          />
-        </g>
-        <rect
-          id="e91gzmp8e4he49"
-          width="43.100000"
-          height="6.400000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 1401.29999999999995 587.29999999999995)"
-          fill="rgb(170,170,170)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <rect
-          id="e91gzmp8e4he50"
-          width="129.500000"
-          height="6.400000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 601.09555458999989 1005.10000000000002)"
-          fill="rgb(255,255,255)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <rect
-          id="e91gzmp8e4he51"
-          width="147.400000"
-          height="15.300000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 597.69555458999992 976.20000000000005)"
-          fill="rgb(255,255,255)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <rect
-          id="e91gzmp8e4he52"
-          width="175.500000"
-          height="26.600000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 1323.99807099999998 922.90000000000100)"
-          fill="none"
-          stroke="rgb(255,255,255)"
-          stroke-width="1"
-          stroke-miterlimit="10"
-        />
-        <rect
-          id="e91gzmp8e4he53"
-          width="1009.100000"
-          height="28.300000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 544.39999999999998 1093.40000000000009)"
-          fill="rgb(42,42,42)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <path
-          id="e91gzmp8e4he54"
-          d="M1294.600000,983.800000L1224,983.800000C1221,983.800000,1218.600000,981.400000,1218.600000,978.400000L1218.600000,971.100000C1218.600000,968.100000,1221,965.700000,1224,965.700000L1294.600000,965.700000C1297.600000,965.700000,1300,968.100000,1300,971.100000L1300,978.400000C1300,981.400000,1297.600000,983.800000,1294.600000,983.800000Z"
-          transform="matrix(1 0 0 1 0 16)"
-          fill="rgb(255,255,255)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <rect
-          id="e91gzmp8e4he55"
-          width="21.900000"
-          height="366.200000"
-          rx="0"
-          ry="0"
-          transform="matrix(1 0 0 1 1531.59999999999991 738.50000000000000)"
-          fill="rgb(42,42,42)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <rect
-          id="e91gzmp8e4he56"
-          width="86.493432"
-          height="21"
-          rx="6.220000"
-          ry="6.220000"
-          transform="matrix(1 0 0 1 1336.79807099652339 546.03471238973907)"
-          fill="none"
-          stroke="rgb(84,131,204)"
-          stroke-width="2"
-        />
-        <rect
-          id="e91gzmp8e4he57"
-          width="22.529796"
-          height="21"
-          rx="6.220000"
-          ry="6.220000"
-          transform="matrix(1 0 0 1 582.19999999999982 547.65000000000032)"
-          fill="rgb(255,255,255)"
-          stroke="none"
-          stroke-width="1"
-        />
-        <rect
-          id="e91gzmp8e4he58"
-          width="683.300000"
-          height="21"
-          rx="6.220000"
-          ry="6.220000"
-          transform="matrix(1 0 0 1 616.69999999999982 547.65000000000236)"
-          fill="rgb(255,255,255)"
-          stroke="none"
-          stroke-width="1"
-        />
       </g>
-    </g>
-    <g
-      id="e91gzmp8e4he59"
-      transform="matrix(1 0 0 1 553.71365232000051 301.45212974000009)"
-      opacity="0"
-    >
-      <rect
-        id="e91gzmp8e4he60"
-        width="917.854458"
-        height="496.661562"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 -125.74678287499995 -71.80590056500029)"
-        fill="rgb(36,15,51)"
-        stroke="none"
-        stroke-width="1"
-      />
-    </g>
-    <g
-      id="e91gzmp8e4he61"
-      transform="matrix(1 0 0 1 448.34016269500103 163.88855458500004)"
-      opacity="0"
-    >
-      <line
-        id="e91gzmp8e4he62"
-        x1="50"
-        y1="20.600000"
-        x2="50"
-        y2="33.480000"
-        transform="matrix(1 0 0 1 -0.00000190500003 0.85340489000001)"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he63"
-        x1="20.800000"
-        y1="41.820000"
-        x2="33.040000"
-        y2="45.800000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he64"
-        x1="31.950000"
-        y1="76.150000"
-        x2="39.520000"
-        y2="65.730000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he65"
-        x1="68.050000"
-        y1="76.150000"
-        x2="60.480000"
-        y2="65.730000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he66"
-        x1="79.200000"
-        y1="41.820000"
-        x2="66.960000"
-        y2="45.800000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-    </g>
-    <g
-      id="e91gzmp8e4he67"
-      transform="matrix(1 0 0 1 1247.84610281500136 420.30212647499997)"
-      opacity="0"
-    />
-    <g
-      id="e91gzmp8e4he68"
-      transform="matrix(1 0 0 1 1260.08610357999805 292.32712800500002)"
-      opacity="0"
-    >
-      <line
-        id="e91gzmp8e4he69"
-        x1="50"
-        y1="20.600000"
-        x2="50"
-        y2="33.480000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he70"
-        x1="20.800000"
-        y1="41.820000"
-        x2="33.040000"
-        y2="45.800000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he71"
-        x1="31.950000"
-        y1="76.150000"
-        x2="39.520000"
-        y2="65.730000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he72"
-        x1="68.050000"
-        y1="76.150000"
-        x2="60.480000"
-        y2="65.730000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he73"
-        x1="79.200000"
-        y1="41.820000"
-        x2="66.960000"
-        y2="45.800000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-    </g>
-    <g id="e91gzmp8e4he74" opacity="0">
-      <rect
-        id="e91gzmp8e4he75"
-        width="919.962155"
-        height="99.501203"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 425.85917173499945 435.64942239000027)"
-        opacity="0"
-        fill="rgb(52,26,71)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he76"
-        width="919.962155"
-        height="99.501203"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 425.85917173499945 348.42472483000000)"
-        opacity="0"
-        fill="rgb(52,26,71)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he77"
-        width="919.962155"
-        height="107.154057"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 424.75147400499941 250.90307072000002)"
-        opacity="0"
-        fill="rgb(52,26,71)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he78"
-        width="119.727533"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009375499658 672.18349903499973)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he79"
-        width="200.538679"
-        height="7.531234"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009375999641 658.47818872499965)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he80"
-        width="90.545371"
-        height="4.446446"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009375999721 644.53504765999980)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he81"
-        width="318.445535"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009376999722 630.40530746000002)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he82"
-        width="71.709391"
-        height="67.075208"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 454.95435183999808 622.20324570999935)"
-        fill="rgb(84,131,204)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he83"
-        width="71.709391"
-        height="67.075208"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 455.02159392999812 539.52244524499963)"
-        fill="rgb(84,131,204)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he84"
-        width="119.727533"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009378999769 593.76381493499991)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <g
-        id="e91gzmp8e4he85"
-        transform="matrix(1 0 0 1 919.73245408500077 424.17129293499988)"
-        opacity="0"
-      >
-        <line
-          id="e91gzmp8e4he86"
-          x1="50"
-          y1="20.600000"
-          x2="50"
-          y2="33.480000"
-          transform="matrix(1 0 0 1 -0.00000190500003 0.85340489000001)"
-          fill="none"
-          stroke="rgb(2,186,185)"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-miterlimit="10"
-        />
-        <line
-          id="e91gzmp8e4he87"
-          x1="20.800000"
-          y1="41.820000"
-          x2="33.040000"
-          y2="45.800000"
-          fill="none"
-          stroke="rgb(2,186,185)"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-miterlimit="10"
-        />
-        <line
-          id="e91gzmp8e4he88"
-          x1="31.950000"
-          y1="76.150000"
-          x2="39.520000"
-          y2="65.730000"
-          fill="none"
-          stroke="rgb(2,186,185)"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-miterlimit="10"
-        />
-        <line
-          id="e91gzmp8e4he89"
-          x1="68.050000"
-          y1="76.150000"
-          x2="60.480000"
-          y2="65.730000"
-          fill="none"
-          stroke="rgb(2,186,185)"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-miterlimit="10"
-        />
-        <line
-          id="e91gzmp8e4he90"
-          x1="79.200000"
-          y1="41.820000"
-          x2="66.960000"
-          y2="45.800000"
-          fill="none"
-          stroke="rgb(2,186,185)"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-miterlimit="10"
-        />
+      <rect id="e91gzmp8e4he11" width="37.9" height="575.8" rx="0" ry="0" transform="translate(544.35 517.6)" fill="#240F33" stroke="none" stroke-width="1" stroke-opacity="0"/>
+      <rect id="e91gzmp8e4he12" width="956.26" height="569" rx="0" ry="0" transform="translate(575.34 524.4)" fill="#240F33" stroke="none" stroke-width="1"/>
+      <foreignObject id="e91gzmp8e4he13" width="716.95" height="371.8" transform="translate(582.25 587.397)" fill="#9CBAEF" stroke="none" stroke-width="1">
+        <div id="gif-container"/>
+      </foreignObject>
+      <rect id="e91gzmp8e4he14" width="987.4" height="60.1" rx="0" ry="0" transform="translate(544.4 517.6)" fill="#240F33" stroke="none" stroke-width="1"/>
+      <rect id="e91gzmp8e4he15" width="200.3" height="371.8" rx="6.22" ry="6.22" transform="translate(1315 589.7)" fill="#341A47" stroke="none" stroke-width="1"/>
+      <rect id="e91gzmp8e4he16" width="139.636" height="6.4" rx="0" ry="0" transform="translate(952.097 529.751)" fill="#2F64EB" stroke="none" stroke-width="1"/>
+      <rect id="e91gzmp8e4he17" width="55.903" height="6.4" rx="0" ry="0" transform="translate(1449.647 558.4)" fill="#FFF" stroke="none" stroke-width="1"/>
+      <g id="e91gzmp8e4he18" transform="translate(6.498 -47.927)" stroke="none" stroke-width="1">
+        <rect id="e91gzmp8e4he19" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1319.5 860.524)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he20" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1348 798.703)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he21" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1346.95 944.527)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he22" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1348 777.503)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he23" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1346.95 923.227)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he24" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1346.95 902.027)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he25" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1348 756.203)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he26" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1348 735.003)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he27" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1319.5 798.703)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he28" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1318.45 944.527)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he29" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1319.5 777.503)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he30" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1318.45 923.227)" fill="#EAEAEA"/>
+        <rect id="e91gzmp8e4he31" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1319.5 756.203)" fill="#EAEAEA"/>
+        <rect id="e91gzmp8e4he32" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1319.2 902.027)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he33" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1320.25 735.003)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he34" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1348 881.824)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he35" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1349.05 714.8)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he36" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1348 860.524)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he37" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1349.05 693.5)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he38" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1348 839.324)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he39" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1349.05 672.3)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he40" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1348 818.024)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he41" width="112.4" height="6.4" rx="0" ry="0" transform="translate(1349.05 651)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he42" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1319.5 881.824)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he43" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1320.55 714.8)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he44" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1320.55 693.5)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he45" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1319.5 839.324)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he46" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1320.55 672.3)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he47" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1319.5 818.024)" fill="#FFF"/>
+        <rect id="e91gzmp8e4he48" width="19.5" height="6.4" rx="0" ry="0" transform="translate(1320.55 651)" fill="#FFF"/>
       </g>
-      <rect
-        id="e91gzmp8e4he91"
-        width="200.538679"
-        height="7.531234"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009379499752 580.05850462499984)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he92"
-        width="90.545371"
-        height="4.446446"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009379499832 566.11536355999999)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he93"
-        width="318.445535"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009380499832 551.98562336000020)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he94"
-        width="71.709391"
-        height="67.075208"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 455.02159392999812 453.78212648499976)"
-        fill="rgb(84,131,204)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he95"
-        width="119.727533"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009379999769 500.62144680999990)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he96"
-        width="200.538679"
-        height="7.531234"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009380499764 485.40002398499990)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he97"
-        width="90.545371"
-        height="4.446446"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009379499843 472.97299542999997)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he98"
-        width="318.445535"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009379999838 458.88815295000018)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he99"
-        width="71.709391"
-        height="67.075208"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 456.66709021999799 361.03031753000005)"
-        fill="rgb(84,131,204)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he100"
-        width="119.727533"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009377999768 412.35312855999990)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he101"
-        width="200.538679"
-        height="7.531234"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009379499752 398.64781824499988)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he102"
-        width="90.545371"
-        height="4.446446"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009379499832 384.70467717999998)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he103"
-        width="318.445535"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009379499832 370.57493698000019)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he104"
-        width="119.727533"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009378999769 319.21076042999994)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he105"
-        width="200.538679"
-        height="7.531234"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009379499763 303.98933760499995)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he106"
-        width="90.545371"
-        height="4.446446"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009378499842 291.56230905000001)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he107"
-        width="318.445535"
-        height="8.892893"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 542.10009378999837 277.47746657000022)"
-        fill="rgb(255,255,255)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he108"
-        width="71.709391"
-        height="67.075208"
-        rx="6.220000"
-        ry="6.220000"
-        transform="matrix(1 0 0 1 456.66709022499884 271.66626024000027)"
-        fill="rgb(84,131,204)"
-        stroke="none"
-        stroke-width="1"
-      />
+      <rect id="e91gzmp8e4he49" width="43.1" height="6.4" rx="0" ry="0" transform="translate(1401.3 587.3)" fill="#AAA" stroke="none" stroke-width="1"/>
+      <rect id="e91gzmp8e4he50" width="129.5" height="6.4" rx="0" ry="0" transform="translate(601.096 1005.1)" fill="#FFF" stroke="none" stroke-width="1"/>
+      <rect id="e91gzmp8e4he51" width="147.4" height="15.3" rx="0" ry="0" transform="translate(597.696 976.2)" fill="#FFF" stroke="none" stroke-width="1"/>
+      <rect id="e91gzmp8e4he52" width="175.5" height="26.6" rx="0" ry="0" transform="translate(1323.998 922.9)" fill="none" stroke="#FFF" stroke-width="1" stroke-miterlimit="10"/>
+      <rect id="e91gzmp8e4he53" width="1009.1" height="28.3" rx="0" ry="0" transform="translate(544.4 1093.4)" fill="#2A2A2A" stroke="none" stroke-width="1"/>
+      <path id="e91gzmp8e4he54" d="M1294.6 983.8H1224c-3 0-5.4-2.4-5.4-5.4v-7.3c0-3 2.4-5.4 5.4-5.4h70.6c3 0 5.4 2.4 5.4 5.4v7.3c0 3-2.4 5.4-5.4 5.4z" transform="translate(0 16)" fill="#FFF" stroke="none" stroke-width="1"/>
+      <rect id="e91gzmp8e4he55" width="21.9" height="366.2" rx="0" ry="0" transform="translate(1531.6 738.5)" fill="#2A2A2A" stroke="none" stroke-width="1"/>
+      <rect id="e91gzmp8e4he56" width="86.493" height="21" rx="6.22" ry="6.22" transform="translate(1336.798 546.035)" fill="none" stroke="#5483CC" stroke-width="2"/>
+      <rect id="e91gzmp8e4he57" width="22.53" height="21" rx="6.22" ry="6.22" transform="translate(582.2 547.65)" fill="#FFF" stroke="none" stroke-width="1"/>
+      <rect id="e91gzmp8e4he58" width="683.3" height="21" rx="6.22" ry="6.22" transform="translate(616.7 547.65)" fill="#FFF" stroke="none" stroke-width="1"/>
     </g>
-    <g id="e91gzmp8e4he109">
-      <rect
-        id="e91gzmp8e4he110"
-        width="10.151974"
-        height="17.004956"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 518.22450705000062 206.55384894000034)"
-        opacity="0"
-        fill="rgb(16,16,16)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he111"
-        width="10.151974"
-        height="17.004956"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 464.06417565500050 206.55384894000034)"
-        opacity="0"
-        fill="rgb(16,16,16)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he112"
-        width="10.151974"
-        height="17.004956"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 504.10593828000020 206.55384894000008)"
-        opacity="0"
-        fill="rgb(16,16,16)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he113"
-        width="10.151974"
-        height="17.004956"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 449.94560688500007 206.55384894000008)"
-        opacity="0"
-        fill="rgb(16,16,16)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he114"
-        width="10.151974"
-        height="17.004956"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 436.59949991500025 206.55384894000008)"
-        opacity="0"
-        fill="rgb(16,16,16)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he115"
-        width="10.151974"
-        height="17.004956"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 490.75983131000038 206.55384894000008)"
-        opacity="0"
-        fill="rgb(16,16,16)"
-        stroke="none"
-        stroke-width="1"
-      />
-      <rect
-        id="e91gzmp8e4he116"
-        width="10.151974"
-        height="17.004956"
-        rx="0"
-        ry="0"
-        transform="matrix(1 0 0 1 477.70818861500027 206.55384894000034)"
-        opacity="0"
-        fill="rgb(16,16,16)"
-        stroke="none"
-        stroke-width="1"
-      />
+  </g>
+  <g id="e91gzmp8e4he59" transform="translate(553.714 301.452)" opacity="0">
+    <rect id="e91gzmp8e4he60" width="917.854" height="496.662" rx="0" ry="0" transform="translate(-125.747 -71.806)" fill="#240F33" stroke="none" stroke-width="1"/>
+  </g>
+  <g id="e91gzmp8e4he61" transform="translate(448.34 163.889)" opacity="0" fill="none" stroke="#02BAB9" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10">
+    <path id="e91gzmp8e4he62" transform="translate(0 .853)" d="M50 20.6v12.88"/>
+    <path id="e91gzmp8e4he63" d="M20.8 41.82l12.24 3.98"/>
+    <path id="e91gzmp8e4he64" d="M31.95 76.15l7.57-10.42"/>
+    <path id="e91gzmp8e4he65" d="M68.05 76.15l-7.57-10.42"/>
+    <path id="e91gzmp8e4he66" d="M79.2 41.82L66.96 45.8"/>
+  </g>
+  <g id="e91gzmp8e4he68" transform="translate(1260.086 292.327)" opacity="0" fill="none" stroke="#02BAB9" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10">
+    <path id="e91gzmp8e4he69" d="M50 20.6v12.88"/>
+    <path id="e91gzmp8e4he70" d="M20.8 41.82l12.24 3.98"/>
+    <path id="e91gzmp8e4he71" d="M31.95 76.15l7.57-10.42"/>
+    <path id="e91gzmp8e4he72" d="M68.05 76.15l-7.57-10.42"/>
+    <path id="e91gzmp8e4he73" d="M79.2 41.82L66.96 45.8"/>
+  </g>
+  <g id="e91gzmp8e4he74" opacity="0">
+    <rect id="e91gzmp8e4he75" width="919.962" height="99.501" rx="0" ry="0" transform="translate(425.86 435.65)" opacity="0" fill="#341A47" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he76" width="919.962" height="99.501" rx="0" ry="0" transform="translate(425.86 348.425)" opacity="0" fill="#341A47" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he77" width="919.962" height="107.154" rx="0" ry="0" transform="translate(424.751 250.903)" opacity="0" fill="#341A47" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he78" width="119.728" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 672.183)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he79" width="200.539" height="7.531" rx="6.22" ry="6.22" transform="translate(542.1 658.478)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he80" width="90.545" height="4.446" rx="6.22" ry="6.22" transform="translate(542.1 644.535)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he81" width="318.446" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 630.405)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he82" width="71.709" height="67.075" rx="6.22" ry="6.22" transform="translate(454.954 622.203)" fill="#5483CC" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he83" width="71.709" height="67.075" rx="6.22" ry="6.22" transform="translate(455.022 539.522)" fill="#5483CC" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he84" width="119.728" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 593.764)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <g id="e91gzmp8e4he85" transform="translate(919.732 424.171)" opacity="0" fill="none" stroke="#02BAB9" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10">
+      <path id="e91gzmp8e4he86" transform="translate(0 .853)" d="M50 20.6v12.88"/>
+      <path id="e91gzmp8e4he87" d="M20.8 41.82l12.24 3.98"/>
+      <path id="e91gzmp8e4he88" d="M31.95 76.15l7.57-10.42"/>
+      <path id="e91gzmp8e4he89" d="M68.05 76.15l-7.57-10.42"/>
+      <path id="e91gzmp8e4he90" d="M79.2 41.82L66.96 45.8"/>
     </g>
-    <g
-      id="e91gzmp8e4he117"
-      transform="matrix(1 0 0 1 1241.36610662999942 764.39627235500063)"
-      opacity="0"
-    >
-      <line
-        id="e91gzmp8e4he118"
-        x1="50"
-        y1="20.600000"
-        x2="50"
-        y2="33.480000"
-        transform="matrix(1 0 0 1 -0.00000190500003 0.85340489000001)"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he119"
-        x1="20.800000"
-        y1="41.820000"
-        x2="33.040000"
-        y2="45.800000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he120"
-        x1="31.950000"
-        y1="76.150000"
-        x2="39.520000"
-        y2="65.730000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he121"
-        x1="68.050000"
-        y1="76.150000"
-        x2="60.480000"
-        y2="65.730000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-      <line
-        id="e91gzmp8e4he122"
-        x1="79.200000"
-        y1="41.820000"
-        x2="66.960000"
-        y2="45.800000"
-        fill="none"
-        stroke="rgb(2,186,185)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-      />
-    </g>
-    <g id="e91gzmp8e4he123_to" transform="translate(1098.401471,484.206113)">
-      <path
-        id="e91gzmp8e4he123"
-        d="M50,58.510000L58.380000,78.250000L49.380000,82.050000L41,62.310000L27.700000,80.700000L27.500000,17.950000L72.500000,61.690000Z"
-        transform="translate(0,0)"
-        opacity="0"
-        fill="rgb(7,7,7)"
-        stroke="rgb(251,251,251)"
-        stroke-width="1"
-      />
-    </g>
-    <g id="e91gzmp8e4he124" transform="matrix(1 0 0 1 2439.59115500000007 1512.49064107999993)" />
-    <rect
-      id="e91gzmp8e4he125"
-      width="46"
-      height="46"
-      rx="0"
-      ry="0"
-      transform="matrix(6.34747185952366 0 0 3.03681425209105 854.10814723213662 1038.53925152645797)"
-      fill="rgb(30,30,30)"
-      stroke="none"
-      stroke-width="1"
-    />
-    <rect
-      id="e91gzmp8e4he126"
-      width="46"
-      height="46"
-      rx="0"
-      ry="0"
-      transform="matrix(19.30795493074043 0 0 1.04770165170849 562.00815817998898 1178.23270711612940)"
-      fill="rgb(42,42,42)"
-      stroke="none"
-      stroke-width="1"
-    />
-  </svg>
+    <rect id="e91gzmp8e4he91" width="200.539" height="7.531" rx="6.22" ry="6.22" transform="translate(542.1 580.059)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he92" width="90.545" height="4.446" rx="6.22" ry="6.22" transform="translate(542.1 566.115)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he93" width="318.446" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 551.986)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he94" width="71.709" height="67.075" rx="6.22" ry="6.22" transform="translate(455.022 453.782)" fill="#5483CC" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he95" width="119.728" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 500.621)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he96" width="200.539" height="7.531" rx="6.22" ry="6.22" transform="translate(542.1 485.4)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he97" width="90.545" height="4.446" rx="6.22" ry="6.22" transform="translate(542.1 472.973)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he98" width="318.446" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 458.888)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he99" width="71.709" height="67.075" rx="6.22" ry="6.22" transform="translate(456.667 361.03)" fill="#5483CC" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he100" width="119.728" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 412.353)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he101" width="200.539" height="7.531" rx="6.22" ry="6.22" transform="translate(542.1 398.648)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he102" width="90.545" height="4.446" rx="6.22" ry="6.22" transform="translate(542.1 384.705)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he103" width="318.446" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 370.575)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he104" width="119.728" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 319.21)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he105" width="200.539" height="7.531" rx="6.22" ry="6.22" transform="translate(542.1 303.99)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he106" width="90.545" height="4.446" rx="6.22" ry="6.22" transform="translate(542.1 291.562)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he107" width="318.446" height="8.893" rx="6.22" ry="6.22" transform="translate(542.1 277.477)" fill="#FFF" stroke="none" stroke-width="1"/>
+    <rect id="e91gzmp8e4he108" width="71.709" height="67.075" rx="6.22" ry="6.22" transform="translate(456.667 271.666)" fill="#5483CC" stroke="none" stroke-width="1"/>
+  </g>
+  <g id="e91gzmp8e4he109" fill="#101010" stroke="none" stroke-width="1">
+    <rect id="e91gzmp8e4he110" width="10.152" height="17.005" rx="0" ry="0" transform="translate(518.225 206.554)" opacity="0"/>
+    <rect id="e91gzmp8e4he111" width="10.152" height="17.005" rx="0" ry="0" transform="translate(464.064 206.554)" opacity="0"/>
+    <rect id="e91gzmp8e4he112" width="10.152" height="17.005" rx="0" ry="0" transform="translate(504.106 206.554)" opacity="0"/>
+    <rect id="e91gzmp8e4he113" width="10.152" height="17.005" rx="0" ry="0" transform="translate(449.946 206.554)" opacity="0"/>
+    <rect id="e91gzmp8e4he114" width="10.152" height="17.005" rx="0" ry="0" transform="translate(436.6 206.554)" opacity="0"/>
+    <rect id="e91gzmp8e4he115" width="10.152" height="17.005" rx="0" ry="0" transform="translate(490.76 206.554)" opacity="0"/>
+    <rect id="e91gzmp8e4he116" width="10.152" height="17.005" rx="0" ry="0" transform="translate(477.708 206.554)" opacity="0"/>
+  </g>
+  <g id="e91gzmp8e4he117" transform="translate(1241.366 764.396)" opacity="0" fill="none" stroke="#02BAB9" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10">
+    <path id="e91gzmp8e4he118" transform="translate(0 .853)" d="M50 20.6v12.88"/>
+    <path id="e91gzmp8e4he119" d="M20.8 41.82l12.24 3.98"/>
+    <path id="e91gzmp8e4he120" d="M31.95 76.15l7.57-10.42"/>
+    <path id="e91gzmp8e4he121" d="M68.05 76.15l-7.57-10.42"/>
+    <path id="e91gzmp8e4he122" d="M79.2 41.82L66.96 45.8"/>
+  </g>
+  <g id="e91gzmp8e4he123_to" transform="translate(1098.401 484.206)">
+    <path id="e91gzmp8e4he123" d="M50 58.51l8.38 19.74-9 3.8L41 62.31 27.7 80.7l-.2-62.75 45 43.74z" opacity="0" fill="#070707" stroke="#FBFBFB" stroke-width="1"/>
+  </g>
+  <rect id="e91gzmp8e4he125" width="46" height="46" rx="0" ry="0" transform="matrix(6.34747 0 0 3.03681 854.108 1038.54)" fill="#1E1E1E" stroke="none" stroke-width="1"/>
+  <rect id="e91gzmp8e4he126" width="46" height="46" rx="0" ry="0" transform="matrix(19.30795 0 0 1.0477 562.008 1178.233)" fill="#2A2A2A" stroke="none" stroke-width="1"/>
+</svg>
 </template>
 
 <script>

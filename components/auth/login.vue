@@ -33,7 +33,8 @@
           class="rounded-pill"
           @click="signIn()"
           :loading="loading"
-        >Login</v-btn>
+          >Login</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-form>
@@ -49,17 +50,17 @@ export default {
     return {
       user: {
         username: "",
-        password: ""
+        password: "",
       },
       loading: false,
       rememberme: false,
-      status: null
+      status: null,
     };
   },
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      toggleLoginModal: "modal/toggleLoginModal"
+      toggleLoginModal: "modal/toggleLoginModal",
     }),
     async signIn() {
       this.$v.$touch();
@@ -68,46 +69,47 @@ export default {
         this.loading = false;
         return;
       }
-      try {
-        let response = await this.$auth.loginWith("local", {
-          data: this.user
+      this.$auth
+        .loginWith("local", {
+          data: this.user,
+        })
+        .then((response) => {
+          this.loading = false;
+          this.user = {
+            username: "",
+            password: "",
+          };
+          // this.$nuxt.$emit(this.previousAction);
+          this.toggleLoginModal();
+          this.notificationAdd({
+            type: "success",
+            message: "Logged In",
+          });
+        })
+        .catch((error) => {
+          this.loading = false;
+          this.notificationAdd({
+            type: "error",
+            message: "Invalid Username or Password",
+          });
         });
-        this.loading = false;
-        this.user = {
-          username: "",
-          password: ""
-        };
-        console.log(this.previousAction);
-        this.$nuxt.$emit(this.previousAction)
-        this.toggleLoginModal();
-        this.notificationAdd({
-          type: "success",
-          message: "Logged In"
-        });
-      } catch (error) {
-        this.loading = false;
-        this.notificationAdd({
-          type: "error",
-          message: "Invalid Username or Password"
-        });
-      }
-    }
+    },
   },
   validations: {
     user: {
       username: {
         minLength: minLength(4),
-        required
+        required,
       },
       password: {
         minLength: minLength(6),
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   computed: {
     ...mapState({
-      previousAction: state => state.modal.previousAction
+      previousAction: (state) => state.modal.previousAction,
     }),
     usernameErrors() {
       const errors = [];
@@ -138,8 +140,8 @@ export default {
         errors.push("Password is required");
       }
       return errors;
-    }
-  }
+    },
+  },
 };
 </script>
 

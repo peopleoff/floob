@@ -2,44 +2,68 @@
   <div id="chat-window" class="d-flex flex-column justify-space-around pa-2">
     <!-- Video Search -->
     <div class="d-flex flex-row justify-space-between align-center">
-      <v-btn icon tile @click="toggleChat">
-        <v-icon>mdi-arrow-collapse-right</v-icon>
-      </v-btn>
-      <div>Chat</div>
-      <v-btn icon tile>
-        <v-icon>mdi-account-group</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon tile v-bind="attrs" v-on="on" @click="toggleChat">
+            <v-icon>mdi-arrow-collapse-right</v-icon>
+          </v-btn>
+        </template>
+        <span>Collapse</span>
+      </v-tooltip>
+      <div v-if="showUsers">Floobers</div>
+      <div v-else>Chat</div>
+      <div v-if="showUsers">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon tile v-bind="attrs" v-on="on" @click="showUsers = !showUsers">
+              <v-icon>mdi-message</v-icon>
+            </v-btn>
+          </template>
+          <span>Chat</span>
+        </v-tooltip>
+      </div>
+      <div v-else>
+        <v-badge bordered overlap color="royal_flue" :content="users.length">
+          <v-tooltip bottom>
+            <template v-slot:activator="{on, attrs}">
+              <v-btn icon tile v-bind="attrs" v-on="on" @click="showUsers = !showUsers">
+                <v-icon>mdi-account-group</v-icon>
+              </v-btn>
+            </template>
+            <span>Floobers</span>
+          </v-tooltip>
+        </v-badge>
+      </div>
     </div>
     <div class="chat-toolbar pa-1">
-      <a
-        href="https://forms.gle/Ye2Zk8wZLkf9F7zD8"
-        target="_blank"
-        rel="noreferrer"
-      >Feedback</a>
+      <a href="https://forms.gle/Ye2Zk8wZLkf9F7zD8" target="_blank" rel="noreferrer">Feedback</a>
     </div>
     <div id="message-window" class="flex-grow-1 py-3">
-      <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
-      <div v-for="message in messages" :key="message.id">
-        <div v-if="message.eventMessage">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <span
-                v-bind="attrs"
-                v-on="on"
-                style="color: #9e9e9e"
-              >{{message.username}} {{message.message}}</span>
-            </template>
-            <span>{{ message.timestamp | moment("hh:mm a") }}</span>
-          </v-tooltip>
-        </div>
-        <div v-else>
-          <span class="message" :style="'color:' + message.color">{{ message.username }}</span>:
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <span v-bind="attrs" v-on="on" v-html="message.message"></span>
-            </template>
-            <span>{{ message.timestamp | moment("hh:mm a") }}</span>
-          </v-tooltip>
+      <Users v-if="showUsers" />
+      <div v-else>
+        <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
+        <div v-for="message in messages" :key="message.id">
+          <div v-if="message.eventMessage">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <span
+                  v-bind="attrs"
+                  v-on="on"
+                  style="color: #9e9e9e"
+                >{{message.username}} {{message.message}}</span>
+              </template>
+              <span>{{ message.timestamp | moment("hh:mm a") }}</span>
+            </v-tooltip>
+          </div>
+          <div v-else>
+            <span class="message" :style="'color:' + message.color">{{ message.username }}</span>:
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <span v-bind="attrs" v-on="on" v-html="message.message"></span>
+              </template>
+              <span>{{ message.timestamp | moment("hh:mm a") }}</span>
+            </v-tooltip>
+          </div>
         </div>
       </div>
     </div>
@@ -62,25 +86,30 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import Users from "@/components/Users";
 export default {
   name: "Chat",
+  components: {
+    Users,
+  },
   data() {
     return {
       message: "",
       messages: [],
-      hideChat: false
+      hideChat: false,
+      showUsers: false,
     };
   },
   sockets: {
-    newMessage: function(message) {
+    newMessage: function (message) {
       let messages = document.querySelector("#message-window");
       // Prior to getting your messages.
       this.messages.push(message);
       // After getting your messages.
-      setTimeout(function() {
+      setTimeout(function () {
         messages.scrollTop = messages.scrollHeight;
       }, 50);
-    }
+    },
   },
   mounted() {
     // Register an event listener when the Vue component is ready
@@ -90,7 +119,7 @@ export default {
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      toggleLoginModal: "modal/toggleLoginModal"
+      toggleLoginModal: "modal/toggleLoginModal",
     }),
     sendMessage() {
       //Prompt user to login if chatting
@@ -98,7 +127,7 @@ export default {
         this.toggleLoginModal();
         this.notificationAdd({
           type: "info",
-          message: "Please Login To Chat"
+          message: "Please Login To Chat",
         });
         return;
       }
@@ -106,7 +135,7 @@ export default {
       if (this.message.length > 256) {
         this.notificationAdd({
           type: "error",
-          message: "Message too long"
+          message: "Message too long",
         });
         return;
       }
@@ -115,7 +144,7 @@ export default {
         let newMessage = {
           message: this.message,
           roomID: this.room.id,
-          user: this.$auth.user
+          user: this.$auth.user,
         };
         this.$socket.emit("sendMessage", newMessage);
         this.message = "";
@@ -133,17 +162,18 @@ export default {
     },
     toggleChat() {
       this.$emit("toggleChat");
-    }
+    },
   },
   computed: {
     ...mapState({
-      room: state => state.room.room
-    })
+      room: (state) => state.room.room,
+      users: (state) => state.room.users,
+    }),
   },
   beforeDestroy() {
     // Unregister the event listener before destroying this Vue instance
     window.removeEventListener("resize", this.onResize);
-  }
+  },
 };
 </script>
 
@@ -151,16 +181,19 @@ export default {
 #chat-window {
   background: #1e142d;
   border-radius: 8px;
-  height: 600px;
+  height: 750px;
 }
+
 #message-window div {
   word-break: break-word;
   padding-top: 2px;
   padding-bottom: 2px;
 }
+
 #message-window {
   overflow-y: scroll;
 }
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 #message-window::-webkit-scrollbar {
   width: 0px;
@@ -169,7 +202,7 @@ export default {
 
 .chat-toolbar {
   display: flex;
-    justify-content: center;
+  justify-content: center;
 }
 
 .chat-toolbar > a:first-child {
@@ -178,5 +211,15 @@ export default {
 
 .chat-toolbar div {
   justify-self: center;
+}
+@media only screen and (max-width: 1904px) {
+  #chat-window {
+    height: 615px;
+  }
+}
+@media only screen and (max-width: 1260px) {
+  #chat-window {
+    height: 497px;
+  }
 }
 </style>

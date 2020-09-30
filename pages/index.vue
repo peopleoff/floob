@@ -172,17 +172,18 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+.theme--dark.v-application{
+  background: #662d91 !important;
+}
+
 .headline {
   color: #9cbaef;
 }
+
 .subtext {
   letter-spacing: 2px;
   font-weight: 300;
-}
-
-.vr {
-  border-right: 1px solid rgb(255, 255, 255, 0.25);
 }
 
 #landing-page .container,
@@ -257,16 +258,5 @@ export default {
 .img-md {
   max-width: 600px;
   margin: 0 auto;
-}
-
-#features {
-  background-color: #432b5e;
-  padding-bottom: 50px;
-}
-
-@media (max-width: 960px) {
-  .vr {
-    border-right: none;
-  }
 }
 </style>

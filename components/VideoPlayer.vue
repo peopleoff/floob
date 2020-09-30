@@ -17,10 +17,19 @@
     </section>
     <div class="d-flex justify-space-between align-center py-3">
       <div class="roomName">
-        <div class="title" v-html="video.title"></div>
+        <div class="title">
+          <a
+            :href="formatVideoLink(video.src, video.provider)"
+            target="_blank"
+            v-html="video.title"
+            class="muted-link"
+          ></a>
+        </div>
         <div class="subtitle-1">
-          <v-icon>mdi-{{formatProvider(video.provider)}}</v-icon>
-          <a :href="video.channelLink" target="_blank">{{video.channel}}</a>
+          <v-icon>mdi-{{ formatProvider(video.provider) }}</v-icon>
+          <a :href="video.channelLink" target="_blank" class="muted-link">{{
+            video.channel
+          }}</a>
         </div>
       </div>
       <div>
@@ -29,8 +38,10 @@
         </v-btn>
         <v-btn text small>
           <v-icon>mdi-sync</v-icon>
-        </v-btn> -->
-        <v-btn outlined color="royal_flue" class="rounded-lg" @click="skipVideo">Hard Pass</v-btn>
+        </v-btn>-->
+        <v-btn outlined color="royal_flue" class="rounded-lg" @click="skipVideo"
+          >Hard Pass</v-btn
+        >
       </div>
     </div>
   </div>
@@ -46,7 +57,7 @@ export default {
   name: "VideoPlayer",
   props: ["video"],
   sockets: {
-    syncVideo: function(payload) {
+    syncVideo: function (payload) {
       //Round floats into ints for better compare
       let currentTime = Math.round(this.player.currentTime);
       let newTime = Math.round(payload.seconds);
@@ -55,17 +66,19 @@ export default {
       if (playerID !== payload.playerID) {
         this.player.currentTime = newTime;
       }
-    }
-    // playVideo: function(payload) {
-    //   console.log(this.player);
-    //   console.log(payload);
-    //   this.player.play();
-    // },
-    // pauseVideo: function(payload) {
-    //   console.log(this.player);
-    //   console.log(payload);
-    //   this.player.pause();
-    // },
+    },
+    playVideo: function (payload) {
+      this.player.play();
+    },
+    pauseVideo: function (payload) {
+      this.player.pause();
+    },
+    getCurrentVideoPercent: function () {
+      this.timeupdateEvent();
+    },
+    syncToHighestCurrentTime: function (payload) {
+      this.syncPlayer(payload);
+    },
     // toggleVideo: function(payload) {
     //   console.log(payload);
     //   //If current time is 0, video was just started.
@@ -94,10 +107,37 @@ export default {
   },
   methods: {
     ...mapActions({
-      notificationAdd: "notification/add"
+      notificationAdd: "notification/add",
     }),
     readyEvent(event) {
       this.player.play();
+    },
+    syncPlayer(timestamp) {
+      let currentTime = this.player.currentTime;
+      console.log(Math.round(currentTime));
+      console.log(Math.round((timestamp + 5)));
+      //currentTime = videoPlayer time, 5 seconds into video
+      //timestamp is server time, 20 seconds into video
+      //Add 5 seconds to check for 5 seconds additional out of sync
+      //If currentime is below the timestamp, sync up
+      // if(4 < 6){console.log("why")}
+      if(Math.round(currentTime  + 5) <= Math.round((timestamp))){
+        console.log("Video out of sync")
+        this.player.currentTime = timestamp;
+      }
+    },
+    timeupdateEvent() {
+      let currentTime = this.player.currentTime;
+      let duration = this.player.duration;
+
+      let payload = {
+        playerID: this.player.id,
+        roomID: this.room.id,
+        currentTime: currentTime,
+        duration: duration,
+      };
+
+      this.$socket.emit("updateVideo", payload);
     },
     togglePlayingEvent(event) {
       let plyr = event.detail.plyr;
@@ -113,7 +153,7 @@ export default {
       let payload = {
         playerID: this.player.id,
         roomID: this.room.id,
-        seconds: time
+        seconds: time,
       };
 
       //If time between lastSeek and current time is small, user has seeked
@@ -130,34 +170,34 @@ export default {
         }
       }
 
-      // if (timeDifference < 0.0005) {
-      //   let time = plyr.currentTime;
-      //   let payload = {
-      //     playerID: this.player.id,
-      //     roomID: this.room.id,
-      //     seconds: time
-      //   };
-      //   let secondsRounded = Math.round(time);
-      //   let secondsFormatted = secondsRounded;
+      if (timeDifference < 0.0005) {
+        let time = plyr.currentTime;
+        let payload = {
+          playerID: this.player.id,
+          roomID: this.room.id,
+          seconds: time,
+        };
+        let secondsRounded = Math.round(time);
+        let secondsFormatted = secondsRounded;
 
-      //   // var formatted = duration.format("hh:mm:ss");
-      //   this.sendActionToChat(
-      //     "skipped to " + this.formatTime(Math.round(time))
-      //   );
-      //   this.$socket.emit("syncVideo", payload);
-      // } else {
-      //   let time = plyr.currentTime;
-      //   if (time > 1) {
-      //     this.sendActionToChat("played the video");
-      //   }
-      //   this.$socket.emit("toggleVideo", this.room.id);
-      // }
+        // var formatted = duration.format("hh:mm:ss");
+        this.sendActionToChat(
+          "skipped to " + this.formatTime(Math.round(time))
+        );
+        this.$socket.emit("syncVideo", payload);
+      } else {
+        let time = plyr.currentTime;
+        if (time > 1) {
+          this.sendActionToChat("played the video");
+        }
+        this.$socket.emit("toggleVideo", this.room.id);
+      }
     },
     rateChangeEvent(event) {
       let payload = {
         playerID: this.player.id,
         roomID: this.room.id,
-        speed: event.detail.plyr.speed
+        speed: event.detail.plyr.speed,
       };
       this.sendActionToChat("Changed speed to " + event.detail.plyr.speed);
       this.$socket.emit("playSpeed", payload);
@@ -186,6 +226,19 @@ export default {
           break;
       }
     },
+    formatVideoLink(videoID, videoProvider) {
+      switch (parseInt(videoProvider)) {
+        case 1:
+          return "https://www.youtube.com/watch?v=" + videoID;
+          break;
+        case 2:
+          return "https://vimeo.com/" + videoID;
+          break;
+        default:
+          return videoID;
+          break;
+      }
+    },
     formatTime(time) {
       // Hours, minutes and seconds
       var hrs = ~~(time / 3600);
@@ -205,26 +258,27 @@ export default {
       if (!this.$auth.loggedIn) {
         this.notificationAdd({
           type: "info",
-          message: "Please Login To Vote"
+          message: "Please Login To Vote",
         });
         return;
       }
       let payload = {
         videoID: this.video.id,
         userID: this.$auth.user.id,
-        roomID: this.room.id
+        roomID: this.room.id,
       };
       VideoService.skipVideo(payload)
-        .then(result => {
+        .then((result) => {
           this.notificationAdd({
             type: "success",
-            message: result.data.message
+            message: result.data.message,
           });
+          this.sendActionToChat("skipped the video");
         })
-        .catch(error => {
+        .catch((error) => {
           this.notificationAdd({
             type: "info",
-            message: error.data.message
+            message: error.data.message,
           });
         });
     },
@@ -235,9 +289,9 @@ export default {
         sources: [
           {
             src: newVideo.src,
-            provider: provider
-          }
-        ]
+            provider: provider,
+          },
+        ],
       };
     },
     sendActionToChat(message) {
@@ -245,26 +299,26 @@ export default {
         eventMessage: true,
         message: message,
         roomID: this.room.id,
-        user: this.$auth.user
+        user: this.$auth.user,
       };
       this.$socket.emit("sendMessage", newMessage);
-    }
+    },
   },
   computed: {
     ...mapState({
-      room: state => state.room.room
+      room: (state) => state.room.room,
     }),
     player() {
       if (this.$refs.plyr) {
         return this.$refs.plyr.player;
       }
-    }
+    },
   },
   destroyed() {
     if (this.player) {
       this.player.destroy();
     }
-  }
+  },
 };
 </script>
 
@@ -278,6 +332,16 @@ export default {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
+}
+
+.muted-link {
+  text-decoration: none;
+  color: #ffffff !important;
+}
+
+.muted-link:hover {
+  text-decoration: underline;
+  color: #9cbaef !important;
 }
 
 .video-background {
