@@ -2,7 +2,8 @@ import RoomService from "@/services/RoomService";
 
 export const state = () => ({
   room: null,
-  users: []
+  users: [],
+  video: null
 });
 
 export const mutations = {
@@ -11,6 +12,9 @@ export const mutations = {
   },
   SET_USERS_DATA(state, users) {
     state.users = users;
+  },
+  SET_VIDEO_DATA(state, video) {
+    state.video = video;
   },
   CLEAR_ROOM(state) {
     state.room = null;
@@ -33,6 +37,9 @@ export const actions = {
   },
   updateUserList: ({ commit }, usersArray) => {
     return commit("SET_USERS_DATA", usersArray);
+  },
+  updateVideo: ({ commit }, video) => {
+    return commit("SET_VIDEO_DATA", video);
   }
 };
 
@@ -43,4 +50,7 @@ export const getters = {
   users(state) {
     return state.users;
   },
+  video(state) {
+    return state.video;
+  }
 };

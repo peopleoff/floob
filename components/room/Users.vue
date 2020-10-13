@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-for="user in users" :key="user.user.id">
-      <span class="message" :style="'color:' + user.user.color">
-        {{ user.user.username }}
+    <div v-for="user in users" :key="user.id">
+      <span class="message" :style="'color:' + user.color">
+        {{ user.username }}
         </span>
       <div class="progress-div" v-if="user.duration">
         <v-tooltip bottom>

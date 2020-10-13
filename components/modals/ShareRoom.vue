@@ -13,7 +13,7 @@
           color="legendary_mint"
           class="rounded-pill"
           onkeypress="return false;"
-          :value="host + '/room/' + this.room.roomUUID"
+          :value="host + '/room/' + this.room.room_uuid"
           @click:append="ShareRoom"
           append-icon="mdi-content-copy"
           outlined
