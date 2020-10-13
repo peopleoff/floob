@@ -201,7 +201,7 @@ export default {
         room: this.room.id,
         user: this.$auth.user.id,
       };
-      // video, provider, roomID, userID
+      // video, provider, room_id, userID
       switch (video.provider) {
         case 1:
           console.log("added youtube Video");

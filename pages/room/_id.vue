@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col id="video-section">
-        <VideoSearchBar :showChat="showChat" @toggleChat="toggleChat" />
+        <VideoSearchBar :showSidebar="showSidebar" @toggleSidebar="toggleSidebar" />
         <VideoPlayer
           v-if="nextVideo"
           :video="nextVideo"
@@ -18,8 +18,8 @@
           </object>
         </v-sheet>
       </v-col>
-      <v-col cols="12" md="3" :class="chatSize">
-        <Chat @toggleChat="toggleChat" />
+      <v-col cols="12" md="3" :class="SidebarSize">
+        <Sidebar @toggleSidebar="toggleSidebar" />
       </v-col>
     </v-row>
     <v-row>
@@ -31,10 +31,10 @@
 </template>
 
 <script>
-import videoQueue from "@/components/VideoQueue";
-import VideoPlayer from "@/components/VideoPlayer";
-import VideoSearchBar from "@/components/VideoSearchBar";
-import Chat from "@/components/Chat";
+import videoQueue from "@/components/room/VideoQueue";
+import VideoPlayer from "@/components/room/VideoPlayer";
+import VideoSearchBar from "@/components/room/VideoSearchBar";
+import Sidebar from "@/components/room/Sidebar";
 import RoomService from "@/services/RoomService";
 import VideoService from "@/services/VideoService";
 
@@ -46,11 +46,11 @@ export default {
     videoQueue,
     VideoPlayer,
     VideoSearchBar,
-    Chat,
+    Sidebar,
   },
   head() {
     return {
-      title: "Floob - " + this.room.roomUUID,
+      title: "Floob - " + this.room.room_uuid,
       meta: [
         // hid is used as unique identifier. Do not use `vmid` for it as it will not work
         {
@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       allVideos: [],
-      showChat: true,
+      showSidebar: true,
     };
   },
   sockets: {
@@ -83,9 +83,10 @@ export default {
         message: payload.username + " left the floob",
       });
     },
-    updateUserList: function (payload) {
-      this.updateUserList(payload);
-    },
+    heartbeat: function(payload){
+      this.updateStoreUsers(payload.users);
+      this.updateStoreVideo(payload.video);
+    }
   },
   async fetch({ error, params, store, redirect }) {
     try {
@@ -101,7 +102,7 @@ export default {
     }
   },
   asyncData({ error, params, store }) {
-    return VideoService.getVideos({ roomID: params.id }).then((result) => {
+    return VideoService.getVideos({ room_id: params.id }).then((result) => {
       return {
         allVideos: result.data,
       };
@@ -109,7 +110,7 @@ export default {
   },
   mounted() {
     let payload = {
-      id: this.room.id,
+      room: this.room,
       user: this.$auth.user,
     };
     this.$socket.emit("enterRoom", payload);
@@ -119,25 +120,32 @@ export default {
       clearRoom: "room/clearRoom",
       notificationAdd: "notification/add",
       updateUserList: "room/updateUserList",
+      updateVideo: "room/updateVideo",
     }),
     ended(event) {
       this.$socket.emit("removeVideo", event);
       this.allVideos.shift();
     },
-    toggleChat() {
-      this.showChat = !this.showChat;
+    toggleSidebar() {
+      this.showSidebar = !this.showSidebar;
     },
     leaveRoom(){
       this.$socket.emit("leaveRoom");
       this.clearRoom();
+    },
+    updateStoreUsers(users){
+      this.updateUserList(users);
+    },
+    updateStoreVideo(video){
+      this.updateVideo(video);
     }
   },
   computed: {
     ...mapState({
       room: (state) => state.room.room,
     }),
-    chatSize: function () {
-      if (this.showChat) {
+    SidebarSize: function () {
+      if (this.showSidebar) {
         return "pl-md-0";
       } else {
         return "d-none pl-md-0";

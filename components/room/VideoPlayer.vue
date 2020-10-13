@@ -62,8 +62,8 @@ export default {
       let currentTime = Math.round(this.player.currentTime);
       let newTime = Math.round(payload.seconds);
       //Only seek if time is different
-      let playerID = this.player.id;
-      if (playerID !== payload.playerID) {
+      let player_id = this.player.id;
+      if (player_id !== payload.player_id) {
         this.player.currentTime = newTime;
       }
     },
@@ -75,9 +75,6 @@ export default {
     },
     getCurrentVideoPercent: function () {
       this.timeupdateEvent();
-    },
-    syncToHighestCurrentTime: function (payload) {
-      this.syncPlayer(payload);
     },
     // toggleVideo: function(payload) {
     //   console.log(payload);
@@ -91,16 +88,16 @@ export default {
     //   // }else{
     //   //   this.player.play();
     //   // }
-    //   // let playerID = this.player.id;
-    //   // let eventPlayerID = payload.playerID;
-    //   // if (playerID !== eventPlayerID) {
+    //   // let player_id = this.player.id;
+    //   // let eventPlayerID = payload.player_id;
+    //   // if (player_id !== eventPlayerID) {
     //   //   this.player.play();
     //   // }
     // },
     // playSpeed: function(payload) {
-    //   let playerID = this.player.id;
-    //   let eventPlayerID = payload.playerID;
-    //   if (playerID !== eventPlayerID) {
+    //   let player_id = this.player.id;
+    //   let eventPlayerID = payload.player_id;
+    //   if (player_id !== eventPlayerID) {
     //     this.player.speed = payload.speed;
     //   }
     // }
@@ -131,8 +128,8 @@ export default {
       let duration = this.player.duration;
 
       let payload = {
-        playerID: this.player.id,
-        roomID: this.room.id,
+        player_id: this.player.id,
+        room_id: this.room.id,
         currentTime: currentTime,
         duration: duration,
       };
@@ -151,8 +148,8 @@ export default {
       let timeDifference = (nowTimestamp - lastSeekTime) / 10000;
       let time = plyr.currentTime;
       let payload = {
-        playerID: this.player.id,
-        roomID: this.room.id,
+        player_id: this.player.id,
+        room_id: this.room.id,
         seconds: time,
       };
 
@@ -173,8 +170,8 @@ export default {
       if (timeDifference < 0.0005) {
         let time = plyr.currentTime;
         let payload = {
-          playerID: this.player.id,
-          roomID: this.room.id,
+          player_id: this.player.id,
+          room_id: this.room.id,
           seconds: time,
         };
         let secondsRounded = Math.round(time);
@@ -195,8 +192,8 @@ export default {
     },
     rateChangeEvent(event) {
       let payload = {
-        playerID: this.player.id,
-        roomID: this.room.id,
+        player_id: this.player.id,
+        room_id: this.room.id,
         speed: event.detail.plyr.speed,
       };
       this.sendActionToChat("Changed speed to " + event.detail.plyr.speed);
@@ -265,7 +262,7 @@ export default {
       let payload = {
         videoID: this.video.id,
         userID: this.$auth.user.id,
-        roomID: this.room.id,
+        room_id: this.room.id,
       };
       VideoService.skipVideo(payload)
         .then((result) => {
@@ -298,7 +295,7 @@ export default {
       let newMessage = {
         eventMessage: true,
         message: message,
-        roomID: this.room.id,
+        room_id: this.room.id,
         user: this.$auth.user,
       };
       this.$socket.emit("sendMessage", newMessage);

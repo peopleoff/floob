@@ -11,7 +11,14 @@
             <!-- type pausing -->
             <div>
               <vue-typed-js
-                :strings="shuffleArray(['Raid Guides', 'AMVs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Lets Plays', 'Trendy Videos&nbsp;&nbsp;' ])"
+                :strings="
+                  shuffleArray([
+                    'Raid Guides',
+                    'AMVs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                    'Lets Plays',
+                    'Trendy Videos&nbsp;&nbsp;',
+                  ])
+                "
                 loop
                 :typeSpeed="50"
                 :backSpeed="50"
@@ -26,7 +33,14 @@
                 </div>
               </vue-typed-js>
               <vue-typed-js
-                :strings="shuffleArray(['Guild.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 'Body Pillow.', 'Friends.&nbsp;&nbsp;', 'Discord Server.' ])"
+                :strings="
+                  shuffleArray([
+                    'Guild.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                    'Body Pillow.',
+                    'Friends.&nbsp;&nbsp;',
+                    'Discord Server.',
+                  ])
+                "
                 loop
                 :typeSpeed="50"
                 :backSpeed="50"
@@ -34,7 +48,7 @@
                 :startDelay="1000"
                 :contentType="'html'"
                 :showCursor="false"
-                style="margin-top: -30px;"
+                style="margin-top: -30px"
               >
                 <div class="headline white--text">
                   With Your
@@ -48,7 +62,8 @@
 
             <span class="text-h6 font-weight-light">
               Create a room and share some laughs in five clicks or less!
-              <br />Floob is built for sharing moments with your friends during gaming sessions or while hanging out in Discord.
+              <br />Floob is built for sharing moments with your friends during
+              gaming sessions or while hanging out in Discord.
             </span>
             <v-row class="pt-6">
               <v-col>
@@ -63,7 +78,8 @@
                   :to="'/room/' + $auth.user.room"
                   :loading="loading"
                   @click="loading = true"
-                >Enter My Room</v-btn>
+                  >Enter My Room</v-btn
+                >
                 <v-btn
                   v-else
                   elevation="24"
@@ -73,7 +89,8 @@
                   class="rounded-pill"
                   @click="createRoom"
                   :loading="loading"
-                >Create A Room</v-btn>
+                  >Create A Room</v-btn
+                >
               </v-col>
               <v-col>
                 <v-btn
@@ -83,7 +100,8 @@
                   block
                   outlined
                   @click="toggleJoinModal"
-                >Join A Room</v-btn>
+                  >Join A Room</v-btn
+                >
               </v-col>
             </v-row>
           </v-col>
@@ -91,7 +109,11 @@
             <herosvg />
           </v-col>
         </v-row>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="wave">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
+          class="wave"
+        >
           <path
             fill="#432b5e"
             fill-opacity="1"
@@ -111,17 +133,18 @@ import herosvg from "@/components/index/hero_svg";
 
 export default {
   components: {
-    herosvg
+    herosvg,
   },
   data() {
     return {
-      loading: false
+      loading: false,
     };
   },
   methods: {
     ...mapActions({
+      notificationAdd: "notification/add",
       toggleLoginModal: "modal/toggleLoginModal",
-      toggleJoinModal: "modal/toggleJoinModal"
+      toggleJoinModal: "modal/toggleJoinModal",
     }),
     createRoom() {
       //If user is not logged in redirect to login page
@@ -130,16 +153,19 @@ export default {
       } else {
         this.loading = true;
         RoomService.register({
-          user: this.$auth.user.id
+          user: this.$auth.user.id,
         })
           .then(({ data }) => {
             this.loading = false;
             this.$router.push("/room/" + data.room);
             this.$auth.user.room = data.room;
           })
-          .catch(error => {
+          .catch((error) => {
             this.loading = false;
-            console.error(error);
+            this.notificationAdd({
+              type: "error",
+              message: "Error Creating room, Please try again or Contact Support",
+            });
           });
       }
     },
@@ -161,19 +187,19 @@ export default {
       }
 
       return array;
-    }
+    },
   },
   mounted() {
     this.$nuxt.$on("createRoom", () => {
       this.createRoom();
     });
-  }
+  },
 };
 </script>
 
 
 <style scoped>
-.theme--dark.v-application{
+.theme--dark.v-application {
   background: #662d91 !important;
 }
 

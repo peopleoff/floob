@@ -3,12 +3,12 @@
     <template v-slot:activator="{ on, attrs }">
       <div
         class="ma-0 pointer"
-        @click="copyRoomCode(room.roomUUID)"
+        @click="copyRoomCode(room.room_uuid)"
         v-if="room"
         v-bind="attrs"
         v-on="on"
       >
-        <span class="hidden-sm-and-down">Room Code: {{room.roomUUID}}</span>
+        <span class="hidden-sm-and-down">Room Code: {{room.room_uuid}}</span>
         <span class="hidden-md-and-up">Share Room</span>
         <lottie :options="options" :styles="styles" @animCreated="animCreated" />
       </div>
