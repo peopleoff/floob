@@ -1,7 +1,7 @@
 <template>
   <div id="video-size">
     <section class="video-background rounded-lg">
-      <div id="video-wrapper">
+      <div id="video-wrapper" :class="{ 'theater-mode': theaterMode }">
         <vue-plyr
           ref="plyr"
           @ended="endedEvent"
@@ -67,14 +67,18 @@ export default {
         this.player.currentTime = newTime;
       }
     },
-    playVideo: function (payload) {
-      this.player.play();
-    },
-    pauseVideo: function (payload) {
-      this.player.pause();
-    },
+    // playVideo: function (payload) {
+    //   this.player.play();
+    // },
+    // pauseVideo: function (payload) {
+    //   this.player.pause();
+    // },
     getCurrentVideoPercent: function () {
       this.timeupdateEvent();
+    },
+    sendTimeToSync: function (payload) {
+      this.player.currentTime = payload.seconds;
+      console.log(payload);
     },
     // toggleVideo: function(payload) {
     //   console.log(payload);
@@ -105,6 +109,7 @@ export default {
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
+      setTheaterMode: "room/setTheaterMode",
     }),
     readyEvent(event) {
       this.player.play();
@@ -112,14 +117,14 @@ export default {
     syncPlayer(timestamp) {
       let currentTime = this.player.currentTime;
       console.log(Math.round(currentTime));
-      console.log(Math.round((timestamp + 5)));
+      console.log(Math.round(timestamp + 5));
       //currentTime = videoPlayer time, 5 seconds into video
       //timestamp is server time, 20 seconds into video
       //Add 5 seconds to check for 5 seconds additional out of sync
       //If currentime is below the timestamp, sync up
       // if(4 < 6){console.log("why")}
-      if(Math.round(currentTime  + 5) <= Math.round((timestamp))){
-        console.log("Video out of sync")
+      if (Math.round(currentTime + 5) <= Math.round(timestamp)) {
+        console.log("Video out of sync");
         this.player.currentTime = timestamp;
       }
     },
@@ -304,6 +309,7 @@ export default {
   computed: {
     ...mapState({
       room: (state) => state.room.room,
+      theaterMode: (state) => state.room.theaterMode,
     }),
     player() {
       if (this.$refs.plyr) {
@@ -327,10 +333,15 @@ export default {
 
 #video-wrapper {
   width: 100%;
+  /* width for theater mode calc(100vh + 47vh) */
   max-width: 1100px;
   margin: 0 auto;
+  transition: 1s;
 }
 
+#video-wrapper.theater-mode{
+  max-width: calc(100vh + 58vh);
+}
 .muted-link {
   text-decoration: none;
   color: #ffffff !important;

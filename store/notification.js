@@ -1,6 +1,6 @@
-export const state = {
+export const state = () => ({
   notification: null
-};
+});
 
 export const mutations = {
   PUSH(state, notification) {
