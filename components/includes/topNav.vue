@@ -2,7 +2,7 @@
   <v-app-bar
     flat
     color="transparent"
-    v-bind:class="{ 'color-nav': $route.path == '/' }"
+    v-bind:class="{ 'color-nav': $route.path == '/', 'd-none': theaterMode }"
   >
     <nuxt-link
       to="/"
@@ -17,7 +17,7 @@
     <v-btn
       outlined
       color="royal_flue"
-      class="mx-3 hidden-sm-and-down"
+      class="mx-3 hidden-sm-and-down rounded-pill"
       @click="toggleJoinModal"
       v-if="room"
       >Join a Room</v-btn
@@ -26,11 +26,12 @@
       @click="toggleLoginModal"
       v-if="!$auth.loggedIn"
       color="kings_purple"
+      class="rounded-pill"
       >Sign In</v-btn
     >
     <v-menu offset-y v-else transition="scale-transition">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="kings_purple" class="text-unset" v-bind="attrs" v-on="on">
+        <v-btn color="kings_purple" class="text-unset rounded-pill" v-bind="attrs" v-on="on">
           {{ $auth.user.username }} 
           <v-icon>mdi-chevron-down</v-icon>
         </v-btn>
@@ -62,6 +63,7 @@ export default {
   computed: {
     ...mapState({
       room: (state) => state.room.room,
+      theaterMode: (state) => state.room.theaterMode,
     }),
   },
 };
@@ -71,7 +73,7 @@ export default {
 .v-application--wrap header.color-nav {
   background-color: #662d91 !important;
 }
-.v-toolbar__content {
+/* .v-toolbar__content {
   width: 100%;
   margin-right: auto;
   margin-left: auto;
@@ -91,7 +93,7 @@ export default {
   .v-toolbar__content {
     max-width: 1785px;
   }
-}
+} */
 .logo {
   height: 50%;
   cursor: pointer;

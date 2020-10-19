@@ -3,7 +3,8 @@ import RoomService from "@/services/RoomService";
 export const state = () => ({
   room: null,
   users: [],
-  video: null
+  video: null,
+  theaterMode: false
 });
 
 export const mutations = {
@@ -15,6 +16,9 @@ export const mutations = {
   },
   SET_VIDEO_DATA(state, video) {
     state.video = video;
+  },
+  SET_THEATER_MODE(state, mode) {
+    state.theaterMode = mode;
   },
   CLEAR_ROOM(state) {
     state.room = null;
@@ -38,6 +42,9 @@ export const actions = {
   updateUserList: ({ commit }, usersArray) => {
     return commit("SET_USERS_DATA", usersArray);
   },
+  setTheaterMode: ({ commit }, mode) => {
+    return commit("SET_THEATER_MODE", mode);
+  },
   updateVideo: ({ commit }, video) => {
     return commit("SET_VIDEO_DATA", video);
   }
@@ -46,6 +53,9 @@ export const actions = {
 export const getters = {
   room(state) {
     return state.room;
+  },
+  theaterMode(state) {
+    return state.theaterMode;
   },
   users(state) {
     return state.users;

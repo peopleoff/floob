@@ -1,28 +1,32 @@
 <template>
-  <div class="d-flex flex-column justify-space-around pa-2">
-    <div class="font-weight-thin" style="color: #9e9e9e">Welcome To Chat!</div>
-    <div v-for="message in messages" :key="message.id">
-      <div v-if="message.eventMessage">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <span v-bind="attrs" v-on="on" style="color: #9e9e9e"
-              >{{ message.username }} {{ message.message }}</span
-            >
-          </template>
-          <span>{{ message.timestamp | moment("hh:mm a") }}</span>
-        </v-tooltip>
+  <section id="chat" class="h100 d-flex flex-column justify-space-between">
+    <div id="messages">
+      <div class="font-weight-thin" style="color: #9e9e9e">
+        Welcome To Chat!
       </div>
-      <div v-else>
-        <span class="message" :style="'color:' + message.color">{{
-          message.username
-        }}</span
-        >:
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <span v-bind="attrs" v-on="on" v-html="message.message"></span>
-          </template>
-          <span>{{ message.timestamp | moment("hh:mm a") }}</span>
-        </v-tooltip>
+      <div v-for="message in messages" :key="message.id">
+        <div v-if="message.eventMessage">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <span v-bind="attrs" v-on="on" style="color: #9e9e9e"
+                >{{ message.username }} {{ message.message }}</span
+              >
+            </template>
+            <span>{{ message.timestamp | moment("hh:mm a") }}</span>
+          </v-tooltip>
+        </div>
+        <div v-else>
+          <span class="message" :style="'color:' + message.color">{{
+            message.username
+          }}</span
+          >:
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <span v-bind="attrs" v-on="on" v-html="message.message"></span>
+            </template>
+            <span>{{ message.timestamp | moment("hh:mm a") }}</span>
+          </v-tooltip>
+        </div>
       </div>
     </div>
     <div>
@@ -39,17 +43,14 @@
         @keydown.enter="sendMessage"
       ></v-text-field>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
-import Users from "@/components/room/Users";
+
 export default {
   name: "Chat",
-  components: {
-    Users,
-  },
   data() {
     return {
       message: "",
@@ -60,7 +61,7 @@ export default {
   },
   sockets: {
     newMessage: function (message) {
-      let messages = document.querySelector("#message-window");
+      let messages = document.querySelector("#messages");
       // Prior to getting your messages.
       this.messages.push(message);
       // After getting your messages.
@@ -117,4 +118,12 @@ export default {
 </script>
 
 <style scoped>
+#messages{
+  overflow-y: scroll;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+#messages::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
 </style>

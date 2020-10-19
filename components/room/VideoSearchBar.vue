@@ -21,12 +21,14 @@
             class="px-2 pointer"
             :class="youtubeActive"
             @click="changeSearchPlatform(1)"
-          >mdi-youtube</v-icon>
+            >mdi-youtube</v-icon
+          >
           <v-icon
             class="px-2 pointer"
             :class="vimeoActive"
             @click="changeSearchPlatform(2)"
-          >mdi-vimeo</v-icon>
+            >mdi-vimeo</v-icon
+          >
         </template>
       </v-text-field>
 
@@ -49,19 +51,26 @@
 
           <v-list-item-content>
             <v-list-item-title v-html="result.title"></v-list-item-title>
-            <v-list-item-subtitle v-html="result.channel"></v-list-item-subtitle>
-            <v-list-item-subtitle>{{ result.publishTime | moment("from", "now", true) }} ago</v-list-item-subtitle>
+            <v-list-item-subtitle
+              v-html="result.channel"
+            ></v-list-item-subtitle>
+            <v-list-item-subtitle
+              >{{
+                result.publishTime | moment("from", "now", true)
+              }}
+              ago</v-list-item-subtitle
+            >
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </div>
-    <v-tooltip bottom v-if="!showChat">
+    <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn icon tile v-bind="attrs" v-on="on" @click="toggleChat">
-          <v-icon>mdi-arrow-collapse-left</v-icon>
+        <v-btn icon tile v-bind="attrs" v-on="on" @click="setTheaterMode(!theaterMode)">
+          <v-icon>mdi-overscan</v-icon>
         </v-btn>
       </template>
-      <span>Expand</span>
+      <span>Theater Mode</span>
     </v-tooltip>
   </section>
 </template>
@@ -91,6 +100,7 @@ export default {
     ...mapActions({
       notificationAdd: "notification/add",
       toggleLoginModal: "modal/toggleLoginModal",
+      setTheaterMode: "room/setTheaterMode",
     }),
     alert(text) {
       alert(text);
@@ -266,6 +276,7 @@ export default {
   computed: {
     ...mapState({
       room: (state) => state.room.room,
+      theaterMode: (state) => state.room.theaterMode,
     }),
     youtubeActive: function () {
       return {
