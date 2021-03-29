@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col id="video-section">
         <VideoSearchBar :showSidebar="showSidebar" @toggleSidebar="toggleSidebar" />
@@ -18,7 +18,7 @@
           </object>
         </v-sheet>
       </v-col>
-      <v-col cols="12" md="3" :class="SidebarSize">
+      <v-col cols="12" md="2" :class="SidebarSize">
         <Sidebar @toggleSidebar="toggleSidebar" />
       </v-col>
     </v-row>
@@ -34,7 +34,7 @@
 import videoQueue from "@/components/room/VideoQueue";
 import VideoPlayer from "@/components/room/VideoPlayer";
 import VideoSearchBar from "@/components/room/VideoSearchBar";
-import Sidebar from "@/components/room/Sidebar";
+import Sidebar from "@/components/room/sidebar/Sidebar";
 import RoomService from "@/services/RoomService";
 import VideoService from "@/services/VideoService";
 
