@@ -66,7 +66,13 @@
     </div>
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn icon tile v-bind="attrs" v-on="on" @click="setTheaterMode(!theaterMode)">
+        <v-btn
+          icon
+          tile
+          v-bind="attrs"
+          v-on="on"
+          @click="setTheaterMode(!theaterMode)"
+        >
           <v-icon>mdi-overscan</v-icon>
         </v-btn>
       </template>
@@ -212,43 +218,19 @@ export default {
         user: this.$auth.user.id,
       };
       // video, provider, room_id, userID
-      switch (video.provider) {
-        case 1:
-          console.log("added youtube Video");
-          VideoService.postVideo(video)
-            .then((result) => {
-              this.notificationAdd({
-                type: "success",
-                message: "Video Added",
-              });
-            })
-            .catch((error) => {
-              this.notificationAdd({
-                type: "info",
-                message: "Error adding video, please try again",
-              });
-            });
-          break;
-        case 2:
-          console.log("Added vimeo video");
-          VideoService.postVideo(video)
-            .then((result) => {
-              this.notificationAdd({
-                type: "success",
-                message: "Video Added",
-              });
-            })
-            .catch((error) => {
-              this.notificationAdd({
-                type: "info",
-                message: "Error adding video, please try again",
-              });
-            });
-          break;
-
-        default:
-          break;
-      }
+      VideoService.postVideo(video)
+        .then((result) => {
+          this.notificationAdd({
+            type: "success",
+            message: "Video Added",
+          });
+        })
+        .catch((error) => {
+          this.notificationAdd({
+            type: "info",
+            message: "Error adding video, please try again",
+          });
+        });
       this.clearInput();
     },
     changeSearchPlatform(platformID) {

@@ -9,7 +9,8 @@
           @play="togglePlayingEvent"
           @pause="togglePlayingEvent"
         >
-          <div class="plyr__video-embed">
+          <hlsplayer :video="video.src" v-if="video.provider > 2" />
+          <div class="plyr__video-embed" v-else>
             <iframe :src="formatSource(video.src, video.provider)"></iframe>
           </div>
         </vue-plyr>
@@ -52,10 +53,14 @@
 import _ from "lodash";
 import { mapState, mapActions } from "vuex";
 import VideoService from "@/services/VideoService";
+import hlsplayer from "./HlsPlayer.Vue";
 
 export default {
   name: "VideoPlayer",
   props: ["video"],
+  components: {
+    hlsplayer,
+  },
   sockets: {
     syncVideo: function (payload) {
       //Round floats into ints for better compare
@@ -284,18 +289,6 @@ export default {
           });
         });
     },
-    playNextVideo(newVideo) {
-      let provider = this.formatProvider(newVideo.provider);
-      this.player.source = {
-        type: "video",
-        sources: [
-          {
-            src: newVideo.src,
-            provider: provider,
-          },
-        ],
-      };
-    },
     sendActionToChat(message) {
       let newMessage = {
         eventMessage: true,
@@ -339,7 +332,7 @@ export default {
   transition: 1s;
 }
 
-#video-wrapper.theater-mode{
+#video-wrapper.theater-mode {
   max-width: calc(100vh + 58vh);
 }
 .muted-link {
@@ -358,5 +351,9 @@ export default {
 
 .ytp-pause-overlay {
   display: none;
+}
+
+#video {
+  width: 100%;
 }
 </style>
