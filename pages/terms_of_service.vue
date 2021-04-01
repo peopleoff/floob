@@ -155,7 +155,9 @@
               Use a buying agent or purchasing agent to make purchases on the
               Site.
             </li>
-            <li>Use the Site to advertise or offer to sell goods and services.</li>
+            <li>
+              Use the Site to advertise or offer to sell goods and services.
+            </li>
             <li>
               Circumvent, disable, or otherwise interfere with security-related
               features of the Site, including features that prevent or restrict
@@ -293,7 +295,9 @@
               Contributions in any manner contemplated by the Site and these
               Terms of Use.
             </li>
-            <li>Your Contributions are not false, inaccurate, or misleading.</li>
+            <li>
+              Your Contributions are not false, inaccurate, or misleading.
+            </li>
             <li>
               Your Contributions are not unsolicited or unauthorized
               advertising, promotional materials, pyramid schemes, chain
@@ -341,7 +345,8 @@
               that violates, any provision of these Terms of Use, or any
               applicable law or regulation.
             </li>
-          </ul>Any use of the Site in violation of the foregoing violates these Terms
+          </ul>
+          Any use of the Site in violation of the foregoing violates these Terms
           of Use and may result in, among other things, termination or
           suspension of your rights to use the Site.
         </div>
@@ -830,7 +835,9 @@
           purported representative capacity on behalf of the general public or
           any other persons.
         </p>
-        <p class="subtitle-1">Exceptions to Informal Negotiations and Arbitration</p>
+        <p class="subtitle-1">
+          Exceptions to Informal Negotiations and Arbitration
+        </p>
         <p>
           The Parties agree that the following Disputes are not subject to the
           above provisions concerning informal negotiations and binding
@@ -949,7 +956,9 @@
       </div>
     </section>
     <section>
-      <h4 class="text-h4">ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</h4>
+      <h4 class="text-h4">
+        ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES
+      </h4>
       <div>
         <p>
           Visiting the Site, sending us emails, and completing online forms
@@ -1029,7 +1038,9 @@
         <p>Floob</p>
         <p>United States</p>
         <p>
-          <a href="mailto:Support@floob.gg?subject=Terms Of Service Concern">Support@Floob.gg</a>
+          <a href="mailto:Support@floob.gg?subject=Terms Of Service Concern"
+            >Support@Floob.gg</a
+          >
         </p>
       </div>
     </section>
@@ -1037,28 +1048,29 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
-    head () {
-    return {
-      title: "Floob - Terms of Service"
-    }
-  },
-  name: "terms_of_service",
   data() {
     return {};
   },
+  mounted() {
+    this.toggleLoginModal("close");
+  },
   methods: {
+    ...mapActions({
+      toggleLoginModal: "modal/toggleLoginModal",
+    }),
     formatString(string) {
       return "#" + string.replace(/ /g, "_").toLowerCase();
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .container {
   padding-top: 100px;
-    max-width: 900px;
+  max-width: 900px;
 }
 
 p {
@@ -1068,7 +1080,7 @@ section {
   border-top: 1px solid #00bcd4;
 }
 
-section > h4{
+section > h4 {
   padding-top: 12px;
   padding-bottom: 12px;
 }

@@ -1,6 +1,10 @@
 <template>
-  <v-dialog v-model="showJoinModal" @click:outside="toggleJoinModal" max-width="600px">
-    <v-form @keyup.native.enter="joinRoom">
+  <v-dialog
+    v-model="showJoinModal"
+    @click:outside="toggleJoinModal"
+    max-width="600px"
+  >
+    <v-form v-on:submit.prevent="joinRoom">
       <v-card>
         <v-card-title>
           Join a room
@@ -15,35 +19,17 @@
             filled
             outlined
             :error-messages="roomCodeErrors"
+
             color="legendary_mint"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="joinRoom" color="kings_purple" :loading="loading">Join Room</v-btn>
+          <v-btn @click="joinRoom" color="kings_purple" :loading="loading"
+            >Join Room</v-btn
+          >
         </v-card-actions>
       </v-card>
-      <!-- <v-card>
-        <v-toolbar>
-          <v-toolbar-title>Join a room</v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
-        <v-card-text>
-          <v-text-field
-            v-model="roomCode"
-            label="Room Code"
-            required
-            filled
-            outlined
-            :error-messages="roomCodeErrors"
-            color="legendary_mint"
-          ></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn @click="joinRoom" color="kings_purple" :loading="loading">Join Room</v-btn>
-        </v-card-actions>
-      </v-card>-->
     </v-form>
   </v-dialog>
 </template>
@@ -55,12 +41,12 @@ export default {
   data() {
     return {
       roomCode: "",
-      loading: false
+      loading: false,
     };
   },
   methods: {
     ...mapActions({
-      toggleJoinModal: "modal/toggleJoinModal"
+      toggleJoinModal: "modal/toggleJoinModal",
     }),
     joinRoom() {
       this.$v.$touch();
@@ -72,18 +58,18 @@ export default {
       this.toggleJoinModal();
       this.$router.push({ path: `/room/${this.roomCode}` });
       this.roomCode = "";
-    }
+    },
   },
   validations: {
     roomCode: {
       minLength: minLength(8),
       maxLength: maxLength(8),
-      required
-    }
+      required,
+    },
   },
   computed: {
     ...mapGetters({
-      showJoinModal: "modal/showJoinModal"
+      showJoinModal: "modal/showJoinModal",
     }),
     roomCodeErrors() {
       const errors = [];
@@ -104,8 +90,8 @@ export default {
         errors.push("A room code is required");
       }
       return errors;
-    }
-  }
+    },
+  },
 };
 </script>
 
