@@ -53,7 +53,7 @@
 import _ from "lodash";
 import { mapState, mapActions } from "vuex";
 import VideoService from "@/services/VideoService";
-import hlsplayer from "./HlsPlayer.Vue";
+import hlsplayer from "./HlsPlayer.vue";
 
 export default {
   name: "VideoPlayer",
