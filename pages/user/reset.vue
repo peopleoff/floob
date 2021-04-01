@@ -16,12 +16,14 @@
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn block color="primary" @click="requestPasswordChange">Request Password Change</v-btn>
+          <v-btn block color="primary" @click="requestPasswordChange"
+            >Request Password Change</v-btn
+          >
         </v-card-actions>
       </v-form>
       <p class="caption px-2">
         Ready to
-        <nuxt-link to="/login">Login?</nuxt-link>
+        <a href="#" @click="toggleLoginModal">Login?</a>
       </p>
     </v-sheet>
   </section>
@@ -34,36 +36,36 @@ import UserService from "@/services/UserService";
 export default {
   data() {
     return {
-      username: null
+      username: null,
     };
+  },
+  mounted(){
+    this.toggleLoginModal("close");
   },
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
       toggleLoginModal: "modal/toggleLoginModal",
-      toggleJoinModal: "modal/toggleJoinModal"
+      toggleJoinModal: "modal/toggleJoinModal",
     }),
     requestPasswordChange() {
       UserService.requestPasswordChange({
-        username: this.username
+        username: this.username,
       })
         .then(({ data }) => {
           this.notificationAdd({
             type: "success",
-            message: data.message
+            message: data.message,
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.notificationAdd({
             type: "error",
-            message: error.response.data.message
+            message: error.response.data.message,
           });
         });
     },
-    joinRoom() {
-      this.joinDialog = !this.joinDialog;
-    }
-  }
+  },
 };
 </script>
 
@@ -72,5 +74,6 @@ export default {
   background: url("/images/background-dark.svg");
   background-position: center;
   background-size: cover;
+  height: 100vh;
 }
 </style>
