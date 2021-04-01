@@ -8,7 +8,6 @@
         <span class="circle circle-4"></span>
         <v-row class="justify-center align-center banner">
           <v-col cols="12" md="6" class="z-5">
-            <!-- type pausing -->
             <div>
               <vue-typed-js
                 :strings="
@@ -56,9 +55,6 @@
                 </div>
               </vue-typed-js>
             </div>
-            <!-- <vue-typed-js :strings="['First text', 'Second Text']">
-              <p class="headline">Share your favorite <span class="typing"></span></p>
-            </vue-typed-js>-->
 
             <span class="text-h6 font-weight-light">
               Create a room and share some laughs in five clicks or less!
@@ -68,20 +64,6 @@
             <v-row class="pt-6">
               <v-col>
                 <v-btn
-                  v-if="$auth.user && $auth.user.room"
-                  elevation="24"
-                  height="50"
-                  block
-                  color="kings_purple"
-                  class="rounded-pill white--text"
-                  nuxt
-                  :to="'/room/' + $auth.user.room"
-                  :loading="loading"
-                  @click="loading = true"
-                  >Enter My Room</v-btn
-                >
-                <v-btn
-                  v-else
                   elevation="24"
                   height="50"
                   block

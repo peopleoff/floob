@@ -27,9 +27,6 @@ body {
   cursor: pointer;
 }
 
-.container {
-  max-width: 700px;
-}
 
 .z-1 {
   z-index: 1 !important;

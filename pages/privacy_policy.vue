@@ -122,9 +122,7 @@
           and accurate, and you must notify us of any changes to such personal
           information.
         </p>
-        <p class="title">
-          Information automatically collected
-        </p>
+        <p class="title">Information automatically collected</p>
         <p class="subtitle-1">
           <span class="in-short"> In Short: </span> Some information – such as
           IP address and/or browser and device characteristics – maybe collected
@@ -248,7 +246,9 @@
       </div>
     </section>
     <section id="do_we_use_cookies_and_other_tracking_technologies">
-      <h4 class="text-h4">Do We Use Cookies And Other Tracking Technologies?</h4>
+      <h4 class="text-h4">
+        Do We Use Cookies And Other Tracking Technologies?
+      </h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> We may use cookies and other
@@ -396,7 +396,9 @@
       </div>
     </section>
     <section id="do_california_residents_have_specific_privacy_rights">
-      <h4 class="text-h4">Do California Residents Have Specific Privacy Rights?</h4>
+      <h4 class="text-h4">
+        Do California Residents Have Specific Privacy Rights?
+      </h4>
       <div>
         <p class="subtitle-1 font-weight-light font-italic">
           <span class="in-short"> In Short: </span> Yes, if you are a resident
@@ -471,17 +473,24 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
-  name: 'privacy_policy',
+  name: "privacy_policy",
   data() {
-    return {}
+    return {};
+  },
+  mounted() {
+    this.toggleLoginModal("close");
   },
   methods: {
+    ...mapActions({
+      toggleLoginModal: "modal/toggleLoginModal",
+    }),
     formatString(string) {
-      return '#' + string.replace(/ /g, '_').toLowerCase()
-    }
-  }
-}
+      return "#" + string.replace(/ /g, "_").toLowerCase();
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -497,7 +506,7 @@ section {
   border-top: 1px solid #00bcd4;
 }
 
-section > h4{
+section > h4 {
   padding-top: 12px;
   padding-bottom: 12px;
 }
