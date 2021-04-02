@@ -63,7 +63,8 @@
           class="rounded-pill"
           :loading="loading"
           @click="register"
-        >Register</v-btn>
+          >Register</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-form>
@@ -82,38 +83,38 @@ export default {
         username: "",
         password: "",
         date_of_birth: "",
-        email: ""
+        email: "",
       },
       dobMask: "##/##/####",
       loading: false,
-      showPassword: false
+      showPassword: false,
     };
   },
   validations: {
     user: {
       username: {
         minLength: minLength(4),
-        required
+        required,
       },
       password: {
         minLength: minLength(6),
-        required
+        required,
       },
       date_of_birth: {
         minLength: minLength(6),
-        required
+        required,
       },
       email: {
         minLength: minLength(4),
         required,
-        email
-      }
-    }
+        email,
+      },
+    },
   },
   methods: {
     ...mapActions({
       notificationAdd: "notification/add",
-      toggleLoginModal: "modal/toggleLoginModal"
+      toggleLoginModal: "modal/toggleLoginModal",
     }),
     getAge(DOB) {
       var today = new Date();
@@ -126,7 +127,7 @@ export default {
 
       return age;
     },
-    register: function() {
+    register: function () {
       this.loading = true;
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -140,30 +141,31 @@ export default {
           .then(({ data }) => {
             this.loading = false;
             let token = data.token;
+            console.log(token);
             this.$auth
               .setUserToken(token)
               .then(() => {
-                this.$nuxt.$emit(this.previousAction);
-                this.toggleLoginModal();
+                this.toggleLoginModal("close");
                 this.notificationAdd({
                   type: "success",
-                  message: "Registered"
+                  message: "Registered",
                 });
               })
-              .catch(error => {
+              .catch((error) => {
+                console.log(error);
                 console.log("ERror");
                 console.log(error.response);
               });
           })
-          .catch(error => {
+          .catch((error) => {
             this.loading = false;
             this.notificationAdd({
               type: "error",
-              message: error.response.data.message
+              message: error.response.data.message,
             });
           });
       }
-    }
+    },
   },
   computed: {
     usernameErrors() {
@@ -221,8 +223,8 @@ export default {
         errors.push("E-mail is required");
       }
       return errors;
-    }
-  }
+    },
+  },
 };
 </script>
 

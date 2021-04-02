@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col id="video-section">
-        <VideoSearchBar :showSidebar="showSidebar" @toggleSidebar="toggleSidebar" />
+        <VideoSearchBar />
         <VideoPlayer
           v-if="nextVideo"
           :video="nextVideo"
@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       allVideos: [],
-      showSidebar: true,
+      showSidebar: false,
     };
   },
   sockets: {
@@ -83,10 +83,10 @@ export default {
         message: payload.username + " left the floob",
       });
     },
-    heartbeat: function(payload){
+    heartbeat: function (payload) {
       this.updateStoreUsers(payload.users);
       this.updateStoreVideo(payload.video);
-    }
+    },
   },
   async fetch({ error, params, store, redirect }) {
     try {
@@ -129,23 +129,24 @@ export default {
     toggleSidebar() {
       this.showSidebar = !this.showSidebar;
     },
-    leaveRoom(){
+    leaveRoom() {
       this.$socket.emit("leaveRoom");
       this.clearRoom();
     },
-    updateStoreUsers(users){
+    updateStoreUsers(users) {
       this.updateUserList(users);
     },
-    updateStoreVideo(video){
+    updateStoreVideo(video) {
       this.updateVideo(video);
-    }
+    },
   },
   computed: {
     ...mapState({
       room: (state) => state.room.room,
+      theaterMode: (state) => state.room.theaterMode,
     }),
     SidebarSize: function () {
-      if (this.showSidebar) {
+      if (!this.theaterMode) {
         return "pl-md-0";
       } else {
         return "d-none pl-md-0";

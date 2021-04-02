@@ -9,14 +9,15 @@ Vue.mixin({
     formatProvider(id) {
       switch (parseInt(id)) {
         case 1:
-          return "youtube";
+          return "mdi-youtube";
           break;
         case 2:
-          return "vimeo";
+          return "mdi-vimeo";
           break;
-
+        case 3:
+          return "$crunchyroll";
+          break;
         default:
-          console.log("Format Provider Default Case");
           return "house";
           break;
       }
@@ -33,12 +34,10 @@ Vue.mixin({
       ); // fragment locator
       return !!pattern.test(str);
     },
-    getHostname(url){
+    getHostname(url) {
       var urlObject = new URL(url);
       return urlObject.host;
     },
-    validateLogin(){
-
-    }
+    validateLogin() {}
   }
 });
