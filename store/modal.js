@@ -32,7 +32,6 @@ export const mutations = {
 
 export const actions = {
   toggleLoginModal: ({ commit }, action) => {
-    console.log(action);
     commit("TOGGLE_LOGIN_MODAL", action);
   },
   toggleJoinModal: ({ commit }) => {

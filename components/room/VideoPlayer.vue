@@ -26,12 +26,7 @@
             class="muted-link"
           ></a>
         </div>
-        <div class="subtitle-1">
-          <v-icon>mdi-{{ formatProvider(video.provider) }}</v-icon>
-          <a :href="video.channelLink" target="_blank" class="muted-link">{{
-            video.channel
-          }}</a>
-        </div>
+        <video-info :video="video" />
       </div>
       <div>
         <!-- <v-btn text small>
@@ -54,12 +49,14 @@ import _ from "lodash";
 import { mapState, mapActions } from "vuex";
 import VideoService from "@/services/VideoService";
 import hlsplayer from "./HlsPlayer.vue";
+import VideoInfo from "./VideoInfo.vue";
 
 export default {
   name: "VideoPlayer",
   props: ["video"],
   components: {
     hlsplayer,
+    VideoInfo,
   },
   sockets: {
     syncVideo: function (payload) {

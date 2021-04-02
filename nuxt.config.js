@@ -1,4 +1,3 @@
-import colors from "vuetify/es5/util/colors";
 require("dotenv").config();
 
 export default {
@@ -125,7 +124,8 @@ export default {
     manifest: {
       name: "Floob",
       short_name: "Floob",
-      description: "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!",
+      description:
+        "Playing games? Hanging out in Discord? Need to share that bathwater chicks newest video that is 100% YouTube appropriate? Use Floob!",
       background_color: "#6d4496"
     }
   },
@@ -182,21 +182,8 @@ export default {
    */
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          royal_flue: "#9cbaef",
-          kings_purple: "#634FD6",
-          legendary_mint: "#00CCC2",
-          just_purple: "#BB67F5",
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
-    }
+    treeShake: true,
+    optionsPath: "./vuetify.options.js"
   },
   /*
    ** Build configuration
