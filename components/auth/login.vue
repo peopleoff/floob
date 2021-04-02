@@ -79,7 +79,6 @@ export default {
             username: "",
             password: "",
           };
-          // this.$nuxt.$emit(this.previousAction);
           this.toggleLoginModal();
           this.notificationAdd({
             type: "success",

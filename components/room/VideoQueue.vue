@@ -6,7 +6,7 @@
         <v-img class="white--text align-end" height="150px" :src="video.image"></v-img>
 
         <v-card-title>
-          <v-icon>mdi-{{formatProvider(video.provider)}}</v-icon>
+          <v-icon>{{formatProvider(video.provider)}}</v-icon>
           {{video.channel}}
         </v-card-title>
         <v-card-subtitle>added by {{video.userInfo.username}}</v-card-subtitle>
