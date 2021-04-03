@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
-    <topNav :app="true" />
-    <v-main class="pt-0">
+    <topNav />
+    <v-main>
       <nuxt />
       <bottomNav />
     </v-main>

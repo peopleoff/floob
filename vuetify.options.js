@@ -10,6 +10,7 @@ export default {
         kings_purple: "#634FD6",
         legendary_mint: "#00CCC2",
         just_purple: "#BB67F5",
+        crunchy_roll: "#ff9100",
         info: colors.teal.lighten1,
         warning: colors.amber.base,
         error: colors.deepOrange.accent4,

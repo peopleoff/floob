@@ -480,7 +480,7 @@ export default {
     return {};
   },
   mounted() {
-    this.toggleLoginModal("close");
+    this.toggleLoginModal({action: "close"});
   },
   methods: {
     ...mapActions({

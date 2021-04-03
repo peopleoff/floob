@@ -145,7 +145,7 @@ export default {
             this.$auth
               .setUserToken(token)
               .then(() => {
-                this.toggleLoginModal("close");
+                this.toggleLoginModal({action: "close"});
                 this.notificationAdd({
                   type: "success",
                   message: "Registered",
