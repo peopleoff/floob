@@ -3,6 +3,7 @@
     flat
     color="transparent"
     v-bind:class="{ 'color-nav': $route.path == '/', 'd-none': theaterMode }"
+    :app="app"
   >
     <nuxt-link
       to="/"
@@ -51,6 +52,7 @@
 import RoomShare from "@/components/RoomShare";
 import { mapActions, mapState } from "vuex";
 export default {
+  props: ["app"],
   components: {
     RoomShare,
   },

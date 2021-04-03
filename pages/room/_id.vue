@@ -9,7 +9,7 @@
           :key="nextVideo.id"
           @ended="ended"
         />
-        <v-sheet v-else max-height="750" id="video-size">
+        <v-sheet v-else id="video-size">
           <object
             type="image/svg+xml"
             :data="require('~/assets/images/likethisornah.svg')"
@@ -42,6 +42,7 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Room",
+  layout: "room",
   components: {
     videoQueue,
     VideoPlayer,
@@ -168,5 +169,9 @@ export default {
 <style scoped>
 .container {
   min-height: 93vh;
+}
+#video-size {
+  max-height: 750px;
+  overflow: hidden;
 }
 </style>

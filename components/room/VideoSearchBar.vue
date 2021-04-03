@@ -5,7 +5,7 @@
         flat
         hide-details
         outlined
-        :label="'Search or Add ' + searchPlatform.name + ' Link'"
+        :label="searchLabel"
         prepend-inner-icon="mdi-magnify"
         full-width
         clearable
@@ -28,6 +28,12 @@
             :class="vimeoActive"
             @click="changeSearchPlatform(2)"
             >mdi-vimeo</v-icon
+          >
+          <v-icon
+            class="px-2 pointer"
+            :class="crunchyrollActive"
+            @click="changeSearchPlatform(3)"
+            >$crunchyroll</v-icon
           >
         </template>
       </v-text-field>
@@ -73,7 +79,7 @@
           v-on="on"
           @click="setTheaterMode(!theaterMode)"
         >
-          <v-icon>mdi-overscan</v-icon>
+          <v-icon class="px-2">mdi-overscan</v-icon>
         </v-btn>
       </template>
       <span>Theater Mode</span>
@@ -108,9 +114,6 @@ export default {
       toggleLoginModal: "modal/toggleLoginModal",
       setTheaterMode: "room/setTheaterMode",
     }),
-    alert(text) {
-      alert(text);
-    },
     searchVideos: _.debounce(function () {
       if (!this.searchCriteria) {
         return;
@@ -162,7 +165,7 @@ export default {
     addSearchedVideo(video) {
       //Prompt user to login
       if (!this.$auth.loggedIn) {
-        this.toggleLoginModal();
+        this.toggleLoginModal({ action: "toggle" });
         this.notificationAdd({
           type: "info",
           message: "Please Login To Add Videos",
@@ -190,7 +193,7 @@ export default {
     addVideoLink() {
       //Prompt user to login
       if (!this.$auth.loggedIn) {
-        this.toggleLoginModal();
+        this.toggleLoginModal({ action: "toggle" });
         this.notificationAdd({
           type: "info",
           message: "Please Login To Add Videos",
@@ -249,6 +252,13 @@ export default {
             name: "Vimeo",
           };
           break;
+        case 3:
+          this.searchPlatform = {
+            id: platformID,
+            icon: "$crunchyRoll",
+            name: "CrunchyRoll",
+          };
+          break;
 
         default:
           break;
@@ -270,6 +280,12 @@ export default {
         "grey--text": this.searchPlatform.id !== 2,
       };
     },
+    crunchyrollActive: function () {
+      return {
+        "grey--text": this.searchPlatform.id !== 3,
+        "crunchy_roll--text": this.searchPlatform.id == 3,
+      };
+    },
     clearResults: function () {
       if (this.searchResult) {
         return true;
@@ -284,7 +300,25 @@ export default {
     },
     searchResultWidth: function () {
       return this.$refs.searchInput.offsetWidth;
-      return "200";
+    },
+    searchLabel: function () {
+      let label;
+      switch (this.searchPlatform.id) {
+        case 1:
+          label = "Search or Add Youtube Link";
+          break;
+        case 2:
+          label = "Search or Add Vimeo Link";
+          break;
+        case 3:
+          label =
+            "Add Crunchyroll Link || https://www.crunchyroll.com/<series>/<title>";
+          break;
+
+        default:
+          break;
+      }
+      return label;
     },
   },
   watch: {

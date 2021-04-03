@@ -79,7 +79,11 @@ export default {
             username: "",
             password: "",
           };
-          this.toggleLoginModal();
+          if (this.previousAction) {
+            this.$nuxt.$emit(this.previousAction);
+          }
+
+          this.toggleLoginModal({action: "toggle"});
           this.notificationAdd({
             type: "success",
             message: "Logged In",
@@ -87,6 +91,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
+          console.log(error);
           this.notificationAdd({
             type: "error",
             message: "Invalid Username or Password",

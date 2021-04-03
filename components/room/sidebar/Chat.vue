@@ -78,7 +78,7 @@ export default {
     sendMessage() {
       //Prompt user to login if chatting
       if (!this.$auth.loggedIn) {
-        this.toggleLoginModal();
+        this.toggleLoginModal({action: "toggle"});
         this.notificationAdd({
           type: "info",
           message: "Please Login To Chat",
