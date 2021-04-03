@@ -3,16 +3,6 @@
     <div id="sidebar-header">
       <v-tabs v-model="tab" color="legendary_mint" grow>
         <v-tab>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn icon tile v-bind="attrs" v-on="on">
-                <v-icon>mdi-message</v-icon>
-              </v-btn>
-            </template>
-            <span>Chat</span>
-          </v-tooltip>
-        </v-tab>
-        <v-tab>
           <v-badge bordered overlap color="royal_flue" :content="users.length">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -24,78 +14,25 @@
             </v-tooltip>
           </v-badge>
         </v-tab>
-      </v-tabs>
-    </div>
-    <!-- <div id="sidebar-header">
-      <div class="d-flex flex-row justify-space-between align-center">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn icon tile v-bind="attrs" v-on="on" @click="toggleChat">
-              <v-icon>mdi-arrow-collapse-right</v-icon>
-            </v-btn>
-          </template>
-          <span>Collapse</span>
-        </v-tooltip>
-        <div v-if="showUsers">Floobers</div>
-        <div v-else>Chat</div>
-        <div v-if="showUsers">
+        <v-tab>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                icon
-                tile
-                v-bind="attrs"
-                v-on="on"
-                @click="showUsers = !showUsers"
-              >
+              <v-btn icon tile v-bind="attrs" v-on="on">
                 <v-icon>mdi-message</v-icon>
               </v-btn>
             </template>
             <span>Chat</span>
           </v-tooltip>
-        </div>
-        <div v-else>
-          <div v-if="users">
-            <v-badge
-              bordered
-              overlap
-              color="royal_flue"
-              :content="users.length"
-            >
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    tile
-                    v-bind="attrs"
-                    v-on="on"
-                    @click="showUsers = !showUsers"
-                  >
-                    <v-icon>mdi-account-group</v-icon>
-                  </v-btn>
-                </template>
-                <span>Floobers</span>
-              </v-tooltip>
-            </v-badge>
-          </div>
-        </div>
-      </div>
-      <div class="chat-toolbar pa-1">
-        <a
-          href="https://forms.gle/Ye2Zk8wZLkf9F7zD8"
-          target="_blank"
-          rel="noreferrer"
-          >Feedback</a
-        >
-      </div>
-    </div> -->
+        </v-tab>
+      </v-tabs>
+    </div>
     <div id="sidebar-body" class="flex-grow-1">
       <v-tabs-items v-model="tab" class="h100 pa-2">
         <v-tab-item class="h100">
-          <Chat />
+          <Users />
         </v-tab-item>
         <v-tab-item class="h100">
-          <Users />
+          <Chat />
         </v-tab-item>
       </v-tabs-items>
     </div>
@@ -130,7 +67,7 @@ export default {
     sendMessage() {
       //Prompt user to login if chatting
       if (!this.$auth.loggedIn) {
-        this.toggleLoginModal();
+        this.toggleLoginModal({ action: "toggle" });
         this.notificationAdd({
           type: "info",
           message: "Please Login To Chat",
@@ -173,7 +110,7 @@ export default {
 #sidebar {
   background: #1e142d;
   border-radius: 8px;
-  height: 750px;
+  height: 100%;
 }
 
 #sidebar-body div {
@@ -203,15 +140,5 @@ export default {
 
 .chat-toolbar div {
   justify-self: center;
-}
-@media only screen and (max-width: 1904px) {
-  #sidebar {
-    height: 615px;
-  }
-}
-@media only screen and (max-width: 1260px) {
-  #sidebar {
-    height: 497px;
-  }
 }
 </style>

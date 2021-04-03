@@ -1,14 +1,8 @@
 <template>
   <v-footer color="#1e142d">
-    <a href="https://www.patreon.com/bePatron?u=27400212">
+    <a href="https://www.patreon.com/bePatron?u=27400212" target="_blank">
       <img :src="require('@/assets/images/patron_logo.png')" alt />
     </a>
-    <v-btn fab text href="https://twitter.com/floobgg">
-      <v-icon large>mdi-twitter</v-icon>
-    </v-btn>
-    <v-btn fab text href="https://discord.gg/aHAEenn">
-      <v-icon large>mdi-discord</v-icon>
-    </v-btn>
     <v-spacer></v-spacer>
 
     <v-btn text href="mailto:Support@floob.gg">Contact Us</v-btn>
@@ -16,14 +10,6 @@
     <v-btn text to="/terms_of_service" nuxt>Terms of Service</v-btn>
   </v-footer>
 </template>
-
-<script>
-export default {
-  data: () => ({
-    links: ["Home", "About Us", "Team", "Services", "Blog", "Contact Us"]
-  })
-};
-</script>
 
 <style scoped>
 .theme--dark.v-btn {

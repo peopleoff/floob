@@ -131,7 +131,7 @@ export default {
     createRoom() {
       //If user is not logged in redirect to login page
       if (!this.$auth.loggedIn) {
-        this.toggleLoginModal("createRoom");
+        this.toggleLoginModal({ action: null, previousAction: "createRoom" });
       } else {
         this.loading = true;
         RoomService.register({
@@ -146,7 +146,8 @@ export default {
             this.loading = false;
             this.notificationAdd({
               type: "error",
-              message: "Error Creating room, Please try again or Contact Support",
+              message:
+                "Error Creating room, Please try again or Contact Support",
             });
           });
       }
@@ -239,7 +240,7 @@ export default {
 #hero .circle-1 {
   height: 100px;
   width: 100px;
-  top: 25%;
+  top: 55%;
   right: 89%;
 }
 #hero .circle-2 {
@@ -251,11 +252,11 @@ export default {
 #hero .circle-3 {
   height: 100px;
   width: 100px;
-  top: 73%;
-  right: 63%;
+  top: 69%;
+  right: 45%;
 }
 #hero .circle-4 {
-  top: 04%;
+  top: 10%;
   right: 80%;
 }
 

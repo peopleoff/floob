@@ -29,12 +29,6 @@
         <video-info :video="video" />
       </div>
       <div>
-        <!-- <v-btn text small>
-          <v-icon>mdi-cog</v-icon>
-        </v-btn>
-        <v-btn text small>
-          <v-icon>mdi-sync</v-icon>
-        </v-btn>-->
         <v-btn outlined color="royal_flue" class="rounded-lg" @click="skipVideo"
           >Hard Pass</v-btn
         >
@@ -330,7 +324,7 @@ export default {
 }
 
 #video-wrapper.theater-mode {
-  max-width: calc(100vh + 58vh);
+  max-width: calc(100vh + 35vh);
 }
 .muted-link {
   text-decoration: none;

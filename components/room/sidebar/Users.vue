@@ -24,10 +24,10 @@
                 v-on="on"
               ></v-progress-linear>
             </template>
-            <span>{{ formatTime(user.videoInfo.currentTime) }}</span>
+            <span>{{ formatTime(user.videoInfo.duration) }}</span>
           </v-tooltip>
 
-          <div>{{ formatTime(user.videoInfo.duration) }}</div>
+          <div>{{ formatTime(user.videoInfo.currentTime) }}</div>
         </div>
       </div>
     </div>
