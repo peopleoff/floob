@@ -1,10 +1,6 @@
 require("dotenv").config();
 
 export default {
-  mode: "universal",
-  /*
-   ** Headers of the page
-   */
   head: {
     title: "Floob",
     meta: [
@@ -134,15 +130,14 @@ export default {
    ** See  https://docs.sentry.io/error-reporting/configuration/?platform=browser
    */
   sentry: {
-    dsn:
-      "https://95d647b1ecad4b54b46182bc9bf8fc09@o330708.ingest.sentry.io/1851159"
+    dsn: process.env.SENTRY_DSN
   },
   /*
    ** Google Analytics module configuration
    ** See https://github.com/nuxt-community/analytics-module
    */
   googleAnalytics: {
-    id: "UA-151104834-1"
+    id: process.env.GOOGLE_ANALYTICS_ID
   },
   /*
    ** Axios module configuration

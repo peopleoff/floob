@@ -139,11 +139,20 @@ export default {
           query: this.searchCriteria,
           provider: this.searchPlatform.id,
         };
-        VideoService.search(search).then((response) => {
-          this.searchResult = response.data;
-        });
+        VideoService.search(search)
+          .then((response) => {
+            this.searchResult = response.data;
+          })
+          .catch((error) => {
+            this.searchCriteria = null;
+            this.notificationAdd({
+              type: "error",
+              message:
+                `There was a problem searching ${this.searchPlatform.name} videos, please try again later.`,
+            });
+          });
       }
-    }, 1000),
+    }, 1500),
     clearInput() {
       this.searchCriteria = null;
       this.searchResult = null;
@@ -223,18 +232,19 @@ export default {
       // video, provider, room_id, userID
       VideoService.postVideo(video)
         .then((result) => {
+          this.clearInput();
           this.notificationAdd({
             type: "success",
             message: "Video Added",
           });
         })
         .catch((error) => {
+          this.clearInput();
           this.notificationAdd({
             type: "info",
             message: "Error adding video, please try again",
           });
         });
-      this.clearInput();
     },
     changeSearchPlatform(platformID) {
       switch (platformID) {
