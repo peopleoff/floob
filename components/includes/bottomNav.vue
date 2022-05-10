@@ -1,8 +1,12 @@
 <template>
   <v-footer color="#1e142d">
-    <a href="https://www.patreon.com/bePatron?u=27400212" target="_blank">
+    <!-- <a href="https://www.patreon.com/bePatron?u=27400212" target="_blank">
       <img :src="require('@/assets/images/patron_logo.png')" alt />
-    </a>
+    </a> -->
+    <span>
+      © Designed & Developed by
+      <a href="https://pixeldevs.digital" target="_blank">PixelDevs</a>
+    </span>
     <v-spacer></v-spacer>
 
     <v-btn text href="mailto:Support@floob.gg">Contact Us</v-btn>
