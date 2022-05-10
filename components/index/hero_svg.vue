@@ -13,8 +13,10 @@
       </g>
       <rect id="e91gzmp8e4he11" width="37.9" height="575.8" rx="0" ry="0" transform="translate(544.35 517.6)" fill="#240F33" stroke="none" stroke-width="1" stroke-opacity="0"/>
       <rect id="e91gzmp8e4he12" width="956.26" height="569" rx="0" ry="0" transform="translate(575.34 524.4)" fill="#240F33" stroke="none" stroke-width="1"/>
+      
       <foreignObject id="e91gzmp8e4he13" width="716.95" height="371.8" transform="translate(582.25 587.397)" fill="#9CBAEF" stroke="none" stroke-width="1">
-        <div id="gif-container"/>
+        <!-- <div id="gif-container"/> -->
+        <img src="https://thumbs.gfycat.com/AgreeableEsteemedBuck-size_restricted.gif" alt="" style="width: 100%;">
       </foreignObject>
       <rect id="e91gzmp8e4he14" width="987.4" height="60.1" rx="0" ry="0" transform="translate(544.4 517.6)" fill="#240F33" stroke="none" stroke-width="1"/>
       <rect id="e91gzmp8e4he15" width="200.3" height="371.8" rx="6.22" ry="6.22" transform="translate(1315 589.7)" fill="#341A47" stroke="none" stroke-width="1"/>
@@ -212,10 +214,10 @@ export default {
     }
   },
   mounted() {
-    this.interval = setInterval(() => {
-      this.loopGif();
-    }, 10000);
-    this.loopGif();
+    // this.interval = setInterval(() => {
+    //   this.loopGif();
+    // }, 10000);
+    // this.loopGif();
   },
 
   beforeDestroy() {
